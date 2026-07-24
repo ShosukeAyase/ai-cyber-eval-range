@@ -53,10 +53,10 @@ Tracked in dependency order. Status values: `not-started`, `in-progress`, `block
 |---|------|-----------|--------|
 | 1 | This execution plan | — | done |
 | 2 | Repo survey / baseline summary | — | done (see §8) |
-| 3 | `docs/assumptions.md` | 1 | not-started |
-| 4 | `README.md` | 1 | not-started |
-| 5 | `docs/security/trust-boundaries.md` | 4 | not-started |
-| 6 | `ARCHITECTURE.md` | 5 | not-started |
+| 3 | `docs/assumptions.md` | 1 | done |
+| 4 | `README.md` | 1 | done |
+| 5 | `docs/security/trust-boundaries.md` | 4 | done |
+| 6 | `ARCHITECTURE.md` | 5 | done |
 | 7 | `docs/security/threat-model.md` | 6 | not-started |
 | 8 | `docs/security/security-principles.md` | 6 | not-started |
 | 9 | `docs/security/network-matrix.md` | 5,6 | not-started |
@@ -111,7 +111,12 @@ Recorded in full in `docs/assumptions.md` (to be created at item 3). Summary of 
 - [x] Reviewed uploaded `AGENTS.md` and Japanese task brief for consistency (no conflicts found; task brief is more granular, AGENTS.md is the durable governance layer).
 - [x] Confirmed no pre-existing repository content — starting from a clean slate.
 - [x] Created this execution plan.
-- [ ] All other items in §4 pending.
+- [x] Created `docs/assumptions.md` (9 recorded assumptions, A1–A9).
+- [x] Created `README.md`.
+- [x] Created `docs/security/trust-boundaries.md` (four-plane model, boundary rules, cross-cutting invariants).
+- [x] Created `ARCHITECTURE.md` (component responsibilities, context diagram, core control-loop sequence diagram).
+- [x] Created GitHub repository `ShosukeAyase/ai-cyber-eval-range` (public) and pushed initial commit.
+- [ ] All remaining items in §4 pending.
 
 ## 7. Open decisions requiring human input
 
