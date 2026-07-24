@@ -6,7 +6,7 @@ The repository also defines a disposable cyber range for Web/API, Linux, Windows
 
 ## Current phase
 
-Phase 01 is architecture and design only. No target deployment, exploit execution, production integration, or external-system communication is included.
+Phase 01 design and the Phase 02 non-executable contract skeleton are complete. Phase 03 adds a local-only Control Plane MVP using Python and SQLite. It provides engagement, Scope/ROE, approval, policy, model-mock, tool-mock, credential-reference, Emergency Stop, and transactional audit services. It still contains no target deployment, shell execution, network client, exploit validation, real credential material, or cloud-resource creation.
 
 ## Core invariants
 
@@ -22,6 +22,7 @@ Phase 01 is architecture and design only. No target deployment, exploit executio
 ## Repository map
 
 - `ARCHITECTURE.md`: system-level architecture.
+- `src/cyber_eval/`: typed contracts, local SQLite Control Plane services, and non-executable mocks.
 - `docs/security/`: threat model, boundaries, IAM, credentials, network controls, abuse cases, and risks.
 - `docs/governance/`: authorization, ROE, data handling, retention, and incident response.
 - `docs/design/`: component and lifecycle designs.
@@ -38,7 +39,25 @@ Phase 01 is architecture and design only. No target deployment, exploit executio
 make validate
 ```
 
-The default validation uses Python, `pytest`, `jsonschema`, and PyYAML. Optional targets document checks that require external tools such as OPA, OpenTofu, secret scanners, SBOM generators, and image scanners.
+The default validation uses Python, `pytest`, `jsonschema`, and PyYAML. The local demo runs with `make demo`. Optional targets document checks that require external tools such as OPA, OpenTofu, secret scanners, SBOM generators, and image scanners.
+
+## Local Control Plane MVP
+
+The Phase 03 demonstration uses only Python and SQLite:
+
+```sh
+python -m pip install -e ".[dev]"
+python -m cyber_eval.demo
+```
+
+PowerShell after installation:
+
+```powershell
+py -m cyber_eval.demo
+```
+
+The demo uses synthetic identifiers, an in-memory database, deterministic mocks, and no network
+connection. See [`docs/design/control-plane-mvp.md`](docs/design/control-plane-mvp.md).
 
 ## Non-goals
 

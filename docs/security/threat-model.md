@@ -74,3 +74,18 @@ The design uses assets, trust boundaries, abuse cases, STRIDE-style threat categ
 ## Residual risk
 
 A sufficiently privileged compromise of the hypervisor or CPU may cross isolation boundaries. High-risk workloads therefore require dedicated physical hosts, patched firmware, restricted scheduling, and no unrelated tenants. This remains a human-governed acceptance decision.
+
+## Phase 03 local MVP threat considerations
+
+The single-laptop profile introduces local-development threats that do not exist in the intended
+production separation model:
+
+- a laptop administrator can read or alter the SQLite database and audit rows;
+- a copied database can be rolled back without an independent monotonic authority;
+- reciprocal bootstrap approvals can be misused if exported beyond the local profile;
+- one process failure affects all local Control Plane services; and
+- deterministic mocks can create false confidence if mistaken for production integrations.
+
+Controls in Phase 03 are naming, closed typed APIs, no network/runtime imports, transactional
+audit tests, approval expiry/use limits, and explicit local-only documentation. These controls
+do not convert local SQLite into WORM evidence or a production trust boundary.

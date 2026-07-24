@@ -1,0 +1,15 @@
+schema_version: "1.0"
+approval_id: apr-local-write
+engagement_id: eng-local-demo
+requested_by: operator-local
+approved_by: approver-local
+state: approved
+allowed_operations:
+  - mock_tool_write
+resource_scope: resource
+resource_id: tgt-demo-app
+requested_at: "2026-07-24T04:00:00Z"
+expires_at: "2026-07-24T05:00:00Z"
+max_uses: 1
+uses: 0
+action_class: state_change

@@ -1,0 +1,17 @@
+schema_version: "1.0"
+approval_id: apr-design-demo
+engagement_id: eng-design-demo
+requestor_id: operator-design
+approver_id: approver-design
+state: approved
+action_class: patch_validation
+target_id: tgt-web-demo
+requested_at: "2026-08-01T00:10:00Z"
+expires_at: "2026-08-01T00:40:00Z"
+max_uses: 1
+signature:
+  algorithm: ed25519
+  key_id: key-approval-demo
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  value: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  signed_at: "2026-08-01T00:11:00Z"

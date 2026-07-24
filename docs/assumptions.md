@@ -16,3 +16,21 @@
 | A-012 | “Complete destruction” means cryptographic erasure plus deletion of ephemeral compute/storage and expiry of all credentials, with retained immutable audit/evidence according to policy. | Literal erasure of retained compliance evidence is contradictory. | Legal/compliance | Retention and destruction policies must be reconciled. | Provisional |
 
 Assumptions are not authorization. Any assumption affecting scope, identity, network reachability, or evidence integrity must be resolved before implementation.
+
+---
+
+## A8 — Phase 03 bootstrap approvals are a local test trust root
+
+**Ambiguity**: Every write requires approval, but an Approval Service cannot create its own
+initial authorization without a root of trust.
+
+**Assumption**: `ControlPlaneMvp.local_dev` receives two distinct human-role identifiers and
+seeds reciprocal, expiring administrative approval grants before public service operations
+begin. The grants are synthetic local configuration and are never serialized as real signed
+authorization.
+
+**Rationale**: This resolves the bootstrap cycle while preserving independent identities for
+every exposed write operation. It introduces no external identity, secret, or network service.
+
+**Revisit if**: The Control Plane gains any external caller, multi-user deployment, production
+identity provider, signed approvals, or execution capability.

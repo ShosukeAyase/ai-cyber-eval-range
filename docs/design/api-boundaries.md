@@ -5,7 +5,7 @@
 - Closed request/response schemas with `additionalProperties: false`.
 - Object IDs only for targets, repositories, scenarios, test cases, profiles, findings, and evidence.
 - No arbitrary commands, URLs, IP addresses, hostnames, repository paths, or cloud resource strings from the model.
-- Every request includes engagement/job context implicitly from the authenticated session, not model text.
+- Every public service operation receives `engagement_id` as an explicit typed argument; the model cannot choose or alter authenticated session context.
 - Idempotency keys for state changes.
 - Explicit error codes; no silent fallback.
 
@@ -47,3 +47,23 @@ The Tool Gateway resolves `tgt-web-001` to a signed scenario endpoint and `tc-au
 - `DESTINATION_MISMATCH`
 - `QUOTA_EXCEEDED`
 - `EMERGENCY_STOP_ACTIVE`
+## Phase 02 skeleton mapping
+
+The non-executable interfaces are defined under `src/cyber_eval/`:
+
+- `ToolRequest`, `AuthorizationFacts`, `PolicyContext`, and `PolicyDecision` are immutable typed records.
+- `ScopeRegistry`, `ApprovalRepository`, `PolicyEngine`, and `ToolGateway` are protocols.
+- `NonExecutableToolGateway` performs authorization only; `dispatch` always raises `ExecutionDisabledError`.
+- `FailClosedPolicyEngine` is a local deterministic stub used only for negative contract tests.
+
+No Phase 02 interface accepts an arbitrary command, URL, hostname, IP address, repository location, cloud resource, transport option, or credential value.
+
+
+## Phase 03 local API mapping
+
+- `ModelRequest` accepts purpose, prompt-template ID, and context-object IDs only.
+- `ToolRequest` continues to use target, test-case, tool, and object IDs only.
+- All state-changing service methods require an approval ID.
+- The Tool Gateway returns `accepted_no_execution` rather than dispatching an adapter.
+- The Credential Broker returns an opaque metadata reference and stores no credential value.
+- SQLite is an internal local persistence detail and is not exposed as an arbitrary query API.

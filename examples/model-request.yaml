@@ -1,0 +1,8 @@
+schema_version: "1.0"
+engagement_id: eng-local-demo
+request_id: req-model-plan
+purpose: propose_test_plan
+prompt_template_id: tmpl-safe-plan
+context_object_ids:
+  - repo-demo-source
+  - ctx-approved-summary

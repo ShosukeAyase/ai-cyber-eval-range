@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/model-request.schema.json",
+  "title": "Object-ID-Only Model Gateway Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "engagement_id",
+    "request_id",
+    "purpose",
+    "prompt_template_id",
+    "context_object_ids"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "engagement_id": {"type": "string", "pattern": "^eng-[a-z0-9-]{3,64}$"},
+    "request_id": {"type": "string", "pattern": "^req-[a-z0-9-]{3,64}$"},
+    "purpose": {
+      "enum": [
+        "analyze_evidence",
+        "propose_test_plan",
+        "propose_remediation",
+        "summarize_findings"
+      ]
+    },
+    "prompt_template_id": {"type": "string", "pattern": "^tmpl-[a-z0-9-]{3,64}$"},
+    "context_object_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 64,
+      "items": {
+        "type": "string",
+        "pattern": "^(repo|prof|tc|poc|evd|fnd|pat|suite|scn|ctx)-[a-z0-9-]{3,64}$"
+      }
+    }
+  }
+}

@@ -53,7 +53,9 @@
         "state_change",
         "credentialed_test",
         "poc_validation",
-        "patch_validation"
+        "patch_validation",
+        "range_reset",
+        "engagement_termination"
       ]
     },
     "target_id": {

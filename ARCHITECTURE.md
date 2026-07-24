@@ -122,3 +122,24 @@ Scoring has two independent dimensions:
 - The model context is minimized and contains references, redacted evidence, and capability-scoped summaries—not credentials or raw infrastructure control data.
 
 See `docs/adr/` for alternatives and revisit conditions.
+
+## 11. Phase 03 local Control Plane MVP profile
+
+Phase 03 introduces a local development profile for control-plane behavior only. The profile
+runs in one Python process and one SQLite database on a single laptop. It is intentionally not
+a deployment profile for the four-plane system and does not claim administrative, network,
+identity, host, or evidence-store separation.
+
+The profile contains no execution plane, cyber-range route, runner, network listener, external
+model provider, production Policy Engine, or real Credential Broker. Its purpose is to prove:
+
+- explicit `engagement_id` propagation;
+- Scope/ROE validity and target-object enforcement;
+- independent approval semantics;
+- deterministic Policy Engine denial;
+- audit-before-state-change atomicity using one SQLite transaction; and
+- Emergency Stop independence from model and runner components.
+
+Any future external adapter, HTTP listener, cloud integration, runner, credential integration,
+or range connection requires a new active plan, security review, updated threat model, and
+explicit architecture approval.

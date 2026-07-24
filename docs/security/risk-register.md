@@ -22,3 +22,8 @@ Scales: Likelihood (L) and Impact (I) are 1–5. Score = L × I.
 | R-016 | Telemetry loss leaves blind execution | 2 | 5 | 10 | Health heartbeat, independent sensors, automatic stop | SRE | Set stop thresholds |
 | R-017 | Synthetic scenario accidentally includes real secrets or PII | 2 | 5 | 10 | Secret/PII scanning, provenance, review, quarantine | Data | Define release gate |
 | R-018 | Tool allowlist is too broad and becomes a shell surrogate | 3 | 5 | 15 | Narrow adapters, semantic parameters, no command strings, code review and negative tests | Pentest Lead | Approve each tool profile |
+
+| R-019 | Local SQLite audit is mutable by the laptop owner and is not WORM | 4 | 4 | 16 | Label local audit as MVP-only, use append-only service APIs, transactional tests, replace with independently administered WORM before external use | Evidence | Production evidence design remains mandatory |
+| R-020 | Broad reciprocal bootstrap grants are reused beyond local development | 3 | 5 | 15 | Explicit `local_dev` composition root, distinct identities, expiry and use limits, architecture documentation, no production deployment path | Governance | Replace with signed identity-backed approvals |
+| R-021 | Single-process SQLite profile is mistaken for a resilient control plane | 3 | 4 | 12 | Document no HA/concurrency guarantee, local-only naming, integration tests limited to one process | Platform | Distributed transaction and recovery design deferred |
+| R-022 | Deterministic model, tool, or credential mocks are mistaken for production integrations | 3 | 4 | 12 | Mock-specific class names, no network imports, `accepted_no_execution`, no material fields, architecture tests | Platform | Independent review required before any adapter is added |

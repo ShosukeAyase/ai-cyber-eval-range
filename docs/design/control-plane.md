@@ -37,3 +37,12 @@ Pins approved GPT-5.6 profiles, minimizes context, redacts secrets, validates st
 ## Availability posture
 
 Authorization dependencies are fail-closed. Read-only retrieval of already sealed evidence may remain available during policy outages, but no new execution begins.
+
+
+## Phase 03 local MVP mapping
+
+The local implementation is documented in [`control-plane-mvp.md`](control-plane-mvp.md).
+It uses a single-process SQLite profile and implements only control-plane state, mocks, and
+transactional audit generation. It does not implement the scheduler, runner lifecycle,
+external identity, production Credential Broker, production Policy Engine, or independent
+WORM evidence service.

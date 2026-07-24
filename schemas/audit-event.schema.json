@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/audit-event.schema.json",
+  "title": "Local Control Plane Audit Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "engagement_id",
+    "actor_id",
+    "operation",
+    "outcome",
+    "occurred_at",
+    "approval_id",
+    "details"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "event_id": {"type": "string", "pattern": "^evt-[a-f0-9]{32}$"},
+    "engagement_id": {"type": "string", "pattern": "^eng-[a-z0-9-]{3,64}$"},
+    "actor_id": {"type": "string", "minLength": 3, "maxLength": 128},
+    "operation": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$",
+      "maxLength": 128
+    },
+    "outcome": {"enum": ["allowed", "denied", "completed"]},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "approval_id": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^apr-[a-z0-9-]{3,64}$"}
+      ]
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {"type": "string", "maxLength": 512},
+      "maxProperties": 32
+    }
+  }
+}

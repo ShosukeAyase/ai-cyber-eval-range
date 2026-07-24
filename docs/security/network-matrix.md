@@ -29,3 +29,14 @@ Default policy is **deny**. “Allow” entries require mutual identity, a job/e
 - DNS resolution cannot return an address outside the scenario allocation.
 - Egress rules are removed before credential revocation completes only during emergency isolation; otherwise credentials are revoked first.
 - Any loss of firewall policy synchronization terminates the job.
+
+## Phase 03 local MVP network posture
+
+The Phase 03 process opens no listener and imports no socket, HTTP client/server, cloud SDK,
+container client, or Kubernetes client. Model, Tool Gateway, Credential Broker, Policy Engine,
+and Emergency Stop interactions are in-process method calls. SQLite uses a local file or
+`:memory:` database only.
+
+This zero-network local profile is narrower than the future production matrix. It does not grant
+permission to add loopback HTTP APIs, public endpoints, arbitrary URLs/IPs, or a route to a
+cyber range. Such changes require a separate approved phase and updated matrix entries.

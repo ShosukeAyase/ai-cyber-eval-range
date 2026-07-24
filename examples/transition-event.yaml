@@ -1,0 +1,8 @@
+schema_version: "1.0"
+transition_id: trn-approval-demo
+machine: approval
+object_id: apr-design-demo
+from_state: requested
+to_state: approved
+reason: Independent synthetic approval recorded
+occurred_at: "2026-08-01T00:11:00Z"

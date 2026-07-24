@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/control-plane-approval.schema.json",
+  "title": "Local Control Plane Approval Grant",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "approval_id",
+    "engagement_id",
+    "requested_by",
+    "approved_by",
+    "state",
+    "allowed_operations",
+    "resource_scope",
+    "resource_id",
+    "requested_at",
+    "expires_at",
+    "max_uses",
+    "uses",
+    "action_class"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "approval_id": {"type": "string", "pattern": "^apr-[a-z0-9-]{3,64}$"},
+    "engagement_id": {"type": "string", "pattern": "^eng-[a-z0-9-]{3,64}$"},
+    "requested_by": {"type": "string", "minLength": 3, "maxLength": 128},
+    "approved_by": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "minLength": 3, "maxLength": 128}
+      ]
+    },
+    "state": {"enum": ["requested", "approved", "denied", "expired", "revoked", "consumed"]},
+    "allowed_operations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "create_engagement",
+          "register_scope_roe",
+          "activate_engagement",
+          "close_engagement",
+          "request_approval",
+          "decide_approval",
+          "mock_tool_write",
+          "issue_credential_reference",
+          "revoke_credential_reference",
+          "activate_emergency_stop",
+          "clear_emergency_stop"
+        ]
+      }
+    },
+    "resource_scope": {"enum": ["engagement", "resource"]},
+    "resource_id": {"type": "string", "pattern": "^[a-z]+-[a-z0-9-]{3,96}$"},
+    "requested_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "max_uses": {"type": "integer", "minimum": 1, "maximum": 1000},
+    "uses": {"type": "integer", "minimum": 0, "maximum": 1000},
+    "action_class": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "enum": [
+            "state_change",
+            "credentialed_test",
+            "poc_validation",
+            "patch_validation",
+            "range_reset",
+            "engagement_termination"
+          ]
+        }
+      ]
+    }
+  }
+}

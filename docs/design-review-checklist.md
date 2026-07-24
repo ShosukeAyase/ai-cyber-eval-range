@@ -42,3 +42,27 @@
 - [ ] ADRs contain alternatives and revisit conditions.
 - [ ] Traceability and negative tests are complete.
 - [ ] Required validation tools and CI gates are selected.
+## Phase 02 automated skeleton evidence
+
+- [x] Every schema has a validating synthetic example.
+- [x] Scope-outside and approval-missing requests are denied.
+- [x] Policy unavailability and exceptions fail closed.
+- [x] Invalid state transitions are rejected.
+- [x] Dispatch remains non-executable.
+- [x] Architecture tests prohibit shell, network, cloud, IaC, runtime images, and secret material.
+- [x] CI is read-only and validation-only.
+- [x] Requirements have design and test traceability.
+
+## Phase 03 local Control Plane MVP
+
+- [x] Every public service operation receives `engagement_id`.
+- [x] State-changing service methods require an approval record.
+- [x] Requestor and approver identities must differ.
+- [x] Audit insertion and state mutation share one SQLite transaction.
+- [x] Scope and ROE validity are checked before mock Tool/Credential operations.
+- [x] Model Gateway accepts template and object IDs only.
+- [x] Tool Gateway returns `accepted_no_execution` and has no adapter execution path.
+- [x] Credential Broker stores opaque reference metadata only.
+- [x] Emergency Stop has no model or runner dependency.
+- [x] Architecture tests prohibit network, cloud, shell, and secret-value fields.
+- [ ] Production WORM, identity, OPA, Credential Broker, and four-plane deployment remain unapproved.

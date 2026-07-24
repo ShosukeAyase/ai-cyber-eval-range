@@ -6,3 +6,8 @@ __pycache__/
 *.key
 *.pem
 artifacts/
+.mypy_cache/
+.ruff_cache/
+*.db
+*.sqlite
+*.sqlite3
