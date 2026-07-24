@@ -1,0 +1,36 @@
+schema_version: "1.0"
+scenario_id: scn-web-demo
+name: Disposable synthetic web authorization lab
+families:
+  - web_api
+target_ids:
+  - tgt-web-demo
+network:
+  address_space: 10.77.0.0/24
+  internet_route: false
+  corporate_route: false
+  production_route: false
+  metadata_access: false
+synthetic_data_only: true
+dummy_credentials_only: true
+artifacts:
+  - artifact_id: art-web-image
+    digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+    signature_verified: true
+    sbom_ref: sbom-web-image
+reset:
+  baseline_digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  idempotent: true
+destruction:
+  revoke_credentials: true
+  destroy_compute: true
+  delete_writable_storage: true
+  destroy_keys: true
+  remove_network_state: true
+  attestation_required: true
+signature:
+  algorithm: ed25519
+  key_id: key-scenario-demo
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  value: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  signed_at: "2026-07-31T11:00:00Z"

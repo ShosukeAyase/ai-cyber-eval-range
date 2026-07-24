@@ -1,0 +1,27 @@
+sequenceDiagram
+  participant U as Operator
+  participant C as Control Plane
+  participant M as Model Gateway
+  participant P as Policy Engine
+  participant A as Approval Service
+  participant T as Tool Gateway
+  participant R as Runner
+  participant X as Range Target
+  participant O as Observability
+  U->>C: Submit signed engagement/ROE
+  C->>M: Request analysis
+  M-->>C: Structured tool intent
+  C->>P: Authorize intent
+  alt approval required
+    P-->>C: approval_required
+    C->>A: request approval
+    A-->>C: signed approval
+    C->>P: re-evaluate
+  end
+  P-->>C: allow + obligations
+  C->>T: one-time execution grant
+  T->>R: start approved adapter
+  R->>X: bounded test
+  R->>O: evidence
+  T->>O: decision and result metadata
+  C->>R: destroy

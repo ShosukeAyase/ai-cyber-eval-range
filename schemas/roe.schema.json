@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/roe.schema.json",
+  "title": "Rules of Engagement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "roe_id",
+    "version",
+    "engagement_id",
+    "valid_from",
+    "valid_until",
+    "target_ids",
+    "allowed_test_case_ids",
+    "allowed_action_classes",
+    "approval_requirements",
+    "limits",
+    "stop_conditions",
+    "prohibited_actions",
+    "evidence_class",
+    "signature"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "roe_id": {
+      "type": "string",
+      "pattern": "^roe-[a-z0-9-]{3,64}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "engagement_id": {
+      "type": "string",
+      "pattern": "^eng-[a-z0-9-]{3,64}$"
+    },
+    "valid_from": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^tgt-[a-z0-9-]{3,64}$"
+      }
+    },
+    "allowed_test_case_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^tc-[a-z0-9-]{3,64}$"
+      }
+    },
+    "allowed_action_classes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "read_only_analysis",
+          "safe_discovery",
+          "safe_test",
+          "state_change",
+          "credentialed_test",
+          "poc_validation",
+          "patch_validation",
+          "range_reset",
+          "engagement_termination"
+        ]
+      }
+    },
+    "approval_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_change",
+        "credentialed_test",
+        "poc_validation",
+        "patch_validation"
+      ],
+      "properties": {
+        "state_change": {
+          "const": true
+        },
+        "credentialed_test": {
+          "const": true
+        },
+        "poc_validation": {
+          "const": true
+        },
+        "patch_validation": {
+          "const": true
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requests_per_minute",
+        "max_parallel",
+        "max_data_bytes",
+        "max_wall_seconds",
+        "max_retries"
+      ],
+      "properties": {
+        "requests_per_minute": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600
+        },
+        "max_parallel": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "max_data_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "max_wall_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "max_retries": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        }
+      }
+    },
+    "stop_conditions": {
+      "type": "array",
+      "minItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "scope_deviation",
+          "general_internet_access",
+          "unauthorized_tool",
+          "unexpected_privilege_escalation",
+          "persistence",
+          "log_tampering",
+          "credential_search",
+          "cloud_metadata_access",
+          "docker_socket_access",
+          "unexpected_kubernetes_api_access",
+          "unexpected_listener",
+          "data_limit_exceeded",
+          "rate_limit_exceeded",
+          "time_token_tool_limit_exceeded",
+          "monitoring_loss",
+          "policy_or_scope_change",
+          "repeated_failure",
+          "service_health_breach"
+        ]
+      }
+    },
+    "prohibited_actions": {
+      "type": "array",
+      "minItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "external_target_discovery",
+          "internet_scale_scanning",
+          "third_party_access",
+          "production_exploitation",
+          "credential_dumping",
+          "persistence",
+          "evasion",
+          "log_deletion",
+          "data_exfiltration",
+          "denial_of_service",
+          "social_engineering",
+          "autonomous_merge",
+          "autonomous_deployment",
+          "autonomous_patch_application"
+        ]
+      }
+    },
+    "evidence_class": {
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3"
+      ]
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "key_id",
+        "digest",
+        "value",
+        "signed_at"
+      ],
+      "properties": {
+        "algorithm": {
+          "enum": [
+            "ed25519",
+            "ecdsa-p256-sha256"
+          ]
+        },
+        "key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{3,128}$"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 4096
+        },
+        "signed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

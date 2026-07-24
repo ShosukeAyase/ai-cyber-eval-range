@@ -1,0 +1,73 @@
+schema_version: "1.0"
+roe_id: roe-design-demo
+version: 1
+engagement_id: eng-design-demo
+valid_from: "2026-08-01T00:00:00Z"
+valid_until: "2026-08-01T08:00:00Z"
+target_ids:
+  - tgt-web-demo
+allowed_test_case_ids:
+  - tc-static-sast
+  - tc-safe-web-authz
+allowed_action_classes:
+  - read_only_analysis
+  - safe_discovery
+  - safe_test
+  - state_change
+  - credentialed_test
+  - poc_validation
+  - patch_validation
+  - range_reset
+  - engagement_termination
+approval_requirements:
+  state_change: true
+  credentialed_test: true
+  poc_validation: true
+  patch_validation: true
+limits:
+  requests_per_minute: 30
+  max_parallel: 2
+  max_data_bytes: 50000000
+  max_wall_seconds: 3600
+  max_retries: 2
+stop_conditions:
+  - scope_deviation
+  - general_internet_access
+  - unauthorized_tool
+  - unexpected_privilege_escalation
+  - persistence
+  - log_tampering
+  - credential_search
+  - cloud_metadata_access
+  - docker_socket_access
+  - unexpected_kubernetes_api_access
+  - unexpected_listener
+  - data_limit_exceeded
+  - rate_limit_exceeded
+  - time_token_tool_limit_exceeded
+  - monitoring_loss
+  - policy_or_scope_change
+  - repeated_failure
+  - service_health_breach
+prohibited_actions:
+  - external_target_discovery
+  - internet_scale_scanning
+  - third_party_access
+  - production_exploitation
+  - credential_dumping
+  - persistence
+  - evasion
+  - log_deletion
+  - data_exfiltration
+  - denial_of_service
+  - social_engineering
+  - autonomous_merge
+  - autonomous_deployment
+  - autonomous_patch_application
+evidence_class: E2
+signature:
+  algorithm: ed25519
+  key_id: key-roe-demo
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  value: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  signed_at: "2026-07-31T12:05:00Z"

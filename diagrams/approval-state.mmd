@@ -1,0 +1,12 @@
+stateDiagram-v2
+  [*] --> Requested
+  Requested --> Approved
+  Requested --> Denied
+  Requested --> Expired
+  Approved --> Consumed
+  Approved --> Revoked
+  Approved --> Expired
+  Consumed --> [*]
+  Denied --> [*]
+  Revoked --> [*]
+  Expired --> [*]

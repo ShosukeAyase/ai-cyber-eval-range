@@ -1,0 +1,21 @@
+flowchart TB
+  subgraph Control[Control Plane]
+    Orchestrator --> Policy
+    Scope --> Policy
+    Approval --> Policy
+    CredentialBroker
+  end
+  subgraph Execution[Execution Plane]
+    ToolGateway --> Runner --> EgressFirewall
+  end
+  subgraph Range[Cyber Range]
+    Targets
+  end
+  subgraph Observe[Observability Plane]
+    Telemetry --> WORM --> Scoring
+  end
+  Policy --> ToolGateway
+  CredentialBroker --> ToolGateway
+  EgressFirewall --> Targets
+  Runner --> Telemetry
+  Targets --> Telemetry

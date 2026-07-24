@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/scenario.schema.json",
+  "title": "Scenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "name",
+    "families",
+    "target_ids",
+    "network",
+    "synthetic_data_only",
+    "dummy_credentials_only",
+    "artifacts",
+    "reset",
+    "destruction",
+    "signature"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^scn-[a-z0-9-]{3,64}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 160
+    },
+    "families": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "web_api",
+          "linux_network",
+          "windows_domain",
+          "containers_kubernetes",
+          "cloud_simulation"
+        ]
+      }
+    },
+    "target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^tgt-[a-z0-9-]{3,64}$"
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "address_space",
+        "internet_route",
+        "corporate_route",
+        "production_route",
+        "metadata_access"
+      ],
+      "properties": {
+        "address_space": {
+          "type": "string",
+          "pattern": "^(10|172|192)\\."
+        },
+        "internet_route": {
+          "const": false
+        },
+        "corporate_route": {
+          "const": false
+        },
+        "production_route": {
+          "const": false
+        },
+        "metadata_access": {
+          "const": false
+        }
+      }
+    },
+    "synthetic_data_only": {
+      "const": true
+    },
+    "dummy_credentials_only": {
+      "const": true
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_id",
+          "digest",
+          "signature_verified",
+          "sbom_ref"
+        ],
+        "properties": {
+          "artifact_id": {
+            "type": "string",
+            "pattern": "^art-[a-z0-9-]{3,64}$"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "signature_verified": {
+            "const": true
+          },
+          "sbom_ref": {
+            "type": "string",
+            "pattern": "^sbom-[a-z0-9-]{3,64}$"
+          }
+        }
+      }
+    },
+    "reset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_digest",
+        "idempotent"
+      ],
+      "properties": {
+        "baseline_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "idempotent": {
+          "const": true
+        }
+      }
+    },
+    "destruction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revoke_credentials",
+        "destroy_compute",
+        "delete_writable_storage",
+        "destroy_keys",
+        "remove_network_state",
+        "attestation_required"
+      ],
+      "properties": {
+        "revoke_credentials": {
+          "const": true
+        },
+        "destroy_compute": {
+          "const": true
+        },
+        "delete_writable_storage": {
+          "const": true
+        },
+        "destroy_keys": {
+          "const": true
+        },
+        "remove_network_state": {
+          "const": true
+        },
+        "attestation_required": {
+          "const": true
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "key_id",
+        "digest",
+        "value",
+        "signed_at"
+      ],
+      "properties": {
+        "algorithm": {
+          "enum": [
+            "ed25519",
+            "ecdsa-p256-sha256"
+          ]
+        },
+        "key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{3,128}$"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 4096
+        },
+        "signed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

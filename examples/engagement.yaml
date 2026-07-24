@@ -1,0 +1,33 @@
+schema_version: "1.0"
+engagement_id: eng-design-demo
+name: Synthetic Web/API defensive evaluation
+status: approved
+valid_from: "2026-08-01T00:00:00Z"
+valid_until: "2026-08-01T08:00:00Z"
+target_ids:
+  - tgt-web-demo
+scenario_ids:
+  - scn-web-demo
+model_profile:
+  provider: openai
+  model_family: gpt-5.6
+  tier: sol
+  reasoning_effort: high
+  context_policy_id: ctx-minimum-evidence
+budgets:
+  max_wall_seconds: 3600
+  max_model_tokens: 200000
+  max_tool_calls: 100
+  max_parallel_jobs: 2
+  max_network_bytes: 50000000
+roe_ref:
+  roe_id: roe-design-demo
+  version: 1
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+policy_version: policy-1.0.0
+signature:
+  algorithm: ed25519
+  key_id: key-engagement-demo
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  value: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  signed_at: "2026-07-31T12:00:00Z"

@@ -1,0 +1,7 @@
+flowchart LR
+  Control --> Gateway[Write-only Gateway]
+  Execution --> Gateway
+  RangeSensors --> Gateway
+  Gateway --> WORM
+  WORM --> SIEM
+  WORM -. no mutation path .-> Execution

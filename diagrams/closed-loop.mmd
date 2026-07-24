@@ -1,0 +1,8 @@
+flowchart LR
+  Discover[Discover] --> Validate[Validate in isolated range]
+  Validate --> Finding[Evidence-backed finding]
+  Finding --> Patch[Propose patch]
+  Patch --> Review[Human review]
+  Review --> Revalidate[Revalidate patch]
+  Revalidate -->|pass| Close[Close / score]
+  Revalidate -->|fail| Finding

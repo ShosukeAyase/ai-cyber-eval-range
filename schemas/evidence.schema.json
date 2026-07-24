@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/evidence.schema.json",
+  "title": "Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evidence_id",
+    "engagement_id",
+    "execution_id",
+    "source_plane",
+    "type",
+    "captured_at",
+    "digest",
+    "storage_class",
+    "redacted_for_model",
+    "chain_of_custody"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^evd-[a-z0-9-]{3,64}$"
+    },
+    "engagement_id": {
+      "type": "string",
+      "pattern": "^eng-[a-z0-9-]{3,64}$"
+    },
+    "execution_id": {
+      "type": "string",
+      "pattern": "^exe-[a-z0-9-]{3,64}$"
+    },
+    "source_plane": {
+      "enum": [
+        "control",
+        "execution",
+        "range",
+        "observability"
+      ]
+    },
+    "type": {
+      "enum": [
+        "policy_decision",
+        "approval",
+        "tool_request",
+        "tool_result",
+        "packet",
+        "process_tree",
+        "file_diff",
+        "log",
+        "metric",
+        "trace",
+        "screenshot",
+        "patch",
+        "test_result",
+        "destruction_attestation"
+      ]
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "storage_class": {
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3"
+      ]
+    },
+    "redacted_for_model": {
+      "type": "boolean"
+    },
+    "chain_of_custody": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actor_id",
+          "action",
+          "at"
+        ],
+        "properties": {
+          "actor_id": {
+            "type": "string"
+          },
+          "action": {
+            "enum": [
+              "captured",
+              "transferred",
+              "sealed",
+              "verified",
+              "exported"
+            ]
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+flowchart LR
+  Admin[Admin Zone] --> CP[Control Zone]
+  CP --> EP[Execution Zone]
+  EP --> RZ[Range Zone]
+  EP --> OG[Write-only Observability Gateway]
+  RZ --> OG
+  OG --> OZ[Observability Zone]
+  RZ -. denied .-> Internet
+  RZ -. denied .-> CorpProd[Corporate / Production]

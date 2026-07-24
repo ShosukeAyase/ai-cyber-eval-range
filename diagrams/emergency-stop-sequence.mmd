@@ -1,0 +1,17 @@
+sequenceDiagram
+  participant D as Detector
+  participant E as Emergency Stop
+  participant S as Scheduler
+  participant F as Egress Firewall
+  participant C as Credential Broker
+  participant O as Observability
+  participant R as Runner Lifecycle
+  D->>E: stop condition
+  par Freeze
+    E->>S: reject new work
+    E->>F: isolate runner
+    E->>C: revoke credentials
+  end
+  E->>O: seal incident evidence
+  E->>R: terminate and destroy
+  R-->>O: destruction attestation

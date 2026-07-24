@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/approval.schema.json",
+  "title": "Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "approval_id",
+    "engagement_id",
+    "requestor_id",
+    "approver_id",
+    "state",
+    "action_class",
+    "target_id",
+    "requested_at",
+    "expires_at",
+    "max_uses",
+    "signature"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "approval_id": {
+      "type": "string",
+      "pattern": "^apr-[a-z0-9-]{3,64}$"
+    },
+    "engagement_id": {
+      "type": "string",
+      "pattern": "^eng-[a-z0-9-]{3,64}$"
+    },
+    "requestor_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "approver_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "state": {
+      "enum": [
+        "requested",
+        "approved",
+        "denied",
+        "expired",
+        "revoked",
+        "consumed"
+      ]
+    },
+    "action_class": {
+      "enum": [
+        "state_change",
+        "credentialed_test",
+        "poc_validation",
+        "patch_validation"
+      ]
+    },
+    "target_id": {
+      "type": "string",
+      "pattern": "^tgt-[a-z0-9-]{3,64}$"
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "max_uses": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "key_id",
+        "digest",
+        "value",
+        "signed_at"
+      ],
+      "properties": {
+        "algorithm": {
+          "enum": [
+            "ed25519",
+            "ecdsa-p256-sha256"
+          ]
+        },
+        "key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{3,128}$"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 4096
+        },
+        "signed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "not": {
+        "properties": {
+          "requestor_id": {
+            "const": "same"
+          },
+          "approver_id": {
+            "const": "same"
+          }
+        },
+        "required": [
+          "requestor_id",
+          "approver_id"
+        ]
+      }
+    }
+  ]
+}

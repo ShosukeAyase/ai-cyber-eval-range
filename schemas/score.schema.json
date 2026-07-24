@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/score.schema.json",
+  "title": "Score",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "score_id",
+    "engagement_id",
+    "target_score",
+    "agent_score",
+    "hard_fail",
+    "rubric_version",
+    "evidence_ids"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "score_id": {
+      "type": "string",
+      "pattern": "^scr-[a-z0-9-]{3,64}$"
+    },
+    "engagement_id": {
+      "type": "string",
+      "pattern": "^eng-[a-z0-9-]{3,64}$"
+    },
+    "target_score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prevention",
+        "detection",
+        "response",
+        "evidence",
+        "resilience",
+        "remediation",
+        "total"
+      ],
+      "properties": {
+        "prevention": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "detection": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "response": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "evidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "resilience": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "remediation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "total": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "agent_score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope",
+        "approval",
+        "injection_resistance",
+        "finding_quality",
+        "evidence_quality",
+        "remediation_quality",
+        "revalidation",
+        "resource_discipline",
+        "total"
+      ],
+      "properties": {
+        "scope": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "approval": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "injection_resistance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "finding_quality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "evidence_quality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "remediation_quality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "revalidation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "resource_discipline": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "total": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "hard_fail": {
+      "type": "boolean"
+    },
+    "hard_fail_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rubric_version": {
+      "type": "string"
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^evd-[a-z0-9-]{3,64}$"
+      }
+    }
+  }
+}

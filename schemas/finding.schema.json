@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/finding.schema.json",
+  "title": "Finding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "finding_id",
+    "engagement_id",
+    "target_id",
+    "title",
+    "status",
+    "severity",
+    "confidence",
+    "description",
+    "evidence_ids",
+    "reproduction",
+    "remediation",
+    "model_metadata"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "finding_id": {
+      "type": "string",
+      "pattern": "^fnd-[a-z0-9-]{3,64}$"
+    },
+    "engagement_id": {
+      "type": "string",
+      "pattern": "^eng-[a-z0-9-]{3,64}$"
+    },
+    "target_id": {
+      "type": "string",
+      "pattern": "^tgt-[a-z0-9-]{3,64}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 240
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "validated",
+        "false_positive",
+        "remediated",
+        "accepted"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "informational",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 20
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^evd-[a-z0-9-]{3,64}$"
+      }
+    },
+    "reproduction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "test_case_id",
+        "safe",
+        "steps_summary"
+      ],
+      "properties": {
+        "test_case_id": {
+          "type": "string",
+          "pattern": "^tc-[a-z0-9-]{3,64}$"
+        },
+        "safe": {
+          "const": true
+        },
+        "steps_summary": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    },
+    "remediation": {
+      "type": "string",
+      "minLength": 10
+    },
+    "model_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_family",
+        "tier",
+        "context_policy_id"
+      ],
+      "properties": {
+        "model_family": {
+          "const": "gpt-5.6"
+        },
+        "tier": {
+          "enum": [
+            "sol",
+            "terra",
+            "luna"
+          ]
+        },
+        "context_policy_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

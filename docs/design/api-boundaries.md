@@ -1,0 +1,49 @@
+# API Boundaries
+
+## Rules
+
+- Closed request/response schemas with `additionalProperties: false`.
+- Object IDs only for targets, repositories, scenarios, test cases, profiles, findings, and evidence.
+- No arbitrary commands, URLs, IP addresses, hostnames, repository paths, or cloud resource strings from the model.
+- Every request includes engagement/job context implicitly from the authenticated session, not model text.
+- Idempotency keys for state changes.
+- Explicit error codes; no silent fallback.
+
+## Example tool contract
+
+```json
+{
+  "operation": "run_web_test",
+  "target_id": "tgt-web-001",
+  "test_case_id": "tc-authz-001"
+}
+```
+
+The Tool Gateway resolves `tgt-web-001` to a signed scenario endpoint and `tc-authz-001` to an approved adapter profile.
+
+## Validation pipeline
+
+1. Parse strict JSON.
+2. Authenticate caller and bind job context.
+3. Validate schema and object existence.
+4. Verify engagement/ROE version and time window.
+5. Verify action class, limits, and target mapping.
+6. Detect forbidden fields/tokens/options.
+7. Verify or request approval.
+8. Ask Policy Engine.
+9. Derive expected network destinations.
+10. Execute adapter under quotas and record evidence.
+
+## Representative errors
+
+- `INVALID_SCHEMA`
+- `UNKNOWN_OBJECT_ID`
+- `OUT_OF_SCOPE`
+- `ROE_EXPIRED`
+- `APPROVAL_REQUIRED`
+- `APPROVAL_EXPIRED`
+- `POLICY_UNAVAILABLE`
+- `FORBIDDEN_OPTION`
+- `DESTINATION_MISMATCH`
+- `QUOTA_EXCEEDED`
+- `EMERGENCY_STOP_ACTIVE`

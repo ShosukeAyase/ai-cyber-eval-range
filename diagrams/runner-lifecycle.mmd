@@ -1,0 +1,16 @@
+sequenceDiagram
+  participant S as Scheduler
+  participant L as Lifecycle Manager
+  participant H as Execution Host
+  participant P as Policy Engine
+  participant O as Observability
+  S->>L: create(job grant)
+  L->>P: reauthorize
+  P-->>L: allow
+  L->>H: create microVM/VM
+  H-->>L: attestation
+  L->>H: install exact egress policy
+  H-->>L: ready
+  L->>O: lifecycle events
+  L->>H: isolate and destroy
+  H-->>O: destruction evidence
