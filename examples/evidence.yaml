@@ -1,0 +1,14 @@
+schema_version: "1.0"
+evidence_id: evd-design-demo
+engagement_id: eng-design-demo
+execution_id: exe-design-demo
+source_plane: observability
+type: policy_decision
+captured_at: "2026-08-01T00:12:00Z"
+digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+storage_class: E2
+redacted_for_model: true
+chain_of_custody:
+  - actor_id: observability-stub
+    action: captured
+    at: "2026-08-01T00:12:00Z"

@@ -6,7 +6,7 @@ The repository also defines a disposable cyber range for Web/API, Linux, Windows
 
 ## Current phase
 
-Phase 01 is architecture and design only. No target deployment, exploit execution, production integration, or external-system communication is included.
+Phase 01 design is complete. Phase 02 adds a deliberately non-executable contract skeleton. It contains typed interfaces, JSON Schemas, policy templates, state machines, mocks, tests, and CI definitions, but no target deployment, shell execution, network client, exploit validation, credential processing, or cloud-resource creation.
 
 ## Core invariants
 
@@ -22,6 +22,7 @@ Phase 01 is architecture and design only. No target deployment, exploit executio
 ## Repository map
 
 - `ARCHITECTURE.md`: system-level architecture.
+- `src/cyber_eval/`: immutable contracts and non-executable fail-closed stubs.
 - `docs/security/`: threat model, boundaries, IAM, credentials, network controls, abuse cases, and risks.
 - `docs/governance/`: authorization, ROE, data handling, retention, and incident response.
 - `docs/design/`: component and lifecycle designs.

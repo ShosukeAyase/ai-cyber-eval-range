@@ -1,6 +1,6 @@
-# Phase 02 Implementation Plan (Not Started)
+# Phase 03 Controlled Implementation Plan (Not Started)
 
-This plan is dependency ordered. Implementation must not begin until the human decisions at the end are approved.
+This plan is dependency ordered. Runtime implementation must not begin until the human decisions at the end are approved.
 
 1. Approve security baseline, risk acceptances, and ADRs.
 2. Select physical/cloud topology and create separate identity/network administrative domains.

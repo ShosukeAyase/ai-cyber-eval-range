@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/policy-input.schema.json",
+  "title": "Policy Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "request_id",
+    "target_id",
+    "action_class",
+    "manifest_valid",
+    "roe_valid",
+    "policy_version_current",
+    "target_in_scope",
+    "test_case_allowed",
+    "within_limits",
+    "destination_matches",
+    "emergency_stop_active",
+    "approval"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "request_id": {"type": "string", "pattern": "^req-[a-z0-9-]{3,64}$"},
+    "target_id": {"type": "string", "pattern": "^tgt-[a-z0-9-]{3,64}$"},
+    "action_class": {
+      "enum": [
+        "read_only_analysis",
+        "safe_discovery",
+        "safe_test",
+        "state_change",
+        "credentialed_test",
+        "poc_validation",
+        "patch_validation",
+        "range_reset",
+        "engagement_termination"
+      ]
+    },
+    "manifest_valid": {"type": "boolean"},
+    "roe_valid": {"type": "boolean"},
+    "policy_version_current": {"type": "boolean"},
+    "target_in_scope": {"type": "boolean"},
+    "test_case_allowed": {"type": "boolean"},
+    "within_limits": {"type": "boolean"},
+    "destination_matches": {"type": "boolean"},
+    "emergency_stop_active": {"type": "boolean"},
+    "approval": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "approval_id",
+            "valid",
+            "independent",
+            "unexpired",
+            "target_id",
+            "action_class"
+          ],
+          "properties": {
+            "approval_id": {"type": "string", "pattern": "^apr-[a-z0-9-]{3,64}$"},
+            "valid": {"type": "boolean"},
+            "independent": {"type": "boolean"},
+            "unexpired": {"type": "boolean"},
+            "target_id": {"type": "string", "pattern": "^tgt-[a-z0-9-]{3,64}$"},
+            "action_class": {
+              "enum": [
+                "state_change",
+                "credentialed_test",
+                "poc_validation",
+                "patch_validation"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

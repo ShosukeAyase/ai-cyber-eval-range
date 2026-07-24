@@ -39,3 +39,6 @@ Failure transitions:
 `absent -> creating -> attested -> networked -> active -> isolated -> destroyed`
 
 A runner cannot move from `isolated` back to `active`; a new runner is required.
+## Phase 02 executable contract boundary
+
+`src/cyber_eval/state_machine.py` encodes the documented edges as pure allowlists. It performs no provisioning, execution, cleanup, or external communication. Invalid edges raise `InvalidTransitionError`. Negative tests cover skipped approval, denied-job reactivation, isolated-runner reactivation, destroyed-runner recreation, and closed-engagement reactivation.
