@@ -226,11 +226,14 @@ def test_control_plane_mvp_integration_flow() -> None:
         ),
     )
     assert write_result.status is MockToolStatus.ACCEPTED_NO_EXECUTION
-    assert app.approvals.get(
-        ENGAGEMENT_ID,
-        APPROVER_ID,
-        tool_approval_id,
-    ).state is ApprovalState.CONSUMED
+    assert (
+        app.approvals.get(
+            ENGAGEMENT_ID,
+            APPROVER_ID,
+            tool_approval_id,
+        ).state
+        is ApprovalState.CONSUMED
+    )
 
     credential_approval_id = "apr-credential-reference"
     app.approvals.request(

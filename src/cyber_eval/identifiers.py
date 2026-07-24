@@ -15,9 +15,7 @@ _PATTERNS = {
     "req": re.compile(r"^req-[a-z0-9-]{3,64}$"),
     "tmpl": re.compile(r"^tmpl-[a-z0-9-]{3,64}$"),
 }
-_GENERIC_OBJECT = re.compile(
-    r"^(repo|prof|tc|poc|evd|fnd|pat|suite|scn|ctx)-[a-z0-9-]{3,64}$"
-)
+_GENERIC_OBJECT = re.compile(r"^(repo|prof|tc|poc|evd|fnd|pat|suite|scn|ctx)-[a-z0-9-]{3,64}$")
 
 
 def require_identifier(value: str, prefix: str) -> str:

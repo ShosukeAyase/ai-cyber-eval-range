@@ -179,8 +179,7 @@ def test_phase_02_source_has_no_execution_network_or_cloud_imports():
                 continue
             for name in names:
                 prohibited = any(
-                    name == root or name.startswith(f"{root}.")
-                    for root in FORBIDDEN_IMPORT_ROOTS
+                    name == root or name.startswith(f"{root}.") for root in FORBIDDEN_IMPORT_ROOTS
                 )
                 if prohibited:
                     bad.append((str(path.relative_to(ROOT)), name))
@@ -215,8 +214,7 @@ def test_phase_02_has_no_iac_or_runtime_image_artifacts():
     bad = [
         str(path.relative_to(ROOT))
         for path in ROOT.rglob("*")
-        if path.is_file()
-        and (path.name in forbidden_names or path.suffix in forbidden_suffixes)
+        if path.is_file() and (path.name in forbidden_names or path.suffix in forbidden_suffixes)
     ]
     assert not bad, bad
 

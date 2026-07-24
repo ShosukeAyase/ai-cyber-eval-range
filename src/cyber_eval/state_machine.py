@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from enum import Enum
-from typing import Generic, Mapping, TypeVar
+from typing import Generic, TypeVar
 
 from cyber_eval.domain import ApprovalState, EngagementState, JobState, RunnerState
 from cyber_eval.errors import InvalidTransitionError
@@ -31,9 +32,7 @@ def _with_termination(
 ) -> dict[EngagementState, frozenset[EngagementState]]:
     for state in EngagementState:
         if state is not EngagementState.TERMINATED:
-            transitions[state] = transitions.get(state, frozenset()) | {
-                EngagementState.TERMINATED
-            }
+            transitions[state] = transitions.get(state, frozenset()) | {EngagementState.TERMINATED}
     return transitions
 
 
@@ -54,12 +53,8 @@ ENGAGEMENT_MACHINE = StateMachine(
     _with_termination(
         {
             EngagementState.DRAFT: frozenset({EngagementState.VALIDATED}),
-            EngagementState.VALIDATED: frozenset(
-                {EngagementState.DRAFT, EngagementState.APPROVED}
-            ),
-            EngagementState.APPROVED: frozenset(
-                {EngagementState.DRAFT, EngagementState.ACTIVE}
-            ),
+            EngagementState.VALIDATED: frozenset({EngagementState.DRAFT, EngagementState.APPROVED}),
+            EngagementState.APPROVED: frozenset({EngagementState.DRAFT, EngagementState.ACTIVE}),
             EngagementState.ACTIVE: frozenset({EngagementState.STOPPING}),
             EngagementState.STOPPING: frozenset({EngagementState.CLOSED}),
         }
@@ -89,14 +84,10 @@ JOB_MACHINE = StateMachine(
         ),
         JobState.PROVISIONING: frozenset({JobState.READY, JobState.FAILED}),
         JobState.READY: frozenset({JobState.RUNNING, JobState.FAILED}),
-        JobState.RUNNING: frozenset(
-            {JobState.COLLECTING, JobState.QUARANTINED, JobState.FAILED}
-        ),
+        JobState.RUNNING: frozenset({JobState.COLLECTING, JobState.QUARANTINED, JobState.FAILED}),
         JobState.QUARANTINED: frozenset({JobState.COLLECTING, JobState.FAILED}),
         JobState.COLLECTING: frozenset({JobState.DESTROYING, JobState.FAILED}),
-        JobState.DESTROYING: frozenset(
-            {JobState.COMPLETED, JobState.TERMINATED, JobState.FAILED}
-        ),
+        JobState.DESTROYING: frozenset({JobState.COMPLETED, JobState.TERMINATED, JobState.FAILED}),
     },
 )
 

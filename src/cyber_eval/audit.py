@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime
 from collections.abc import Mapping
+from datetime import datetime
 
 from cyber_eval.domain import AuditEvent, AuditOutcome
 from cyber_eval.identifiers import new_identifier, require_identifier
@@ -58,9 +58,7 @@ class AuditService:
                 actor_id=str(row["actor_id"]),
                 operation=str(row["operation"]),
                 outcome=AuditOutcome(str(row["outcome"])),
-                approval_id=(
-                    str(row["approval_id"]) if row["approval_id"] is not None else None
-                ),
+                approval_id=(str(row["approval_id"]) if row["approval_id"] is not None else None),
                 occurred_at=datetime.fromisoformat(str(row["occurred_at"])),
                 details=tuple(
                     sorted(

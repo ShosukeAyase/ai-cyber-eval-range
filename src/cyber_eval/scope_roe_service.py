@@ -49,10 +49,13 @@ class ScopeRoeService:
             raise ValueError("Scope/ROE requires targets and test cases")
         if valid_from >= valid_until:
             raise ValueError("ROE valid_from must precede valid_until")
-        if self._store.fetch_one(
-            "SELECT engagement_id FROM engagements WHERE engagement_id = ?",
-            (engagement_id,),
-        ) is None:
+        if (
+            self._store.fetch_one(
+                "SELECT engagement_id FROM engagements WHERE engagement_id = ?",
+                (engagement_id,),
+            )
+            is None
+        ):
             raise EngagementNotFoundError(engagement_id)
 
         approval = self._approvals._require_write(
@@ -167,9 +170,7 @@ class ScopeRoeService:
         return RoeRecord(
             engagement_id=str(row["engagement_id"]),
             target_ids=frozenset(str(item) for item in json.loads(str(row["target_ids"]))),
-            test_case_ids=frozenset(
-                str(item) for item in json.loads(str(row["test_case_ids"]))
-            ),
+            test_case_ids=frozenset(str(item) for item in json.loads(str(row["test_case_ids"]))),
             valid_from=datetime.fromisoformat(str(row["valid_from"])),
             valid_until=datetime.fromisoformat(str(row["valid_until"])),
         )

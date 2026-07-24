@@ -142,9 +142,7 @@ class EmergencyStopService:
             engagement_id=engagement_id,
             active=bool(row["active"]),
             reason=str(row["reason"]),
-            activated_by=(
-                str(row["activated_by"]) if row["activated_by"] is not None else None
-            ),
+            activated_by=(str(row["activated_by"]) if row["activated_by"] is not None else None),
             activated_at=self._optional_datetime(row["activated_at"]),
             cleared_at=self._optional_datetime(row["cleared_at"]),
         )

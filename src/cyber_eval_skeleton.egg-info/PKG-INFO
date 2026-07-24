@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: cyber-eval-skeleton
+Version: 0.3.0
+Summary: Local-only fail-closed Control Plane MVP for an authorized cyber-evaluation platform
+Requires-Python: >=3.11
+Provides-Extra: dev
+Requires-Dist: jsonschema==4.26.0; extra == "dev"
+Requires-Dist: PyYAML==6.0.3; extra == "dev"
+Requires-Dist: pytest==9.0.2; extra == "dev"
+Requires-Dist: ruff==0.12.5; extra == "dev"
+Requires-Dist: mypy==1.17.0; extra == "dev"
