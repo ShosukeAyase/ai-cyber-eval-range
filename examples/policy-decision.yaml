@@ -1,5 +1,0 @@
-schema_version: "1.0"
-request_id: req-static-demo
-allowed: true
-reason: allow
-policy_version: policy-skeleton-0.2

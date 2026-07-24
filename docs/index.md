@@ -9,16 +9,9 @@
 5. [Network matrix](security/network-matrix.md)
 6. [Authorization model](governance/authorization-model.md)
 7. [API boundaries](design/api-boundaries.md)
-8. [Phase 02 repository skeleton](design/repository-skeleton.md)
-9. [State machines](design/state-machines.md)
-10. [Reset and destruction](design/reset-and-destruction.md)
-11. [Risk register](security/risk-register.md)
-
-## Execution plans
-
-- [Completed Phase 01 design](exec-plans/completed/phase-01-design.md)
-- [Completed Phase 02 repository skeleton](exec-plans/completed/phase-02-repository-skeleton.md)
-- [Active Phase 03 controlled implementation](exec-plans/active/phase-03-implementation-plan.md)
+8. [Reset and destruction](design/reset-and-destruction.md)
+9. [Risk register](security/risk-register.md)
+10. [Active execution plan](exec-plans/active/phase-01-design.md)
 
 ## Cross-cutting documents
 
@@ -32,4 +25,4 @@
 
 ## Design status
 
-Phase 01 is the approved design baseline. Phase 02 is a non-executable contract skeleton. Runtime implementation remains prohibited until the Phase 03 human decisions are approved.
+Phase 01 is a design baseline. Decisions marked **provisional** require explicit human approval before implementation.

@@ -5,8 +5,6 @@ default allow := false
 dangerous_classes := {"state_change", "credentialed_test", "poc_validation", "patch_validation"}
 
 allow if {
-  input.policy_data_available == true
-  input.scope_service_available == true
   input.manifest_valid == true
   input.roe_valid == true
   input.policy_version_current == true
@@ -24,7 +22,6 @@ approval_satisfied if {
 
 approval_satisfied if {
   input.action_class in dangerous_classes
-  input.approval_service_available == true
   input.approval.valid == true
   input.approval.independent == true
   input.approval.unexpired == true

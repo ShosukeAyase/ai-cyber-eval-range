@@ -1,33 +1,21 @@
-.PHONY: validate test schemas architecture policy docs compile format-check lint typecheck optional-tools
+.PHONY: validate test schemas architecture policy docs optional-tools
 
-validate: compile test
-
-compile:
-	python3 -m compileall -q src scripts tests
+validate: test
 
 test:
-	python3 -m pytest
+	python3 -m pytest -q
 
 schemas:
-	python3 -m pytest tests/schemas
+	python3 -m pytest -q tests/schemas
 
 architecture:
-	python3 -m pytest tests/architecture
+	python3 -m pytest -q tests/architecture
 
 policy:
-	python3 -m pytest tests/policy tests/unit/test_policy_gateway.py
+	python3 -m pytest -q tests/policy
 
 docs:
-	python3 -m pytest tests/architecture/test_docs.py
-
-format-check:
-	python3 -m ruff format --check .
-
-lint:
-	python3 -m ruff check .
-
-typecheck:
-	python3 -m mypy src
+	python3 -m pytest -q tests/architecture/test_docs.py
 
 optional-tools:
 	@python3 scripts/check_optional_tools.py
