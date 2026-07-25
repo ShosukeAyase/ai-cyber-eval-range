@@ -116,7 +116,7 @@ def test_phase_03_source_has_no_http_server_or_network_runtime() -> None:
     }
     findings = []
     for path in (ROOT / "src").rglob("*.py"):
-        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        tree = ast.parse(path.read_text(), filename=str(path))
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 names = [alias.name for alias in node.names]
@@ -131,7 +131,7 @@ def test_phase_03_source_has_no_http_server_or_network_runtime() -> None:
 
 
 def test_phase_03_ci_is_read_only_and_local_validation_only() -> None:
-    text = (ROOT / ".github/workflows/phase-03-control-plane.yml").read_text(encoding="utf-8")
+    text = (ROOT / ".github/workflows/phase-03-control-plane.yml").read_text()
     assert "contents: read" in text
     assert "contents: write" not in text
     assert "pull_request_target" not in text

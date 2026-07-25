@@ -146,7 +146,7 @@ def test_required_adrs():
     adrs = list((ROOT / "docs/adr").glob("[0-9][0-9][0-9][0-9]-*.md"))
     assert len(adrs) >= 14
     for path in adrs:
-        text = path.read_text(encoding="utf-8")
+        text = path.read_text()
         for heading in [
             "## Context",
             "## Decision",
@@ -160,9 +160,7 @@ def test_required_adrs():
 
 
 def test_no_arbitrary_model_api_examples():
-    text = "\n".join(
-        path.read_text(encoding="utf-8", errors="ignore") for path in ROOT.rglob("*.md")
-    )
+    text = "\n".join(path.read_text(errors="ignore") for path in ROOT.rglob("*.md"))
     for pattern in [r"run_command\(", r"execute_shell\(", r"scan_url\(", r"scan_ip\("]:
         assert not re.search(pattern, text, re.IGNORECASE), pattern
 
@@ -170,7 +168,7 @@ def test_no_arbitrary_model_api_examples():
 def test_source_has_no_network_or_cloud_imports():
     bad = []
     for path in (ROOT / "src").rglob("*.py"):
-        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        tree = ast.parse(path.read_text(), filename=str(path))
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 names = [alias.name for alias in node.names]
@@ -190,7 +188,7 @@ def test_source_has_no_network_or_cloud_imports():
 def test_only_podman_adapter_uses_fixed_subprocess_boundary():
     bad = []
     for path in (ROOT / "src").rglob("*.py"):
-        text = path.read_text(encoding="utf-8")
+        text = path.read_text()
         if "import subprocess" in text and path.name != "podman.py":
             bad.append(str(path.relative_to(ROOT)))
         tree = ast.parse(text, filename=str(path))
@@ -226,9 +224,7 @@ def test_phase_02_has_no_iac_or_runtime_image_artifacts():
 
 
 def test_phase_02_runtime_contract_has_no_credential_fields():
-    text = "\n".join(
-        path.read_text(encoding="utf-8").lower() for path in (ROOT / "src").rglob("*.py")
-    )
+    text = "\n".join(path.read_text().lower() for path in (ROOT / "src").rglob("*.py"))
     forbidden = ["api_key", "private_key", "access_token", "refresh_token", "password"]
     assert not [term for term in forbidden if term in text]
 
