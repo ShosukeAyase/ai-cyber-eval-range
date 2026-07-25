@@ -202,6 +202,37 @@ class LocalControlPlaneStore:
                 state TEXT NOT NULL
             )
             """,
+            """
+            CREATE TABLE IF NOT EXISTS runner_jobs (
+                job_id TEXT PRIMARY KEY,
+                engagement_id TEXT NOT NULL,
+                target_id TEXT NOT NULL,
+                repository_id TEXT NOT NULL,
+                profile_id TEXT NOT NULL,
+                test_case_id TEXT NOT NULL,
+                state TEXT NOT NULL,
+                approval_id TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                started_at TEXT,
+                finished_at TEXT,
+                destroyed_at TEXT,
+                evidence_id TEXT,
+                runtime_id TEXT,
+                terminal_reason TEXT
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS runner_evidence (
+                evidence_id TEXT PRIMARY KEY,
+                job_id TEXT NOT NULL,
+                engagement_id TEXT NOT NULL,
+                relative_path TEXT NOT NULL,
+                sha256 TEXT NOT NULL,
+                size_bytes INTEGER NOT NULL,
+                created_at TEXT NOT NULL,
+                destruction_attested INTEGER NOT NULL
+            )
+            """,
         )
         with self._lock:
             for statement in statements:

@@ -22,6 +22,14 @@ src/cyber_eval/state_machine.py
 src/cyber_eval/store.py
 src/cyber_eval/stubs.py
 src/cyber_eval/tool_gateway.py
+src/cyber_eval/runner/__init__.py
+src/cyber_eval/runner/contracts.py
+src/cyber_eval/runner/coordinator.py
+src/cyber_eval/runner/kill_switch.py
+src/cyber_eval/runner/podman.py
+src/cyber_eval/runner/registry.py
+src/cyber_eval/runner/runtime.py
+src/cyber_eval/runner/workload.py
 src/cyber_eval_skeleton.egg-info/PKG-INFO
 src/cyber_eval_skeleton.egg-info/SOURCES.txt
 src/cyber_eval_skeleton.egg-info/dependency_links.txt

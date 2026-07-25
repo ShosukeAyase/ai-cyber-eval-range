@@ -1,7 +1,7 @@
 Metadata-Version: 2.4
 Name: cyber-eval-skeleton
-Version: 0.3.0
-Summary: Local-only fail-closed Control Plane MVP for an authorized cyber-evaluation platform
+Version: 0.4.0
+Summary: Local Control Plane and isolated Runner MVP for an authorized cyber-evaluation platform
 Requires-Python: >=3.11
 Provides-Extra: dev
 Requires-Dist: jsonschema==4.26.0; extra == "dev"

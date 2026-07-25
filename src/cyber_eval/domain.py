@@ -124,6 +124,8 @@ class WriteOperation(StrEnum):
     REVOKE_CREDENTIAL_REFERENCE = "revoke_credential_reference"
     ACTIVATE_EMERGENCY_STOP = "activate_emergency_stop"
     CLEAR_EMERGENCY_STOP = "clear_emergency_stop"
+    START_RUNNER_JOB = "start_runner_job"
+    TERMINATE_RUNNER_JOB = "terminate_runner_job"
 
 
 class ResourceScope(StrEnum):

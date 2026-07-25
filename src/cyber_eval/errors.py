@@ -47,3 +47,23 @@ class ScopeViolationError(ControlPlaneError):
 
 class InvalidIdentifierError(ControlPlaneError):
     """Raised when a caller supplies an unregistered identifier shape."""
+
+
+class RunnerError(ControlPlaneError):
+    """Base class for isolated Runner failures."""
+
+
+class RunnerRuntimeUnavailableError(RunnerError):
+    """Raised when the approved local runtime is unavailable or not rootless."""
+
+
+class RunnerTerminatedError(RunnerError):
+    """Raised when Emergency Stop terminates an active Runner job."""
+
+
+class RunnerEvidenceError(RunnerError):
+    """Raised when Runner evidence is absent, malformed, or exceeds limits."""
+
+
+class ResourceLimitError(RunnerError):
+    """Raised when a Runner request exceeds the approved resource profile."""
