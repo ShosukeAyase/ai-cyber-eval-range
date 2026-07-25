@@ -1,6 +1,6 @@
 # Active Execution Plans
 
-No implementation phase is currently approved. The Phase 03 local Control Plane MVP is
-complete. Execution-plane adapters, external model providers, production credentials, network
-listeners, cloud resources, and cyber-range connectivity remain prohibited until a new plan is
-explicitly approved.
+Phase 04 is approved only for the local isolated Runner MVP described in
+[`phase-04-isolated-runner-mvp.md`](phase-04-isolated-runner-mvp.md). External targets,
+internet access, real credentials, arbitrary commands, cloud resources, Kubernetes workloads,
+exploit validation, and production deployment remain prohibited.

@@ -143,3 +143,8 @@ model provider, production Policy Engine, or real Credential Broker. Its purpose
 Any future external adapter, HTTP listener, cloud integration, runner, credential integration,
 or range connection requires a new active plan, security review, updated threat model, and
 explicit architecture approval.
+
+
+## 11. Phase 04 local Runner profile
+
+The local execution-plane MVP uses a rootless Podman container with no network, private PID namespace, read-only root, one bounded writable workspace, fixed object-ID contracts, fixed workload entrypoint, host-controlled evidence extraction, independent Kill Switch enforcement, and unconditional destruction. It is a single-laptop development profile and does not replace the production microVM or independent observability design.

@@ -38,3 +38,8 @@ Collects only declared paths and structured outputs. It performs redaction, hash
 ## Lifecycle manager
 
 States: requested, authorized, provisioning, ready, running, quarantined, collecting, destroying, destroyed, failed. State transitions are idempotent and audited.
+
+
+## Phase 04 local MVP
+
+See [Isolated Runner MVP](isolated-runner-mvp.md). The local adapter is rootless, uses `--network=none`, a read-only root filesystem, one bounded `/workspace`, a digest-pinned preloaded image, and a fixed Python workload. No arbitrary command or repository-supplied test is executed.

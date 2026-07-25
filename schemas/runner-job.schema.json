@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/runner-job.schema.json",
+  "title": "Runner Job",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["job_id", "engagement_id", "target_id", "repository_id", "profile_id", "test_case_id"],
+  "properties": {
+    "job_id": {"type": "string", "pattern": "^job-[a-z0-9-]{3,64}$"},
+    "engagement_id": {"type": "string", "pattern": "^eng-[a-z0-9-]{3,64}$"},
+    "target_id": {"type": "string", "pattern": "^tgt-[a-z0-9-]{3,64}$"},
+    "repository_id": {"type": "string", "pattern": "^repo-[a-z0-9-]{3,64}$"},
+    "profile_id": {"type": "string", "pattern": "^prof-[a-z0-9-]{3,64}$"},
+    "test_case_id": {"type": "string", "pattern": "^tc-[a-z0-9-]{3,64}$"}
+  }
+}

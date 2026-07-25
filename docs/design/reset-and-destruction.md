@@ -25,3 +25,10 @@ Every deletion operation accepts an object ID and desired terminal state. Repeat
 ## Verification
 
 The lifecycle manager compares pre- and post-destruction inventories, confirms credential revocation, checks no routes/listeners remain, and records retained evidence exceptions.
+
+## Phase 04 local Runner destruction
+
+The local runtime removes the container with force, deletes the host staging directory, confirms
+that no active runtime entry remains, and records a destruction attestation. The Runner has no real
+credential material. Collected evidence and audit history remain outside the Runner by design;
+all writable execution state, job manifests, and temporary evidence copies are destroyed.

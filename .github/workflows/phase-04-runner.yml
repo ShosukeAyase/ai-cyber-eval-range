@@ -1,0 +1,28 @@
+name: phase-04-runner
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install pinned validation dependencies
+        run: python -m pip install --disable-pip-version-check -e ".[dev]"
+      - name: Format and lint
+        run: python -m ruff format --check . && python -m ruff check .
+      - name: Type check
+        run: python -m mypy src
+      - name: Validate contracts, runner, architecture, and docs
+        run: make validate

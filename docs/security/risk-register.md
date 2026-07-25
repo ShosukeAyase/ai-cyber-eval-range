@@ -27,3 +27,7 @@ Scales: Likelihood (L) and Impact (I) are 1–5. Score = L × I.
 | R-020 | Broad reciprocal bootstrap grants are reused beyond local development | 3 | 5 | 15 | Explicit `local_dev` composition root, distinct identities, expiry and use limits, architecture documentation, no production deployment path | Governance | Replace with signed identity-backed approvals |
 | R-021 | Single-process SQLite profile is mistaken for a resilient control plane | 3 | 4 | 12 | Document no HA/concurrency guarantee, local-only naming, integration tests limited to one process | Platform | Distributed transaction and recovery design deferred |
 | R-022 | Deterministic model, tool, or credential mocks are mistaken for production integrations | 3 | 4 | 12 | Mock-specific class names, no network imports, `accepted_no_execution`, no material fields, architecture tests | Platform | Independent review required before any adapter is added |
+
+| R-023 | Single-laptop rootless container is mistaken for production isolation | 3 | 5 | 15 | Local-only label, rootless preflight, fixed Podman profile, future microVM gate | Platform | Live Podman verification required |
+| R-024 | Local image or offline artifact is replaced | 3 | 5 | 15 | Digest-only image references, `--pull=never`, separate signed artifact process | Supply chain | Image signing remains future gate |
+| R-025 | Runner output exhausts host storage | 2 | 4 | 8 | Size-limited tmpfs, evidence byte limit, bounded copy and cleanup | Platform | Verify cgroup/tmpfs support locally |

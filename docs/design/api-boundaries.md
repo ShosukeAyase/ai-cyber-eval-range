@@ -67,3 +67,10 @@ No Phase 02 interface accepts an arbitrary command, URL, hostname, IP address, r
 - The Tool Gateway returns `accepted_no_execution` rather than dispatching an adapter.
 - The Credential Broker returns an opaque metadata reference and stores no credential value.
 - SQLite is an internal local persistence detail and is not exposed as an arbitrary query API.
+
+## Phase 04 Runner boundary
+
+`RunnerJobRequest` accepts only `job_id`, `engagement_id`, `target_id`, `repository_id`,
+`profile_id`, and `test_case_id`. Paths and image references are resolved from a locally configured
+registry. The workload command is fixed by `PodmanCommandBuilder`; no caller supplies argv, shell,
+URL, IP, hostname, mount, environment variable, package, or plugin values.

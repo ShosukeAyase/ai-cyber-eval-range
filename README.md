@@ -6,7 +6,7 @@ The repository also defines a disposable cyber range for Web/API, Linux, Windows
 
 ## Current phase
 
-Phase 01 design and the Phase 02 non-executable contract skeleton are complete. Phase 03 adds a local-only Control Plane MVP using Python and SQLite. It provides engagement, Scope/ROE, approval, policy, model-mock, tool-mock, credential-reference, Emergency Stop, and transactional audit services. It still contains no target deployment, shell execution, network client, exploit validation, real credential material, or cloud-resource creation.
+Phase 01 design and the Phase 02 non-executable contract skeleton are complete. Phase 03 adds a local-only Control Plane MVP using Python and SQLite. It provides engagement, Scope/ROE, approval, policy, model-mock, tool-mock, credential-reference, Emergency Stop, and transactional audit services. Phase 04 adds a rootless, no-network, fixed-workload Runner for synthetic repositories. It still contains no arbitrary command API, external target access, exploit validation, real credential material, or cloud-resource creation.
 
 ## Core invariants
 
@@ -22,7 +22,7 @@ Phase 01 design and the Phase 02 non-executable contract skeleton are complete. 
 ## Repository map
 
 - `ARCHITECTURE.md`: system-level architecture.
-- `src/cyber_eval/`: typed contracts, local SQLite Control Plane services, and non-executable mocks.
+- `src/cyber_eval/`: typed Control Plane services, mocks, and the fixed isolated Runner adapter.
 - `docs/security/`: threat model, boundaries, IAM, credentials, network controls, abuse cases, and risks.
 - `docs/governance/`: authorization, ROE, data handling, retention, and incident response.
 - `docs/design/`: component and lifecycle designs.

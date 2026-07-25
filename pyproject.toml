@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cyber-eval-skeleton"
-version = "0.3.0"
-description = "Local-only fail-closed Control Plane MVP for an authorized cyber-evaluation platform"
+version = "0.4.0"
+description = "Local Control Plane and isolated Runner MVP for an authorized cyber-evaluation platform"
 requires-python = ">=3.11"
 dependencies = []
 

@@ -1,0 +1,6 @@
+job_id: job-local-static
+engagement_id: eng-control-mvp
+target_id: tgt-local-app
+repository_id: repo-local-synthetic
+profile_id: prof-static-offline
+test_case_id: tc-local-static

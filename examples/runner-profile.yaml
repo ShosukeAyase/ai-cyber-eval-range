@@ -1,0 +1,18 @@
+profile_id: prof-static-offline
+test_case_id: tc-local-static
+image_ref: localhost/cyber-eval-runner@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+operations:
+  - read_repository
+  - static_analysis
+  - run_defined_tests
+  - collect_evidence
+limits:
+  cpus: 1.0
+  memory_mib: 256
+  timeout_seconds: 60
+  pids: 64
+  open_files: 128
+  max_file_bytes: 2097152
+  workspace_bytes: 33554432
+  evidence_bytes: 4194304
+  max_source_files: 1000

@@ -156,3 +156,10 @@ The demonstration creates only in-memory SQLite records and prints a synthetic s
 - The policy adapter is not production OPA.
 - The model, tool, and credential components are mocks.
 - No external infrastructure, execution plane, range, or real target is present.
+
+## Phase 04 Runner Coordinator extension
+
+`RunnerCoordinator` composes the existing approval, policy, Scope/ROE, Emergency Stop, audit, and
+store services with a registered repository/profile catalog and a Runner runtime. Authorization and
+audit commit before runtime creation. The Runner receives no Control Plane database path or audit
+mutation interface.

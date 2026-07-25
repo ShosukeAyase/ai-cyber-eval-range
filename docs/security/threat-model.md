@@ -89,3 +89,14 @@ production separation model:
 Controls in Phase 03 are naming, closed typed APIs, no network/runtime imports, transactional
 audit tests, approval expiry/use limits, and explicit local-only documentation. These controls
 do not convert local SQLite into WORM evidence or a production trust boundary.
+
+## Phase 04 local Runner threats
+
+The local rootless-container profile introduces container escape, runtime replacement, host-path
+confusion, resource-limit bypass, evidence spoofing, and incomplete destruction risks. Controls
+include a digest-only local image reference, `--pull=never`, no network, private PID namespace,
+non-root execution, all capabilities dropped, no-new-privileges, read-only root, read-only inputs,
+one bounded writable tmpfs, fixed argv, evidence identity/hash validation, and forced removal.
+
+These controls do not protect against a malicious laptop administrator or a compromised Podman
+machine. Production execution still requires microVM or VM isolation and independent evidence.

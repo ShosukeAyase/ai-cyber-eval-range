@@ -1,0 +1,8 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+COPY src/cyber_eval /opt/cyber-eval/cyber_eval
+ENV PYTHONPATH=/opt/cyber-eval \
+    PYTHONDONTWRITEBYTECODE=1
+USER 65532:65532
+WORKDIR /workspace

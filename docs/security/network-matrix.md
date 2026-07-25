@@ -40,3 +40,12 @@ and Emergency Stop interactions are in-process method calls. SQLite uses a local
 This zero-network local profile is narrower than the future production matrix. It does not grant
 permission to add loopback HTTP APIs, public endpoints, arbitrary URLs/IPs, or a route to a
 cyber range. Such changes require a separate approved phase and updated matrix entries.
+
+## Phase 04 local Runner network posture
+
+The initial Runner has no authorized network destination. `--network=none` creates the runtime
+without a configured network interface, and the workload verifies that no non-loopback default
+route is present. Synthetic repositories and job manifests are local read-only mounts. Evidence is
+copied by the host after execution rather than transmitted by the Runner. Cloud metadata, Docker
+sockets, Kubernetes APIs/tokens, corporate/production networks, and the general internet remain
+denied.

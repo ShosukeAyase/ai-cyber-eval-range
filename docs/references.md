@@ -33,3 +33,9 @@
 ## Research caution
 
 Virtualization boundaries reduce but do not eliminate microarchitectural risk. Dedicated hosts, current CPU microcode, kernel mitigations, disabled SMT where required, and single-tenant scheduling remain necessary for high-risk scenarios.
+
+## Phase 04 official runtime sources
+
+- Podman `run` reference, including rootless behavior, `--network=none`, `--read-only`, CPU, memory, PID, and no-new-privileges controls: https://docs.podman.io/en/latest/markdown/podman-run.1.html
+- Podman pull policy, including `never` for local-only images: https://docs.podman.io/en/stable/markdown/podman-pull.1.html
+- Podman Desktop Windows installation and WSL2 machine requirements: https://podman-desktop.io/docs/installation/windows-install

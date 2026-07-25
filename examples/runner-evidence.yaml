@@ -1,0 +1,17 @@
+schema_version: "1.0"
+job_id: job-local-static
+engagement_id: eng-control-mvp
+target_id: tgt-local-app
+repository_id: repo-local-synthetic
+profile_id: prof-static-offline
+repository_sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+operations: [read_repository, static_analysis, run_defined_tests, collect_evidence]
+files: []
+findings: []
+tests: []
+isolation:
+  non_root: true
+  no_default_route: true
+  docker_socket_absent: true
+  kubernetes_token_absent: true
+  audit_store_absent: true

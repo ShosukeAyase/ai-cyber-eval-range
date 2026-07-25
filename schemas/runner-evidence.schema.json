@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/runner-evidence.schema.json",
+  "title": "Runner Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "job_id", "engagement_id", "target_id", "repository_id", "profile_id", "repository_sha256", "operations", "files", "findings", "tests", "isolation"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "job_id": {"type": "string"},
+    "engagement_id": {"type": "string"},
+    "target_id": {"type": "string"},
+    "repository_id": {"type": "string"},
+    "profile_id": {"type": "string"},
+    "repository_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "operations": {"type": "array", "items": {"type": "string"}},
+    "files": {"type": "array", "items": {"type": "object"}},
+    "findings": {"type": "array", "items": {"type": "object"}},
+    "tests": {"type": "array", "items": {"type": "object"}},
+    "isolation": {"type": "object"}
+  }
+}

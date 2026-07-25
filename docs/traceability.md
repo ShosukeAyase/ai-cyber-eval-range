@@ -34,3 +34,10 @@
 | Phase 03 object-ID-only model/tool APIs | `model-request.schema.json`, `ModelRequest`, `ToolRequest` | `test_phase_03_model_request_rejects_raw_network_and_command_fields`, `test_model_and_tool_contracts_have_no_destination_or_command_fields` |
 | Phase 03 no credential material | `credential-reference.schema.json`, `CredentialReference` | `test_credential_reference_schema_has_no_material_properties`, `test_credential_reference_has_no_secret_value_fields` |
 | Phase 03 local integration | `design/control-plane-mvp.md`, `ControlPlaneMvp` | `test_control_plane_mvp_integration_flow` |
+
+| Phase 04 prohibited communication | `design/isolated-runner-mvp.md`, `PodmanCommandBuilder` | `test_podman_plan_enforces_isolation_and_resource_limits` |
+| Phase 04 Scope rejection | `RunnerCoordinator` and local registry | `test_scope_outside_target_is_rejected_before_runtime` |
+| Phase 04 resource enforcement | `RunnerLimits`, Podman flags, fixed workload bounds | `test_runner_limits_reject_unbounded_profiles`, command-plan test |
+| Phase 04 audit separation | no audit mount in execution spec | command-plan test and audit-failure integration test |
+| Phase 04 Kill Switch | `KillSwitchMonitor` | `test_kill_switch_terminates_blocked_runner_and_cleanup_completes` |
+| Phase 04 destruction | runtime `destroy` and destruction attestation | `test_runner_collects_evidence_and_destroys_all_ephemeral_state` |

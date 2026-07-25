@@ -2,94 +2,71 @@
 
 Date: 2026-07-24
 
-## Phase 03 executed validation
+## Phase 04 deterministic validation executed
 
 | Command | Result |
 |---|---|
-| `make validate` | PASS: 73 tests |
-| `make schemas` | PASS: 10 tests |
-| `make policy` | PASS: 14 tests |
-| `python3 -m pytest tests/unit` | PASS: 21 tests |
-| `make integration` | PASS: 8 tests |
-| `make architecture` | PASS: 28 tests |
-| `make docs` | PASS: 3 tests |
-| `make demo` | PASS: synthetic no-network demonstration completed |
-| `python3 -m compileall -q src scripts tests` | PASS |
+| `python -m pytest -o addopts=''` | PASS: 84 tests |
+| `python -m pytest tests/schemas` | PASS: 10 tests |
+| `python -m pytest tests/policy tests/unit/test_policy_gateway.py` | PASS: 14 tests |
+| `python -m pytest tests/unit` | PASS: 21 tests |
+| `python -m pytest tests/integration` | PASS: 13 tests |
+| `python -m pytest tests/architecture` | PASS: 34 tests |
+| Phase 04 Runner subset | PASS: 11 tests |
+| `python -m compileall -q src scripts tests` | PASS |
 | source line-length check (`src`, `tests`, `scripts`) | PASS: no lines over 100 characters |
+| `git diff --check` | PASS |
+| lightweight secret-pattern scan | PASS: only the deliberate `AKIA` test literal was observed |
 | `make optional-tools` | Inventory completed; unavailable tools listed below |
 
-## Phase 03 completion evidence
+## Phase 04 completion evidence
 
-- Fifteen JSON Schemas conform to JSON Schema Draft 2020-12.
-- Every schema has a validating synthetic YAML example.
-- Every root schema object rejects undeclared properties.
-- Policy input now requires `engagement_id`.
-- Model request schema rejects undeclared URL, IP, and command fields.
-- Credential reference schema and typed record contain no credential-value fields.
-- Scope deviation receives `target_out_of_scope`.
-- Expired ROE receives `roe_expired`.
-- Missing write approval receives `approval_required`.
-- A requestor attempting to approve their own request receives `SelfApprovalError`.
-- Policy Engine unavailability receives `policy_unavailable`.
-- Active Emergency Stop receives `emergency_stop_active`.
-- Injected audit failure rolls back engagement creation and does not consume approval use.
-- Injected audit failure prevents the deterministic Model Gateway mock invocation count from changing.
-- Emergency Stop has no model, Tool Gateway, or runner dependency.
-- Write-class Tool Gateway mock requests consume an independent resource-scoped approval.
-- Credential Broker mock issuance returns an opaque metadata reference only.
-- Tool Gateway returns `accepted_no_execution` and has no execution adapter.
-- All public service operations tested by the architecture suite require `engagement_id`.
-- Architecture tests reject shell/dynamic execution primitives, network clients/servers, cloud SDKs, IaC, runtime image definitions, common secret patterns, and credential-value fields.
-- Phase 03 requirements are mapped to design evidence and automated tests.
+- Eighteen JSON Schemas conform to JSON Schema Draft 2020-12 and have synthetic examples.
+- Runner job APIs accept registered IDs only and have no command, shell, path, URL, IP, hostname, endpoint, mount, package, or plugin field.
+- The local registry maps repository/profile IDs to reviewed local paths and digest-pinned image references.
+- Runtime creation uses rootless preflight, `--pull=never`, `--network=none`, private PID, IPC, UTS, and cgroup namespaces, ignored image volumes, read-only root, non-root UID/GID, all capabilities dropped, no-new-privileges, no host aliases, and no inherited proxy variables.
+- One size-limited `noexec,nosuid,nodev` tmpfs is the only writable in-container workspace.
+- Repository and job mounts are read-only; no audit database, Docker socket, Kubernetes token, cloud metadata, or evidence-store mount is present.
+- CPU, memory, PID, open-file, single-file, wall-time, workspace, evidence, and source-file limits are represented by bounded contracts and runtime arguments.
+- The fixed workload reads regular files, performs AST-based static analysis, runs built-in predefined tests, and emits bounded JSON evidence without executing repository code.
+- Scope mismatch is rejected before runtime invocation.
+- The fixed workload rejects an oversized source file, and the failed job leaves no active runtime or workspace.
+- An injected audit failure prevents runtime creation.
+- The independent Kill Switch monitor terminates a blocked job without model participation.
+- Normal and terminated jobs remove the runtime staging workspace and active runtime entry.
+- Evidence remains outside the Runner with an SHA-256 digest and destruction attestation.
+- The offline image definition has no package-manager, network-download, or `RUN` step; build scripts require a preloaded base image and use `--pull-never --network=none`.
 
-## Demonstration result
+## Not executed in this environment
 
-`make demo` created an in-memory synthetic engagement, registered Scope/ROE, activated the
-engagement, called the deterministic Model Gateway mock, authorized a read-only Tool Gateway
-mock request, activated Emergency Stop, and read audit events. It opened no network connection
-and created no external resource.
+The following local quality or runtime tools were unavailable:
 
-## Formatting and type-check limitations
+- Podman and Podman Desktop;
+- Ruff;
+- mypy;
+- OPA;
+- OpenTofu/Terraform;
+- markdownlint;
+- pip-audit;
+- CycloneDX tooling;
+- Trivy;
+- Syft;
+- Grype;
+- Cosign;
+- Gitleaks.
 
-Ruff and mypy were not installed in the execution environment. Two installation attempts were
-made: the configured internal package index returned no matching Ruff distribution, and direct
-PyPI access failed because external DNS resolution was unavailable. Therefore Ruff formatting,
-Ruff lint, and mypy are not reported as passed locally.
-
-The read-only GitHub Actions workflow defines pinned Ruff and mypy checks. Its result must be
-observed after the commit is pushed; workflow success is not inferred from the local tests.
+Therefore the real rootless-container smoke test, cgroup enforcement observation, no-default-route observation inside Podman, Ruff formatting/lint, mypy, dependency vulnerability scanning, SBOM generation, signature verification, and image scanning are not reported as passed. The repository provides `scripts/complete_phase4_local.ps1` and `scripts/live_runner_smoke.py` for the operator-laptop gate.
 
 ## Executed but not passed
 
-`python3 -m pip check` reported a pre-existing global environment conflict:
+`python -m pip check` reported a pre-existing shared-environment conflict:
 
 ```text
 moviepy 2.2.1 requires pillow<12.0,>=9.2.0, but pillow 12.2.0 is installed.
 ```
 
-The Phase 03 project declares no runtime dependencies and uses only the Python standard library
-at runtime. The conflict belongs to the shared execution environment, but dependency consistency
-is not reported as passed.
+The project declares no runtime dependency and the fixed Runner workload uses only the Python standard library. This shared-environment conflict is not caused by the repository, but dependency consistency is not reported as passed.
 
-## Not executed locally
+## Phase status
 
-The following tools were unavailable:
-
-- OPA
-- OpenTofu/Terraform
-- markdownlint
-- Ruff
-- mypy
-- pip-audit
-- CycloneDX tooling
-- Trivy
-- Syft
-- Grype
-- Cosign
-- Gitleaks
-
-No IaC modules, cloud-resource definitions, container/VM images, execution adapters, external
-model integration, production credential integration, exploit modules, or cyber-range resources
-exist in Phase 03. IaC validation/scanning, dependency vulnerability scanning, runtime SBOM,
-signature verification, and image scanning remain future mandatory gates and are not reported as
-passed.
+Phase 04 implementation, deterministic tests, documentation, offline image definition, and local completion scripts are complete. Formal Phase 04 completion remains conditional on the operator laptop successfully running Ruff, mypy, the complete pytest suite, rootless Podman preflight, and the live isolated Runner smoke test using a reviewed digest-pinned local image.

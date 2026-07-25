@@ -42,3 +42,10 @@ A runner cannot move from `isolated` back to `active`; a new runner is required.
 ## Phase 02 executable contract boundary
 
 `src/cyber_eval/state_machine.py` encodes the documented edges as pure allowlists. It performs no provisioning, execution, cleanup, or external communication. Invalid edges raise `InvalidTransitionError`. Negative tests cover skipped approval, denied-job reactivation, isolated-runner reactivation, destroyed-runner recreation, and closed-engagement reactivation.
+
+## Phase 04 Runner job subset
+
+The MVP uses the existing job states `authorized -> running -> collecting -> completed`. Emergency
+Stop produces `terminated`; runtime, evidence, or destruction failure produces `failed`. Every
+terminal path invokes destruction in a `finally` block. A completed job requires evidence plus a
+positive runtime/workspace destruction attestation.
