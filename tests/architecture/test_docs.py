@@ -38,4 +38,9 @@ def test_document_index_points_to_current_plans():
     assert "exec-plans/completed/phase-01-design.md" in text
     assert "exec-plans/completed/phase-02-repository-skeleton.md" in text
     assert "exec-plans/completed/phase-03-control-plane-mvp.md" in text
+    phase_04_links = {
+        "exec-plans/active/phase-04-isolated-runner-mvp.md",
+        "exec-plans/completed/phase-04-isolated-runner-mvp.md",
+    }
+    assert sum(link in text for link in phase_04_links) == 1
     assert "exec-plans/active/README.md" in text
