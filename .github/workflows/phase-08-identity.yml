@@ -20,8 +20,17 @@ jobs:
           cache: pip
       - name: Install pinned validation dependencies
         run: python -m pip install --disable-pip-version-check -e ".[dev]"
-      - name: Format and lint
-        run: python -m ruff format --check . && python -m ruff check .
+      - name: Verify formatting
+        run: python -m ruff format --check .
+      - name: Generate lint artifact
+        run: python -m ruff check . --output-format=json > phase-08-ruff-lint.json || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase-08-ruff-lint
+          path: phase-08-ruff-lint.json
+          if-no-files-found: error
+      - name: Enforce lint
+        run: python -m ruff check .
       - name: Type check
         run: python -m mypy src
       - name: Compile and validate complete repository
