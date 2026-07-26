@@ -24,5 +24,14 @@ jobs:
         run: python -m ruff format --check . && python -m ruff check .
       - name: Type check
         run: python -m mypy src
-      - name: Compile and validate complete repository
-        run: python -m compileall -q src scripts tests && python -m pytest
+      - name: Compile
+        run: python -m compileall -q src scripts tests
+      - name: Generate pytest diagnostics
+        run: python -m pytest -q > phase-08-pytest.txt 2>&1 || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase-08-pytest
+          path: phase-08-pytest.txt
+          if-no-files-found: error
+      - name: Enforce full repository tests
+        run: python -m pytest
