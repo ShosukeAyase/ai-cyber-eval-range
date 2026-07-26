@@ -24,5 +24,12 @@ jobs:
         run: python -m ruff format --check . && python -m ruff check .
       - name: Type check
         run: python -m mypy src
+      - name: Generate FILE-MANIFEST
+        run: git ls-files | LC_ALL=C sort > FILE-MANIFEST.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase-08-file-manifest
+          path: FILE-MANIFEST.txt
+          if-no-files-found: error
       - name: Compile and validate complete repository
         run: python -m compileall -q src scripts tests && python -m pytest
