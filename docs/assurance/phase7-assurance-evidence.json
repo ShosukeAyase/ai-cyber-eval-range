@@ -1,0 +1,181 @@
+{
+  "checks": [
+    {
+      "area": "IAM",
+      "check_id": "AUTH-001",
+      "evidence": "Public services accept caller-supplied actor_id strings; no external identity verification implementation exists.",
+      "remediation": "Add phishing-resistant authentication, workload identity, signed tokens, role binding, and authorization independent of caller input.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Audit trail",
+      "check_id": "AUD-001",
+      "evidence": "Audit events share the local SQLite database and have no external signature, monotonic counter, or WORM retention.",
+      "remediation": "Send events to an independently administered append-only service and WORM store; sign batches and use trusted time.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Policy Engine",
+      "check_id": "POL-001",
+      "evidence": "The adapter supplies authorization facts as constants and executes the Python stub instead of the Rego policy bundle.",
+      "remediation": "Use an independent policy decision point, signed bundles, and authoritative fact providers; test stale and malformed bundles.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Tool Gateway",
+      "check_id": "TOOL-001",
+      "evidence": "The gateway is a mock returning accepted_no_execution; no production adapter identity, destination resolver, or authenticated result channel exists.",
+      "remediation": "Implement narrow adapters with workload identity, semantic parameters, trusted destination resolution, signed receipts, and output validation.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Human Approval",
+      "check_id": "APR-001",
+      "evidence": "Self-approval is blocked, but role, organization identity, signed evidence, and anti-replay nonce are not enforced by external IAM.",
+      "remediation": "Bind approvals to authenticated roles, signed requests, nonce/audience/expiry, and dual control for high-risk actions.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Kill Switch",
+      "check_id": "KILL-001",
+      "evidence": "The Kill Switch shares the Control Plane process and SQLite trust domain; Runner enforcement requires an in-process monitor.",
+      "remediation": "Deploy an independent stop controller and network isolation path with separate identity, administration, heartbeat, and runtime authority.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Runner isolation",
+      "check_id": "RUN-001",
+      "evidence": "Rootless Podman uses the same laptop and a host bind mount; no explicit seccomp, MAC profile, microVM boundary, or independent escape test is configured.",
+      "remediation": "Use dedicated VM/microVM hosts, explicit seccomp/MAC profiles, immutable hosts, and independent escape and host-compromise testing.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Network isolation",
+      "check_id": "NET-001",
+      "evidence": "Runner network=none is tested, but no independent firewall/sensor or continuous route/DNS monitor exists. Model egress is restricted by code constant only.",
+      "remediation": "Enforce egress at a separate layer, remove default routes, use a controlled proxy, continuously verify policy, and stop on monitoring loss.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Secret management",
+      "check_id": "SEC-001",
+      "evidence": "Provider authentication uses a process environment variable; the Credential Broker is metadata-only and no KMS/HSM-backed issuance exists.",
+      "remediation": "Use a KMS/HSM-backed broker, workload identity, short-lived credentials, direct adapter delivery, rotation, revocation, and output redaction.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Supply chain",
+      "check_id": "SCM-001",
+      "evidence": "GitHub Actions use mutable tags: .github/workflows/phase-02-skeleton.yml:actions/checkout@v4; .github/workflows/phase-02-skeleton.yml:actions/setup-python@v5; .github/workflows/phase-03-control-plane.yml:actions/checkout@v4; .github/workflows/phase-03-control-plane.yml:actions/setup-python@v5; .github/workflows/phase-04-runner.yml:actions/checkout@v4; .github/workflows/phase-04-runner.yml:actions/setup-python@v5; .github/workflows/phase-05-range.yml:actions/checkout@v4; .github/workflows/phase-05-range.yml:actions/setup-python@v5",
+      "remediation": "Pin actions to full commit SHAs and enforce repository SHA-pinning policy.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Supply chain",
+      "check_id": "SCM-002",
+      "evidence": "No hash-bearing dependency lockfile exists; build requirements are ranges and CI installs from the public package index.",
+      "remediation": "Use an internal mirror, hash-locked dependencies, offline build inputs, and reproducible build records.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Supply chain",
+      "check_id": "SCM-003",
+      "evidence": "No executable verification gate for image/scenario signatures, provenance, or SBOM is present.",
+      "remediation": "Generate SBOM/provenance, sign images and scenario bundles, and verify approved identities before use.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Model governance",
+      "check_id": "AI-001",
+      "evidence": "The code labels gpt-5.6-sol as pinned, but it is a durable model identifier rather than a dated immutable snapshot.",
+      "remediation": "Use an immutable provider snapshot when available, or gate provider changes through signed configuration, regression evaluation, and rollback criteria.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Prompt injection",
+      "check_id": "AI-002",
+      "evidence": "Closed schemas, no provider tools, object-ID proposals, secret redaction, evidence binding, and adversarial tests are present.",
+      "remediation": "Add continuous live-model red-team evaluations in private CI and maintain model-version-specific baselines.",
+      "severity_if_failed": "medium",
+      "status": "PASS"
+    },
+    {
+      "area": "Scenario safety",
+      "check_id": "RNG-001",
+      "evidence": "Answer keys are public and scenario bundles are unsigned, weakening scoring and release integrity.",
+      "remediation": "Move keys to a private grader and require signed reviewed scenario artifacts with provenance and secret/PII scanning.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Legal authorization and ROE",
+      "check_id": "ROE-001",
+      "evidence": "Scope/ROE are local database objects; target ownership, jurisdiction, counsel approval, signed authorization, and consent evidence are not implemented.",
+      "remediation": "Require signed authorization packages, ownership verification, legal/data review, expiry, revocation, and independent approval.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Recovery and resilience",
+      "check_id": "RES-001",
+      "evidence": "The Control Plane is one process and SQLite database with no HA, protected backup, restore drill, disaster recovery, or rollback protection.",
+      "remediation": "Define RTO/RPO, deploy redundant services, protect backups, perform restore drills, and detect rollback or cloned databases.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    },
+    {
+      "area": "Resource exhaustion",
+      "check_id": "DOS-001",
+      "evidence": "Runner and Agent have local limits, but no global API budget, rate limiter, host quota, audit-growth bound, or provider cost circuit breaker exists.",
+      "remediation": "Add global quotas, concurrency controls, storage limits, cost budgets, backpressure, and emergency budget shutdown.",
+      "severity_if_failed": "medium",
+      "status": "PARTIAL"
+    },
+    {
+      "area": "Reset and destruction",
+      "check_id": "RST-001",
+      "evidence": "Local roots are removed and reset digests are tested, but snapshots, backups, crash remnants, and cryptographic erasure are not covered.",
+      "remediation": "Add inventory-backed destruction, backup exclusions, key destruction, crash cleanup, and independent post-destruction verification.",
+      "severity_if_failed": "medium",
+      "status": "PARTIAL"
+    },
+    {
+      "area": "Build configuration",
+      "check_id": "CFG-001",
+      "evidence": "Runtime dependencies are empty and dev versions exact, but build requirements remain ranged and unhashed.",
+      "remediation": "Pin and hash build backend artifacts through the internal supply-chain process.",
+      "severity_if_failed": "medium",
+      "status": "PARTIAL"
+    },
+    {
+      "area": "Audit trail",
+      "check_id": "AUD-002",
+      "evidence": "Audit records have no cryptographic integrity chain and rely on local wall-clock timestamps.",
+      "remediation": "Add chained digests, external signatures, trusted timestamps, sequence numbers, and verification tooling.",
+      "severity_if_failed": "high",
+      "status": "FAIL"
+    }
+  ],
+  "decision": "NO-GO",
+  "reviewed_commit": "a6ebab812c0047395fb1c54af4d2d244f7e0ac3f",
+  "schema_version": "1.0",
+  "summary": {
+    "fail": 17,
+    "high_or_critical_unresolved": 17,
+    "partial": 3,
+    "pass": 1
+  }
+}

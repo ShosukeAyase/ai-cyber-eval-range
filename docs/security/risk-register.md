@@ -36,3 +36,11 @@ Scales: Likelihood (L) and Impact (I) are 1–5. Score = L × I.
 | R-028 | Forged tool results support a false vulnerability finding | 3 | 4 | 12 | Control Plane-created receipts, authenticated evidence ID allowlist, unknown-field rejection | Evaluation | Use externally signed receipts for distributed deployment |
 | R-029 | Repeated model failure causes unbounded cost or operations | 3 | 3 | 9 | Maximum turns, identical-denial fingerprint guard, fixed timeout, terminal state | AI Platform | Add organization-level budget and rate controls |
 | R-030 | OpenAI endpoint retention or model behavior conflicts with governance | 2 | 4 | 8 | `store=false`, explicit model ID, redacted context, provider review, regression evals | Legal/AI | Confirm contractual data controls and regional processing profile |
+
+
+## Phase 07 independent assurance register
+
+The independent Phase 07 production decision and remediation-specific residual risks are tracked in
+[`docs/assurance/residual-risk-register.md`](../assurance/residual-risk-register.md). That register
+supersedes any optimistic interpretation of the design-stage treatments above. Phase 07 identified
+17 unresolved high risks and issued a production **NO-GO**.

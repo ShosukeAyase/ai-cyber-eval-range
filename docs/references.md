@@ -52,3 +52,11 @@ Virtualization boundaries reduce but do not eliminate microarchitectural risk. D
   https://platform.openai.com/docs/models/default-usage-policies-by-endpoint
 - OpenAI API backward compatibility and pinned-model recommendation:
   https://platform.openai.com/docs/api-reference/backward-compatibility
+
+
+## Phase 07 assurance sources
+
+- NIST SP 800-53A Rev. 5, assessment methodology and procedures: https://doi.org/10.6028/NIST.SP.800-53Ar5
+- NIST SP 800-53 Rev. 5 Release 5.2.0 control catalog: https://csrc.nist.gov/projects/risk-management/sp800-53-controls/downloads
+- GitHub Actions secure-use guidance, including full commit SHA pinning: https://docs.github.com/en/actions/reference/security/secure-use
+- OpenAI GPT-5.6 Sol model documentation: https://developers.openai.com/api/docs/models/gpt-5.6-sol

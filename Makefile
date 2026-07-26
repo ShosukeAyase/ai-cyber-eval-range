@@ -1,4 +1,4 @@
-.PHONY: validate test schemas architecture policy integration runner range agent docs demo compile format-check lint typecheck optional-tools
+.PHONY: validate test schemas architecture policy integration runner range agent assurance docs demo compile format-check lint typecheck optional-tools
 
 validate: compile test
 
@@ -28,6 +28,10 @@ range:
 
 agent:
 	python3 -m pytest tests/integration/test_agent_workflow.py tests/unit/test_agent_contracts.py tests/architecture/test_phase_06_agent.py
+
+assurance:
+	python3 scripts/run_phase7_assurance.py
+	python3 -m pytest tests/assurance
 
 docs:
 	python3 -m pytest tests/architecture/test_docs.py

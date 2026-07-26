@@ -8,3 +8,4 @@ Move closed plans here without rewriting their historical validation record.
 - `phase-04-isolated-runner-mvp.md`
 - `phase-05-cyber-range-mvp.md`
 - [Phase 06 Agent integration](phase-06-agent-integration.md)
+- [Phase 07 Assurance review](phase-07-assurance-review.md)

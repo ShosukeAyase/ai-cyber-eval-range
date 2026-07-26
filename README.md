@@ -6,7 +6,7 @@ The repository also defines a disposable cyber range for Web/API, Linux, Windows
 
 ## Current phase
 
-Phase 01 through Phase 05 are complete. Phase 06 adds a proposal-only GPT Agent behind the existing Control Plane. The model can plan, select from approved tool IDs, analyze authenticated results, organize evidence, and propose remediation or revalidation. It cannot decide Scope, approve itself, receive secrets, execute commands, select network destinations, control Emergency Stop, mutate audit records, or merge patches. Every accepted tool proposal is reconstructed by the Control Plane and evaluated through the Tool Gateway and Policy Engine.
+Phase 01 through Phase 06 are complete. Phase 07 performed an independent assurance review and issued a production **NO-GO** because unresolved high risks remain. Phase 06 adds a proposal-only GPT Agent behind the existing Control Plane. The model can plan, select from approved tool IDs, analyze authenticated results, organize evidence, and propose remediation or revalidation. It cannot decide Scope, approve itself, receive secrets, execute commands, select network destinations, control Emergency Stop, mutate audit records, or merge patches. Every accepted tool proposal is reconstructed by the Control Plane and evaluated through the Tool Gateway and Policy Engine.
 
 ## Core invariants
 
@@ -82,6 +82,13 @@ python -m pytest tests/integration/test_agent_workflow.py tests/architecture/tes
 ```
 
 See [`docs/design/agent-integration.md`](docs/design/agent-integration.md).
+
+## Independent assurance review
+
+Phase 07 reviewed the complete system, executed 157 regression tests and targeted negative suites,
+and recorded a production **NO-GO**. The local synthetic MVP remains usable only within its
+documented constraints. See [`docs/assurance/assurance-report.md`](docs/assurance/assurance-report.md)
+and [`docs/assurance/go-no-go-checklist.md`](docs/assurance/go-no-go-checklist.md).
 
 ## Non-goals
 
