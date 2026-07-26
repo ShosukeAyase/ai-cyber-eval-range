@@ -20,8 +20,12 @@ jobs:
           cache: pip
       - name: Install pinned validation dependencies
         run: python -m pip install --disable-pip-version-check -e ".[dev]"
-      - name: Format and lint
-        run: python -m ruff format --check . && python -m ruff check .
+      - name: Diagnose formatter and lint differences
+        run: |
+          python -m ruff format .
+          git diff -- src/cyber_eval/identity tests/architecture/test_phase_08_identity_architecture.py tests/integration/test_phase_08_identity_boundary.py tests/unit/test_phase_08_identity.py
+          python -m ruff check .
+          git diff --exit-code
       - name: Type check
         run: python -m mypy src
       - name: Compile and validate complete repository
