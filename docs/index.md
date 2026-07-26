@@ -21,7 +21,7 @@
 - [Completed Phase 01 design](exec-plans/completed/phase-01-design.md)
 - [Completed Phase 02 repository skeleton](exec-plans/completed/phase-02-repository-skeleton.md)
 - [Completed Phase 03 Control Plane MVP](exec-plans/completed/phase-03-control-plane-mvp.md)
-- [Active Phase 04 Runner MVP](exec-plans/active/phase-04-isolated-runner-mvp.md)
+- [Completed Phase 04 Runner MVP](exec-plans/completed/phase-04-isolated-runner-mvp.md)
 - [Active plans](exec-plans/active/README.md)
 
 ## Cross-cutting documents

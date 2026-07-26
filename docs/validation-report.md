@@ -69,4 +69,14 @@ The project declares no runtime dependency and the fixed Runner workload uses on
 
 ## Phase status
 
-Phase 04 implementation, deterministic tests, documentation, offline image definition, and local completion scripts are complete. Formal Phase 04 completion remains conditional on the operator laptop successfully running Ruff, mypy, the complete pytest suite, rootless Podman preflight, and the live isolated Runner smoke test using a reviewed digest-pinned local image.
+Phase 04 is complete for the approved single-laptop local profile. Deterministic validation and the operator-laptop Ruff, mypy, complete pytest, rootless Podman, and live isolated Runner gates passed.
+
+## Operator-laptop live validation
+
+- Completed at: `2026-07-26T00:03:03.895362+00:00`
+- Digest-pinned Runner image: `sha256:c811c3181bc063a443f2b0182f503fb2a95b28efd05ae81c86c95c5da15d3fc6`
+- Rootless Podman preflight: PASS.
+- Ruff format/lint: PASS.
+- mypy strict type check: PASS.
+- Complete pytest suite: PASS.
+- Live isolated Runner smoke test: PASS.

@@ -48,11 +48,11 @@ docs/design/scoring.md
 docs/design/state-machines.md
 docs/education/cissp-mapping.md
 docs/exec-plans/active/README.md
-docs/exec-plans/active/phase-04-isolated-runner-mvp.md
 docs/exec-plans/completed/README.md
 docs/exec-plans/completed/phase-01-design.md
 docs/exec-plans/completed/phase-02-repository-skeleton.md
 docs/exec-plans/completed/phase-03-control-plane-mvp.md
+docs/exec-plans/completed/phase-04-isolated-runner-mvp.md
 docs/governance/authorization-model.md
 docs/governance/data-handling.md
 docs/governance/evidence-retention.md
@@ -154,6 +154,11 @@ src/cyber_eval/state_machine.py
 src/cyber_eval/store.py
 src/cyber_eval/stubs.py
 src/cyber_eval/tool_gateway.py
+src/cyber_eval_skeleton.egg-info/PKG-INFO
+src/cyber_eval_skeleton.egg-info/SOURCES.txt
+src/cyber_eval_skeleton.egg-info/dependency_links.txt
+src/cyber_eval_skeleton.egg-info/requires.txt
+src/cyber_eval_skeleton.egg-info/top_level.txt
 tests/__init__.py
 tests/architecture/test_docs.py
 tests/architecture/test_invariants.py
