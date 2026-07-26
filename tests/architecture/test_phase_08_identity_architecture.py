@@ -75,9 +75,7 @@ def test_identity_package_has_no_network_or_process_execution_imports() -> None:
 
 def test_identity_schemas_are_closed_and_contain_no_secret_material() -> None:
     for name in ["human-identity-claims", "workload-identity", "authorization-context"]:
-        schema = json.loads(
-            (ROOT / "schemas" / f"{name}.schema.json").read_text(encoding="utf-8")
-        )
+        schema = json.loads((ROOT / "schemas" / f"{name}.schema.json").read_text(encoding="utf-8"))
         assert schema["additionalProperties"] is False
         properties = set(schema["properties"])
         assert properties.isdisjoint(

@@ -83,9 +83,7 @@ class InMemoryReplayCache:
     def consume(self, nonce: str, expires_at: datetime) -> None:
         now = self._clock.now()
         with self._lock:
-            self._entries = {
-                key: expiry for key, expiry in self._entries.items() if expiry > now
-            }
+            self._entries = {key: expiry for key, expiry in self._entries.items() if expiry > now}
             if nonce in self._entries:
                 raise IdentityReplayError("identity nonce has already been consumed")
             self._entries[nonce] = expires_at
@@ -181,148 +179,67 @@ class DeterministicOidcVerifier:
 
     def verify(self, token: str) -> VerifiedPrincipal:
         if not self._available:
-            raise IdentityProviderUnavailableError("identity provider is unavailable")
-        segments = token.split(".")
-        if len(segments) != 3:
-            raise InvalidIdentityTokenError("token must contain three segments")
-        header = _json_object(segments[0])
-        payload = _json_object(segments[1])
-        if header.get("alg") != "HS256" or header.get("typ") != "JWT":
-            raise InvalidIdentityTokenError("unsupported or unsigned token")
-        key_id = _string(header.get("kid"), "kid")
-        key = self._verification_keys.get(key_id)
-        if key is None:
-            raise InvalidIdentityTokenError("unknown token signing key")
-        signing_input = f"{segments[0]}.{segments[1]}".encode("ascii")
-        expected_signature = hmac.new(key, signing_input, hashlib.sha256).digest()
-        actual_signature = _b64url_decode(segments[2])
-        if not hmac.compare_digest(expected_signature, actual_signature):
-            raise InvalidIdentityTokenError("token signature is invalid")
+            raise IdentityProviderUnavailableErroŠšY[]H›İšY\ˆ\È[˜]˜Z[X›HŠBˆÙYÛY[ÈHÚÙ[‹œÜ]
+‹ˆŠBˆYˆ[ŠÙYÛY[ÊHOHÎ‚ˆ˜Z\ÙH[˜[YY[]UÚÙ[‘\œ›ÜŠÚÙ[ˆ]\İÛÛZ[ˆ™YHÙYÛY[ÈŠBˆXY\ˆHÚœÛÛ—ÛØš™Xİ
+ÙYÛY[ÖÌJBˆ^[ØYHÚœÛÛ—ÛØš™Xİ
+ÙYÛY[ÖÌWJBˆYˆXY\‹™Ù]
+˜[ÈŠHOH’ÌMˆˆÜˆXY\‹™Ù]
+\ŠHOH’•Õ‚ˆ˜Z\ÙH[˜[YY[]UÚÙ[‘\œ›ÜŠ[œİ\ÜYÜˆ[œÚYÛ™YÚÙ[ˆŠBˆÙ^WÚYHÜİš[™ÊXY\‹™Ù]
+šÚYŠKšÚYŠBˆÙ^HHÙ[‹—İ™\šYšXØ][Û—ÚÙ^\Ë™Ù]
+Ù^WÚY
+BˆYˆÙ^H\È›Û™N‚ˆ˜Z\ÙH[˜[YY[]UÚÙ[‘\œ›ÜŠ[šÛ›İÛˆÚÙ[ˆÚYÛš[™ÈÙ^HŠBˆÚYÛš[™×Ú[œ]HˆÜÙYÛY[ÖÌ_KÜÙYÛY[ÖÌW_H‹™[˜ÛÙJ˜\ØÚZHŠBˆ^XİYÜÚYÛ˜]\™HHXXË›™]ÊÙ^KÚYÛš[™×Ú[œ]\ÚX‹œÚLMŠK™YÙ\İ
 
-        issuer = _string(payload.get("iss"), "iss")
-        audience = _string(payload.get("aud"), "aud")
-        subject = _string(payload.get("sub"), "sub")
-        token_id = _string(payload.get("jti"), "jti")
-        nonce = _string(payload.get("nonce"), "nonce")
-        issued_at = _timestamp(payload.get("iat"), "iat")
-        not_before = _timestamp(payload.get("nbf"), "nbf")
-        expires_at = _timestamp(payload.get("exp"), "exp")
-        now = self._clock.now()
+BˆXİX[ÜÚYÛ˜]\™HHØ\›ÙXÛÙJÙYÛY[ÖÌ—JBˆYˆ›İXXË˜ÛÛ\\™WÙYÙ\İ
+^XİYÜÚYÛ˜]\™KXİX[ÜÚYÛ˜]\™JN‚ˆ˜Z\ÙH[˜[YY[]UÚÙ[‘\œ›ÜŠÚÙ[ˆÚYÛ˜]\™H\È[˜[YŠB‚ˆ\ÜİY\ˆHÜİš[™Ê^[ØY™Ù]
+š\ÜÈŠKš\ÜÈŠBˆ]YY[˜ÙHHÜİš[™Ê^[ØY™Ù]
+˜]YŠK˜]YŠBˆİXš™XİHÜİš[™Ê^[ØY™Ù]
+œİXˆŠKœİXˆŠBˆÚÙ[—ÚYHÜİš[™Ê^[ØY™Ù]
+šHŠKšHŠBˆ›Û˜ÙHHÜİš[™Ê^[ØY™Ù]
+››Û˜ÙHŠK››Û˜ÙHŠBˆ\ÜİYYØ]Hİ[Y\İ[\
+^[ØY™Ù]
+šX]ŠKšX]ŠBˆ›İØ™Y›Ü™HHİ[Y\İ[\
+^[ØY™Ù]
+›˜™ˆŠK›˜™ˆŠBˆ^\™\×Ø]Hİ[Y\İ[\
+^[ØY™Ù]
+™^ŠK™^ŠBˆ›İÈHÙ[‹—ØÛØÚË››İÊ
+B‚ˆYˆ\ÜİY\ˆOHÙ[‹—Ù^XİYÚ\ÜİY\‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ[™^XİYÚÙ[ˆ\ÜİY\ˆŠBˆYˆ]YY[˜ÙHOHÙ[‹—Ù^XİYØ]YY[˜ÙN‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ[™^XİYÚÙ[ˆ]YY[˜ÙHŠBˆYˆ^[ØY™Ù]
+œš[˜Ú\[ÚÚ[™ŠHOHš[˜Ú\[Ú[™’SPS‹˜[YN‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ“ÒQÈ]XØÙ\È[X[ˆš[˜Ú\[ÈÛ›HŠBˆYˆ\ÜİYYØ]ˆ›İÈ
+ÈÙ[‹—ÛX^[][WØÛØÚ×ÜÚÙ]Î‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠÚÙ[ˆ\ÜİYYX][YH\È[ˆH]\™HŠBˆYˆ›İØ™Y›Ü™Hˆ›İÈ
+ÈÙ[‹—ÛX^[][WØÛØÚ×ÜÚÙ]Î‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠÚÙ[ˆ\È›İXİ]™HY]ŠBˆYˆ^\™\×Ø]H›İÎ‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠÚÙ[ˆ\È^\™YŠBˆYˆ^\™\×Ø]H›İØ™Y›Ü™N‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠÚÙ[ˆ˜[Y]H[\˜[\È[˜[YŠB‚ˆN‚ˆ›Û\ÈHœ›Ş™[œÙ]
+ˆ[X[”›ÛJ][JH›Üˆ][H[ˆÜİš[™×ÜÙ]
+^[ØY™Ù]
+œ›Û\ÈŠKœ›Û\ÈŠBˆ
+Bˆ\İÙÛXZ[ˆH\İÛXZ[ŠÜİš[™Ê^[ØY™Ù]
+\İÙÛXZ[ˆŠK\İÙÛXZ[ˆŠJBˆ[™ØYÙ[Y[ÚYÈHÜİš[™×ÜÙ]
+^[ØY™Ù]
+™[™ØYÙ[Y[ÚYÈŠK™[™ØYÙ[Y[ÚYÈŠBˆ]šXÙWÜÜİ\™HH]šXÙTÜİ\™JÜİš[™Ê^[ØY™Ù]
+™]šXÙWÜÜİ\™HŠK™]šXÙWÜÜİ\™HŠJBˆ]]Üİ™[™İH]][XØ][Û”İ™[™İ
+ˆÜİš[™Ê^[ØY™Ù]
+˜]]Üİ™[™İŠK˜]]Üİ™[™İŠBˆ
+Bˆ^Ù\˜[YQ\œ›Üˆ\È^Î‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠÚÙ[ˆÛÛZ[œÈ[ˆ[œİ\ÜYY[]HÛZ[HŠHœ›ÛH^Âˆœ™XZ×ÙÛ\ÜÈH^[ØY™Ù]
+˜œ™XZ×ÙÛ\ÜÈ‹˜[ÙJBˆYˆ›İ\Ú[œİ[˜ÙJœ™XZ×ÙÛ\ÜË›ÛÛ
+N‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ˜œ™XZ×ÙÛ\ÜÈ]\İ™H›ÛÛX[ˆŠBˆ\›Z]YÜİ™[™İÈHÂˆ]][XØ][Û”İ™[™İ”TÒS‘×Ô‘TÒTÕS•ÓQKˆ]][XØ][Û”İ™[™İ”‘PR×ÑÓTÔ×ÓQKˆBˆYˆ]]Üİ™[™İ›İ[ˆ\›Z]YÜİ™[™İÎ‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠš[X[ˆ]][XØ][Ûˆ\È›İ\Ú[™È™\Ú\İ[ŠBˆYˆœ™XZ×ÙÛ\ÜÈ[™]]Üİ™[™İ\È›İ]][XØ][Û”İ™[™İ”‘PR×ÑÓTÔ×ÓQN‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ˜œ™XZËYÛ\ÜÈY[]H™\]Z\™\Èœ™XZËYÛ\ÜÈQHŠB‚ˆÙ[‹—Ü™]›ØØ][ÛœËœ™\]Z\™WØXİ]™JİXš™XİÚÙ[—ÚY
+BˆÙ[‹—Ü™\^WØØXÚK˜ÛÛœİ[YJ›Û˜ÙK^\™\×Ø]
+Bˆ™]\›ˆ™\šYšYYš[˜Ú\[
+ˆš[˜Ú\[ÚY\İXš™XİˆÚ[™Tš[˜Ú\[Ú[™’SPS‹ˆ\İÙÛXZ[]\İÙÛXZ[‹ˆ›Û\Ï\›Û\Ëˆ[™ØYÙ[Y[ÚYÏY[™ØYÙ[Y[ÚYËˆ]][XØ]YØ][›İËˆ^\™\×Ø]Y^\™\×Ø]ˆ]][XØ][Û—Üİ™[™İX]]Üİ™[™İˆÜ™Y[X[ÚY]ÚÙ[—ÚYˆ]šXÙWÜÜİ\™OY]šXÙWÜÜİ\™Kˆœ™XZ×ÙÛ\ÜÏXœ™XZ×ÙÛ\ÜËˆ]šX]\ÏJ
+š\ÜİY\ˆ‹\ÜİY\ŠK
+˜]YY[˜ÙH‹]YY[˜ÙJJKˆ
+B‚‚˜Û\ÜÈ]\›Z[š\İXÔÜY™™U™\šYšY\‚ˆˆˆ”Ş[]XÈÔQ‘‘KÔÕ’Q™\šYšY\ˆ›ÜˆÒH[™ÛÛ˜Xİ\İÈÛ›Kˆˆˆ‚‚ˆYˆ×Ú[š]×ÊˆÙ[‹ˆ
+‹ˆÛØÚÎˆÛØÚËˆ™]›ØØ][ÛœÎˆ[“Y[[ÜT™]›ØØ][Û”™YÚ\İKˆ]˜Z[X›Nˆ›ÛÛHYKˆ
+HOˆ›Û™N‚ˆÙ[‹—ØÛØÚÈHÛØÚÂˆÙ[‹—Ü™]›ØØ][ÛœÈH™]›ØØ][ÛœÂˆÙ[‹—Ø]˜Z[X›HH]˜Z[X›B‚ˆYˆ™\šYJˆÙ[‹ˆİšYˆŞ[]XÔİšYˆ
+‹ˆ^XİYØ]YY[˜ÙNˆİ‹ˆ^XİYİ\İÙÛXZ[ˆ\İÛXZ[‹ˆ^XİYÜÜY™™WÚYˆİˆ›Û™HH›Û™Kˆ
+HOˆ™\šYšYYš[˜Ú\[‚ˆYˆ›İÙ[‹—Ø]˜Z[X›N‚ˆ˜Z\ÙHÛÜšÛØYY[]U[˜]˜Z[X›Q\œ›ÜŠÛÜšÛØYY[]HTH\È[˜]˜Z[X›HŠBˆ›İÈHÙ[‹—ØÛØÚË››İÊ
+BˆYˆ›İİšYœÜY™™WÚYœİ\İÚ]
+œÜY™™N‹ËÈŠN‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠš[˜[YÔQ‘‘HQŠBˆ^XİYÜ™Yš^HˆœÜY™™N‹ËŞÜİšY\İÙÛXZ[‹˜[Y_KÈ‚ˆYˆ›İİšYœÜY™™WÚYœİ\İÚ]
+^XİYÜ™Yš^
+N‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ”ÔQ‘‘HQÙ\È›İX]Ú\ÜÙ\Y\İÛXZ[ˆŠBˆYˆİšY\İÙÛXZ[ˆ\È›İ^XİYİ\İÙÛXZ[‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠÛÜšÛØY\İYÛXZ[ˆÜ›ÜÜÚ[™È\È[šYYŠBˆYˆİšY˜]YY[˜ÙHOH^XİYØ]YY[˜ÙN‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠÛÜšÛØY]YY[˜ÙHZ\ÛX]ÚŠBˆYˆ^XİYÜÜY™™WÚY\È›İ›Û™H[™İšYœÜY™™WÚYOH^XİYÜÜY™™WÚY‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠÛÜšÛØYÜ™Y[X[\È›İ[™È[›İ\ˆÛÜšÛØYŠBˆYˆİšYš\ÜİYYØ]ˆ›İÈ
+È[YY[JÙXÛÛ™ÏLÌ
+N‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ”Õ’Q\ÜİYYX][YH\È[ˆH]\™HŠBˆYˆİšY››İØ™Y›Ü™Hˆ›İÎ‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ”Õ’Q\È›İXİ]™HY]ŠBˆYˆİšY™^\™\×Ø]H›İÎ‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ”Õ’Q\È^\™YŠBˆYˆİšY™^\™\×Ø]HİšYš\ÜİYYØ]ˆ[YY[Jİ\œÏLJN‚ˆ˜Z\ÙHY[]PÛZ[Q\œ›ÜŠ”Õ’QY™][YH^ÙYYÈHÚÜ[]™Y›Ùš[HŠBˆÙ[‹—Ü™]›ØØ][ÛœËœ™\]Z\™WØXİ]™JİšYœÜY™™WÚYİšYœÙ\šX[Û[X™\ŠBˆ™]\›ˆ™\šYšYYš[˜Ú\[
+ˆš[˜Ú\[ÚY\İšYœÜY™™WÚYˆÚ[™Tš[˜Ú\[Ú[™•ÓÔ’ÓĞQˆ\İÙÛXZ[\İšY\İÙÛXZ[‹ˆ›Û\ÏYœ›Ş™[œÙ]
 
-        if issuer != self._expected_issuer:
-            raise IdentityClaimError("unexpected token issuer")
-        if audience != self._expected_audience:
-            raise IdentityClaimError("unexpected token audience")
-        if payload.get("principal_kind") != PrincipalKind.HUMAN.value:
-            raise IdentityClaimError("OIDC path accepts human principals only")
-        if issued_at > now + self._maximum_clock_skew:
-            raise IdentityClaimError("token issued-at time is in the future")
-        if not_before > now + self._maximum_clock_skew:
-            raise IdentityClaimError("token is not active yet")
-        if expires_at <= now:
-            raise IdentityClaimError("token is expired")
-        if expires_at <= not_before:
-            raise IdentityClaimError("token validity interval is invalid")
+Kˆ[™ØYÙ[Y[ÚYÏYœ›Ş™[œÙ]
 
-        try:
-            roles = frozenset(
-                HumanRole(item) for item in _string_set(payload.get("roles"), "roles")
-            )
-            trust_domain = TrustDomain(_string(payload.get("trust_domain"), "trust_domain"))
-            engagement_ids = _string_set(payload.get("engagement_ids"), "engagement_ids")
-            device_posture = DevicePosture(
-                _string(payload.get("device_posture"), "device_posture")
-            )
-            auth_strength = AuthenticationStrength(
-                _string(payload.get("auth_strength"), "auth_strength")
-            )
-        except ValueError as exc:
-            raise IdentityClaimError("token contains an unsupported identity claim") from exc
-        break_glass = payload.get("break_glass", False)
-        if not isinstance(break_glass, bool):
-            raise IdentityClaimError("break_glass must be boolean")
-        permitted_strengths = {
-            AuthenticationStrength.PHISHING_RESISTANT_MFA,
-            AuthenticationStrength.BREAK_GLASS_MFA,
-        }
-        if auth_strength not in permitted_strengths:
-            raise IdentityClaimError("human authentication is not phishing resistant")
-        if break_glass and auth_strength is not AuthenticationStrength.BREAK_GLASS_MFA:
-            raise IdentityClaimError("break-glass identity requires break-glass MFA")
-
-        self._revocations.require_active(subject, token_id)
-        self._replay_cache.consume(nonce, expires_at)
-        return VerifiedPrincipal(
-            principal_id=subject,
-            kind=PrincipalKind.HUMAN,
-            trust_domain=trust_domain,
-            roles=roles,
-            engagement_ids=engagement_ids,
-            authenticated_at=now,
-            expires_at=expires_at,
-            authentication_strength=auth_strength,
-            credential_id=token_id,
-            device_posture=device_posture,
-            break_glass=break_glass,
-            attributes=(("issuer", issuer), ("audience", audience)),
-        )
-
-
-class DeterministicSpiffeVerifier:
-    """Synthetic SPIFFE/SVID verifier for CI and contract tests only."""
-
-    def __init__(
-        self,
-        *,
-        clock: Clock,
-        revocations: InMemoryRevocationRegistry,
-        available: bool = True,
-    ) -> None:
-        self._clock = clock
-        self._revocations = revocations
-        self._available = available
-
-    def verify(
-        self,
-        svid: SyntheticSvid,
-        *,
-        expected_audience: str,
-        expected_trust_domain: TrustDomain,
-        expected_spiffe_id: str | None = None,
-    ) -> VerifiedPrincipal:
-        if not self._available:
-            raise WorkloadIdentityUnavailableError("workload identity API is unavailable")
-        now = self._clock.now()
-        if not svid.spiffe_id.startswith("spiffe://"):
-            raise IdentityClaimError("invalid SPIFFE ID")
-        expected_prefix = f"spiffe://{svid.trust_domain.value}/"
-        if not svid.spiffe_id.startswith(expected_prefix):
-            raise IdentityClaimError("SPIFFE ID does not match asserted trust domain")
-        if svid.trust_domain is not expected_trust_domain:
-            raise IdentityClaimError("workload trust-domain crossing is denied")
-        if svid.audience != expected_audience:
-            raise IdentityClaimError("workload audience mismatch")
-        if expected_spiffe_id is not None and svid.spiffe_id != expected_spiffe_id:
-            raise IdentityClaimError("workload credential is bound to another workload")
-        if svid.issued_at > now + timedelta(seconds=30):
-            raise IdentityClaimError("SVID issued-at time is in the future")
-        if svid.not_before > now:
-            raise IdentityClaimError("SVID is not active yet")
-        if svid.expires_at <= now:
-            raise IdentityClaimError("SVID is expired")
-        if svid.expires_at - svid.issued_at > timedelta(hours=1):
-            raise IdentityClaimError("SVID lifetime exceeds the short-lived profile")
-        self._revocations.require_active(svid.spiffe_id, svid.serial_number)
-        return VerifiedPrincipal(
-            principal_id=svid.spiffe_id,
-            kind=PrincipalKind.WORKLOAD,
-            trust_domain=svid.trust_domain,
-            roles=frozenset(),
-            engagement_ids=frozenset(),
-            authenticated_at=now,
-            expires_at=svid.expires_at,
-            authentication_strength=AuthenticationStrength.WORKLOAD_MTLS,
-            credential_id=svid.serial_number,
-            device_posture=DevicePosture.COMPLIANT,
-            attributes=(("audience", svid.audience),),
-        )
+Kˆ]][XØ]YØ][›İËˆ^\™\×Ø]\İšY™^\™\×Ø]ˆ]][XØ][Û—Üİ™[™İP]][XØ][Û”İ™[™İ•ÓÔ’ÓĞQÓUËˆÜ™Y[X[ÚY\İšYœÙ\šX[Û[X™\‹ˆ]šXÙWÜÜİ\™OQ]šXÙTÜİ\™KÓÓTPS•ˆ]šX]\ÏJ
+˜]YY[˜ÙH‹İšY˜]YY[˜ÙJK
+Kˆ
+B

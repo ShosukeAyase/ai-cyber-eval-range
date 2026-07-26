@@ -134,10 +134,13 @@ def test_state_change_uses_verified_principal_and_abac_context() -> None:
         environment=EnvironmentClass.STAGING,
         device_posture=DevicePosture.COMPLIANT,
     )
-    assert boundary.authorize_state_change(
-        context,
-        required_roles={HumanRole.REQUESTER},
-    ) is principal
+    assert (
+        boundary.authorize_state_change(
+            context,
+            required_roles={HumanRole.REQUESTER},
+        )
+        is principal
+    )
     assert audit.events()[-1].event_type == "state_change.authorize"
 
 

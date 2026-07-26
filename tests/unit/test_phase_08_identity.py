@@ -137,9 +137,11 @@ def test_unsigned_or_tampered_token_is_rejected() -> None:
     header_segment, payload_segment, signature_segment = token.split(".")
     header = json.loads(base64.urlsafe_b64decode(header_segment + "=="))
     header["alg"] = "none"
-    unsigned_header = base64.urlsafe_b64encode(
-        json.dumps(header, separators=(",", ":")).encode()
-    ).rstrip(b"=").decode()
+    unsigned_header = (
+        base64.urlsafe_b64encode(json.dumps(header, separators=(",", ":")).encode())
+        .rstrip(b"=")
+        .decode()
+    )
     with pytest.raises(InvalidIdentityTokenError, match="unsupported or unsigned"):
         verifier(clock).verify(f"{unsigned_header}.{payload_segment}.{signature_segment}")
 
@@ -178,9 +180,7 @@ def test_idp_outage_fails_closed() -> None:
 
 def test_non_phishing_resistant_human_authentication_is_rejected() -> None:
     clock = FrozenClock(NOW)
-    token = issue(
-        claims(authentication_strength=AuthenticationStrength.WORKLOAD_MTLS)
-    )
+    token = issue(claims(authentication_strength=AuthenticationStrength.WORKLOAD_MTLS))
     with pytest.raises(IdentityClaimError, match="phishing resistant"):
         verifier(clock).verify(token)
 
