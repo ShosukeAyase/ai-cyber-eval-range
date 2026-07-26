@@ -70,10 +70,12 @@ class PodmanCommandBuilder:
         *,
         container_name: str,
         job_path: Path,
+        workspace: Path,
     ) -> tuple[str, ...]:
         limits = spec.profile.limits
         source = str(spec.repository.source_path)
         job_file = str(job_path)
+        workspace_path = str(workspace)
         return (
             self.executable,
             "create",
@@ -104,7 +106,7 @@ class PodmanCommandBuilder:
             f"--ulimit=fsize={limits.max_file_bytes}:{limits.max_file_bytes}",
             f"--ulimit=nofile={limits.open_files}:{limits.open_files}",
             "--stop-timeout=1",
-            (f"--tmpfs=/workspace:rw,noexec,nosuid,nodev,size={limits.workspace_bytes},mode=1777"),
+            f"--volume={workspace_path}:/workspace:rw,noexec,nosuid,nodev",
             f"--mount=type=bind,src={source},dst=/input,ro=true",
             f"--mount=type=bind,src={job_file},dst=/job.json,ro=true",
             "--workdir=/workspace",
@@ -127,14 +129,6 @@ class PodmanCommandBuilder:
 
     def start(self, container_name: str) -> tuple[str, ...]:
         return (self.executable, "start", "--attach", container_name)
-
-    def copy_evidence(self, container_name: str, destination: Path) -> tuple[str, ...]:
-        return (
-            self.executable,
-            "cp",
-            f"{container_name}:/workspace/evidence.json",
-            str(destination),
-        )
 
     def kill(self, container_name: str) -> tuple[str, ...]:
         return (self.executable, "kill", "--signal=KILL", container_name)
@@ -187,7 +181,12 @@ class PodmanRunnerRuntime(RunnerRuntime):
         )
         container_name = f"ce-{job_id}"
         created = self._executor.run(
-            self._builder.create(spec, container_name=container_name, job_path=job_path),
+            self._builder.create(
+                spec,
+                container_name=container_name,
+                job_path=job_path,
+                workspace=workspace,
+            ),
             timeout_seconds=30,
         )
         if created.returncode != 0:
@@ -216,12 +215,8 @@ class PodmanRunnerRuntime(RunnerRuntime):
         if started.returncode != 0:
             raise RunnerEvidenceError(started.stderr.strip() or "fixed workload failed")
         evidence_path = workspace / "evidence.json"
-        copied = self._executor.run(
-            self._builder.copy_evidence(container_name, evidence_path),
-            timeout_seconds=30,
-        )
-        if copied.returncode != 0 or not evidence_path.is_file():
-            raise RunnerEvidenceError(copied.stderr.strip() or "evidence copy failed")
+        if not evidence_path.is_file():
+            raise RunnerEvidenceError("fixed workload did not produce evidence")
         evidence = evidence_path.read_bytes()
         if len(evidence) > spec.profile.limits.evidence_bytes:
             raise RunnerEvidenceError("evidence exceeds the approved byte limit")

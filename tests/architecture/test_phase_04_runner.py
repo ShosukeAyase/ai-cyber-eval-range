@@ -50,6 +50,7 @@ def test_podman_plan_enforces_isolation_and_resource_limits(tmp_path) -> None:
         spec,
         container_name="ce-job-plan-check",
         job_path=tmp_path / "job.json",
+        workspace=tmp_path / "workspace",
     )
     joined = " ".join(arguments)
     for required in [
@@ -76,7 +77,7 @@ def test_podman_plan_enforces_isolation_and_resource_limits(tmp_path) -> None:
         "--pids-limit=64",
         "--ulimit=fsize=",
         "--ulimit=nofile=",
-        "--tmpfs=/workspace:",
+        ":/workspace:rw,noexec,nosuid,nodev",
         "dst=/input,ro=true",
         "dst=/job.json,ro=true",
     ]:
@@ -92,7 +93,7 @@ def test_podman_plan_enforces_isolation_and_resource_limits(tmp_path) -> None:
         "/audit",
     ]:
         assert forbidden not in joined
-    assert joined.count("--tmpfs=") == 1
+    assert joined.count("--tmpfs=") == 0
     app.close("eng-control-mvp")
 
 
