@@ -1,0 +1,12 @@
+principal_id: user-requester
+principal_kind: human
+trust_domain: management
+roles:
+  - requester
+engagement_id: eng-phase08
+action: engagement.create
+environment: staging
+device_posture: compliant
+credential_id: token-synthetic-001
+expires_at: "2026-07-26T12:05:00Z"
+elevation_grant_id: null

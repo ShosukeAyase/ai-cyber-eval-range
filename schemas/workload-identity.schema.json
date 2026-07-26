@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyber-eval.invalid/schemas/workload-identity.schema.json",
+  "title": "Workload Identity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spiffe_id",
+    "serial_number",
+    "audience",
+    "trust_domain",
+    "issued_at",
+    "not_before",
+    "expires_at"
+  ],
+  "properties": {
+    "spiffe_id": {"type": "string", "pattern": "^spiffe://[a-z0-9-]+/.+$"},
+    "serial_number": {"type": "string", "minLength": 1},
+    "audience": {"type": "string", "minLength": 1},
+    "trust_domain": {
+      "enum": ["control", "execution", "range", "evidence", "management"]
+    },
+    "issued_at": {"type": "string", "format": "date-time"},
+    "not_before": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"}
+  }
+}
