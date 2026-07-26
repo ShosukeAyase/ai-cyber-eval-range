@@ -26,6 +26,31 @@ jobs:
         run: python -m mypy src
       - name: Compile
         run: python -m compileall -q src scripts tests
+      - name: Calculate Phase 05 baseline digests
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from cyber_eval.range.catalog import hash_tree
+
+          root = Path("range-scenarios")
+          report = {}
+          for package in sorted(path for path in root.iterdir() if path.is_dir()):
+              manifest = json.loads((package / "scenario.json").read_text(encoding="utf-8"))
+              report[package.name] = {
+                  "declared": manifest["reset"]["baseline_digest"],
+                  "actual": f"sha256:{hash_tree(package / 'synthetic')}",
+              }
+          Path("phase-05-digests.json").write_text(
+              json.dumps(report, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase-05-digests
+          path: phase-05-digests.json
+          if-no-files-found: error
       - name: Generate pytest diagnostics
         run: python -m pytest -q > phase-08-pytest.txt 2>&1 || true
       - uses: actions/upload-artifact@v4
