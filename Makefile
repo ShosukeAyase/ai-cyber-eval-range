@@ -1,4 +1,4 @@
-.PHONY: validate test schemas architecture policy integration runner docs demo compile format-check lint typecheck optional-tools
+.PHONY: validate test schemas architecture policy integration runner range docs demo compile format-check lint typecheck optional-tools
 
 validate: compile test
 
@@ -22,6 +22,9 @@ integration:
 
 runner:
 	python3 -m pytest tests/integration/test_isolated_runner_mvp.py tests/architecture/test_phase_04_runner.py
+
+range:
+	python3 -m pytest tests/integration/test_cyber_range_mvp.py tests/architecture/test_phase_05_range.py
 
 docs:
 	python3 -m pytest tests/architecture/test_docs.py

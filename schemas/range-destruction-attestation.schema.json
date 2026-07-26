@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/range-destruction-attestation.schema.json",
+  "title": "Range Destruction Attestation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "instance_id", "engagement_id", "scenario_id", "destroyed_at",
+    "instance_root_removed", "active_runtime_removed", "credential_material_present"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "instance_id": {"type": "string", "pattern": "^rng-[a-z0-9-]{3,64}$"},
+    "engagement_id": {"type": "string", "pattern": "^eng-[a-z0-9-]{3,64}$"},
+    "scenario_id": {"type": "string", "pattern": "^scn-[a-z0-9-]{3,64}$"},
+    "destroyed_at": {"type": "string", "format": "date-time"},
+    "instance_root_removed": {"const": true},
+    "active_runtime_removed": {"const": true},
+    "credential_material_present": {"const": false}
+  }
+}

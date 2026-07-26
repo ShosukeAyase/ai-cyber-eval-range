@@ -9,11 +9,11 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def load_schema(name: str):
-    return json.loads((ROOT / "schemas" / f"{name}.schema.json").read_text())
+    return json.loads((ROOT / "schemas" / f"{name}.schema.json").read_text(encoding="utf-8"))
 
 
 def load_yaml(name: str):
-    return yaml.safe_load((ROOT / "examples" / name).read_text())
+    return yaml.safe_load((ROOT / "examples" / name).read_text(encoding="utf-8"))
 
 
 def schema_names() -> set[str]:
@@ -23,7 +23,7 @@ def schema_names() -> set[str]:
 
 def test_schemas_are_valid_draft_2020_12():
     for path in (ROOT / "schemas").glob("*.schema.json"):
-        schema = json.loads(path.read_text())
+        schema = json.loads(path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
 
 
@@ -43,7 +43,7 @@ def test_every_schema_has_a_valid_synthetic_example():
 
 def test_closed_objects_at_root():
     for path in (ROOT / "schemas").glob("*.schema.json"):
-        schema = json.loads(path.read_text())
+        schema = json.loads(path.read_text(encoding="utf-8"))
         assert schema["additionalProperties"] is False, path
 
 
@@ -96,3 +96,24 @@ def test_policy_input_requires_engagement_id():
     instance.pop("engagement_id")
     with pytest.raises(ValidationError):
         Draft202012Validator(load_schema("policy-input")).validate(instance)
+
+
+def test_all_phase_05_scenario_manifests_validate():
+    validator = Draft202012Validator(load_schema("range-scenario"))
+    for path in (ROOT / "range-scenarios").glob("*/scenario.json"):
+        validator.validate(json.loads(path.read_text(encoding="utf-8")))
+
+
+def test_range_action_rejects_raw_destination_and_command_fields():
+    instance = load_yaml("range-action.yaml")
+    validator = Draft202012Validator(load_schema("range-action"))
+    for field, value in {
+        "url": "not-accepted",
+        "ip": "not-accepted",
+        "command": "not-accepted",
+        "path": "not-accepted",
+    }.items():
+        modified = dict(instance)
+        modified[field] = value
+        with pytest.raises(ValidationError):
+            validator.validate(modified)

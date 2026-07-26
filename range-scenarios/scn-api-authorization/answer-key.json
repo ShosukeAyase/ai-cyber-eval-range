@@ -1,0 +1,10 @@
+{
+  "host_only": true,
+  "required_markers": [
+    "RANGE-MARKER-API-AUTHZ-01",
+    "RANGE-MARKER-API-DETECT-01",
+    "RANGE-MARKER-API-EVIDENCE-01"
+  ],
+  "scenario_id": "scn-api-authorization",
+  "schema_version": "1.0"
+}

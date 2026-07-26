@@ -107,7 +107,7 @@ def test_runner_limits_reject_unbounded_profiles() -> None:
 
 
 def test_runner_source_does_not_use_shell_strings() -> None:
-    text = (ROOT / "src/cyber_eval/runner/podman.py").read_text()
+    text = (ROOT / "src/cyber_eval/runner/podman.py").read_text(encoding="utf-8")
     assert "shell=False" in text
     assert "shell=True" not in text
     assert "--pull=never" in text
@@ -121,15 +121,15 @@ def _approved_id(app) -> str:
 
 
 def test_offline_runner_image_has_no_package_or_network_build_step() -> None:
-    text = (ROOT / "runner-image/Containerfile").read_text()
+    text = (ROOT / "runner-image/Containerfile").read_text(encoding="utf-8")
     assert "ARG BASE_IMAGE" in text
     assert "USER 65532:65532" in text
     assert "COPY src/cyber_eval" in text
     for forbidden in ["RUN ", "curl ", "wget ", "pip install", "apt ", "dnf ", "apk "]:
         assert forbidden not in text
-    ignore = (ROOT / ".containerignore").read_text()
+    ignore = (ROOT / ".containerignore").read_text(encoding="utf-8")
     assert ignore.startswith("*\n")
     assert "!src/cyber_eval/**" in ignore
-    script = (ROOT / "scripts/build_phase4_runner_image.ps1").read_text()
+    script = (ROOT / "scripts/build_phase4_runner_image.ps1").read_text(encoding="utf-8")
     assert "--pull-never" in script
     assert "--network=none" in script

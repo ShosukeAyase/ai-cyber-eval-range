@@ -8,7 +8,7 @@ Phase 04 adds a disposable execution-plane MVP for synthetic repositories only. 
 
 The real local adapter uses rootless Podman on the same laptop. Windows uses the Podman Desktop WSL2 machine. Execution requires a digest-pinned Runner image already present in local container storage. Runtime creation uses `--pull=never`; no registry or package source is contacted during a job.
 
-The deterministic runtime under `tests/` exercises orchestration, workload, evidence, Kill Switch, and destruction behavior without claiming container isolation. A live Podman smoke test remains an operator gate.
+The deterministic runtime under `tests/` exercises orchestration, workload, evidence, Kill Switch, and destruction behavior without claiming container isolation. The operator-laptop rootless Podman smoke test passed during Phase 04 completion.
 
 ## Fixed job lifecycle
 
@@ -17,10 +17,10 @@ The deterministic runtime under `tests/` exercises orchestration, workload, evid
 3. Commit the authorization audit event and job record before runtime creation.
 4. Create a rootless container with a read-only root filesystem and no network.
 5. Mount the synthetic repository and job manifest read-only.
-6. Provide one writable size-limited tmpfs at `/workspace`.
+6. Bind one disposable host-staged directory at `/workspace` with `rw,noexec,nosuid,nodev`.
 7. Run only `python -P -m cyber_eval.runner.workload`.
 8. Read files, perform AST-based static analysis, run built-in predefined tests, and write JSON evidence.
-9. Copy evidence to a host-controlled directory that was never mounted into the Runner.
+9. Read the bounded evidence from the disposable host-staged workspace after the workload exits.
 10. Force-remove the container and host staging directory, then record destruction attestation.
 
 ## Isolation controls
@@ -33,7 +33,7 @@ The Podman plan explicitly sets:
 - `--cap-drop=ALL` and `--security-opt=no-new-privileges`;
 - CPU, memory, process, open-file, single-file, wall-time, workspace, evidence, and source-file limits;
 - read-only input and job mounts; and
-- one writable `/workspace` tmpfs with `noexec`, `nosuid`, and `nodev`.
+- one disposable host-staged `/workspace` bind mount with `rw,noexec,nosuid,nodev`.
 
 The plan never uses privileged mode, host network, host PID, Docker socket mounts, Kubernetes service-account tokens, cloud metadata routes, or an audit database mount.
 
@@ -64,6 +64,6 @@ The Runner receives no path, mount, token, or API for the SQLite audit store. Ev
 ## Limitations
 
 - A laptop owner can still alter Podman, the host filesystem, and local audit/evidence.
-- Rootless Podman and cgroup resource enforcement must be verified on the operator laptop.
+- Rootless Podman and the live isolated Runner smoke test were verified on the operator laptop; production-grade host resistance remains out of scope.
 - The digest-pinned image must be created and reviewed through a separate offline artifact process.
 - This is not the production microVM, independent observability, or WORM profile.

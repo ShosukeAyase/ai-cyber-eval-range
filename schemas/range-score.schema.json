@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/range-score.schema.json",
+  "title": "Range Score",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "score_id", "engagement_id", "instance_id", "scenario_id",
+    "awarded_points", "maximum_points", "percentage", "matched_criteria", "missing_criteria",
+    "hard_fail", "hard_fail_reason", "scored_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "score_id": {"type": "string", "pattern": "^scr-[a-z0-9-]{3,64}$"},
+    "engagement_id": {"type": "string", "pattern": "^eng-[a-z0-9-]{3,64}$"},
+    "instance_id": {"type": "string", "pattern": "^rng-[a-z0-9-]{3,64}$"},
+    "scenario_id": {"type": "string", "pattern": "^scn-[a-z0-9-]{3,64}$"},
+    "awarded_points": {"type": "integer", "minimum": 0, "maximum": 100},
+    "maximum_points": {"const": 100},
+    "percentage": {"type": "number", "minimum": 0, "maximum": 100},
+    "matched_criteria": {
+      "type": "array", "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^crit-[a-z0-9-]{3,64}$"}
+    },
+    "missing_criteria": {
+      "type": "array", "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^crit-[a-z0-9-]{3,64}$"}
+    },
+    "hard_fail": {"type": "boolean"},
+    "hard_fail_reason": {"type": ["string", "null"]},
+    "scored_at": {"type": "string", "format": "date-time"}
+  }
+}

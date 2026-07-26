@@ -67,3 +67,23 @@ class RunnerEvidenceError(RunnerError):
 
 class ResourceLimitError(RunnerError):
     """Raised when a Runner request exceeds the approved resource profile."""
+
+
+class CyberRangeError(ControlPlaneError):
+    """Base class for synthetic Cyber Range failures."""
+
+
+class ScenarioCatalogError(CyberRangeError):
+    """Raised when a scenario package or answer key is invalid."""
+
+
+class RangeStateError(CyberRangeError):
+    """Raised when a range lifecycle operation violates state."""
+
+
+class RangeStopConditionError(CyberRangeError):
+    """Raised when a scenario stop condition is triggered."""
+
+
+class RangeScoringError(CyberRangeError):
+    """Raised when observations cannot be scored safely."""

@@ -1,0 +1,6 @@
+{
+  "deployable": false,
+  "provider": "synthetic-only",
+  "public_read": true,
+  "resource": "demo-storage"
+}

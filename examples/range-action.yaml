@@ -1,0 +1,6 @@
+schema_version: "1.0"
+action_id: act-web-records
+engagement_id: eng-control-mvp
+instance_id: rng-web-local
+operation_id: rop-web-inspect-records
+asset_id: ast-web-records

@@ -148,3 +148,18 @@ explicit architecture approval.
 ## 11. Phase 04 local Runner profile
 
 The local execution-plane MVP uses a rootless Podman container with no network, private PID namespace, read-only root, one bounded writable workspace, fixed object-ID contracts, fixed workload entrypoint, host-controlled evidence extraction, independent Kill Switch enforcement, and unconditional destruction. It is a single-laptop development profile and does not replace the production microVM or independent observability design.
+
+## 12. Phase 05 local Cyber Range profile
+
+Phase 05 adds a synthetic, filesystem-backed cyber-range trust domain on the same laptop. It
+creates no listener and imports no network client. Each scenario is an immutable reviewed package
+with registered asset and operation IDs, harmless `RANGE-MARKER-*` evidence, a verified baseline
+digest, stop conditions, reset/destruction requirements, and a host-side answer key.
+
+The local profile represents web/API authorization, dependency, IaC, Kubernetes RBAC, indirect
+prompt-injection, and scope-redirection weaknesses without running real vulnerable services.
+Each instance has a disjoint disposable state root. Scope/ROE and independent approvals mediate
+create, reset, and destroy operations; audit insertion occurs before runtime creation or action.
+Unknown operations, external communication, cross-scenario access, and undeclared assets fail
+closed. Reset recreates the exact baseline digest and destruction removes the complete instance
+root while preserving only Control Plane audit, score, and destruction records.

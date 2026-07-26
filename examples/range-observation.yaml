@@ -1,0 +1,11 @@
+schema_version: "1.0"
+observation_id: obs-web-records
+engagement_id: eng-control-mvp
+instance_id: rng-web-local
+scenario_id: scn-web-access-control
+operation_id: rop-web-inspect-records
+asset_id: ast-web-records
+markers:
+  - RANGE-MARKER-WEB-AUTHZ-01
+  - RANGE-MARKER-WEB-DETECT-01
+observed_at: "2026-07-26T00:00:00Z"

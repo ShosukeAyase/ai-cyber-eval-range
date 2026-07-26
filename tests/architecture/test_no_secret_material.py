@@ -17,7 +17,7 @@ def test_no_secret_material_patterns():
         for path in root.rglob("*"):
             if not path.is_file() or path.suffix in {".pyc"}:
                 continue
-            text = path.read_text(errors="ignore")
+            text = path.read_text(encoding="utf-8", errors="ignore")
             for name, pattern in PATTERNS.items():
                 if pattern.search(text):
                     findings.append((str(path.relative_to(ROOT)), name))

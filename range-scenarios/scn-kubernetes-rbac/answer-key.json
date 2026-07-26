@@ -1,0 +1,10 @@
+{
+  "host_only": true,
+  "required_markers": [
+    "RANGE-MARKER-K8S-RBAC-01",
+    "RANGE-MARKER-K8S-DETECT-01",
+    "RANGE-MARKER-K8S-EVIDENCE-01"
+  ],
+  "scenario_id": "scn-kubernetes-rbac",
+  "schema_version": "1.0"
+}

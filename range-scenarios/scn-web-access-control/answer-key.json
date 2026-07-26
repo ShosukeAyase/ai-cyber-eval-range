@@ -1,0 +1,10 @@
+{
+  "host_only": true,
+  "required_markers": [
+    "RANGE-MARKER-WEB-AUTHZ-01",
+    "RANGE-MARKER-WEB-DETECT-01",
+    "RANGE-MARKER-WEB-EVIDENCE-01"
+  ],
+  "scenario_id": "scn-web-access-control",
+  "schema_version": "1.0"
+}

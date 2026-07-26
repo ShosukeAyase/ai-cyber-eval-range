@@ -1,0 +1,12 @@
+{
+  "roles": {
+    "admin": [
+      "read",
+      "update"
+    ],
+    "viewer": [
+      "read",
+      "export-demo-marker"
+    ]
+  }
+}

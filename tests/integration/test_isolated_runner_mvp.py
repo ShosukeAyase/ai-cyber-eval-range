@@ -28,7 +28,7 @@ def test_runner_collects_evidence_and_destroys_all_ephemeral_state(tmp_path) -> 
     assert runtime.active_job_ids(ENGAGEMENT_ID) == ()
     assert not (tmp_path / "runtime" / "job-local-static").exists()
     evidence_path = evidence_root / ENGAGEMENT_ID / "job-local-static" / "evidence.json"
-    evidence = json.loads(evidence_path.read_text())
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
     assert evidence["repository_id"] == "repo-local-synthetic"
     assert {item["test_id"] for item in evidence["tests"]} == {
         "defined-python-parse",

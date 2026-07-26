@@ -11,3 +11,6 @@ artifacts/
 *.db
 *.sqlite
 *.sqlite3
+
+
+*.egg-info/

@@ -126,6 +126,9 @@ class WriteOperation(StrEnum):
     CLEAR_EMERGENCY_STOP = "clear_emergency_stop"
     START_RUNNER_JOB = "start_runner_job"
     TERMINATE_RUNNER_JOB = "terminate_runner_job"
+    CREATE_RANGE_INSTANCE = "create_range_instance"
+    RESET_RANGE_INSTANCE = "reset_range_instance"
+    DESTROY_RANGE_INSTANCE = "destroy_range_instance"
 
 
 class ResourceScope(StrEnum):

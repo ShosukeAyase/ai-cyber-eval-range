@@ -1,0 +1,7 @@
+{
+  "advisory_id": "SYNTH-2026-0001",
+  "affected": "1.2.3",
+  "fixed": "1.2.4",
+  "package": "synthetic-range-parser",
+  "payload": null
+}

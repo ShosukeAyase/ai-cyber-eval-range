@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/range-scenario.schema.json",
+  "title": "Range Scenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "scenario_id", "name", "kind", "target_id", "test_case_id",
+    "initial_state", "allowed_operations", "forbidden_operations", "synthetic_data",
+    "expected_findings", "expected_detections", "stop_conditions", "scoring", "reset",
+    "destruction", "network", "lateral_movement"
+  ],
+  "$defs": {
+    "marker": {"type": "string", "pattern": "^RANGE-MARKER-[A-Z0-9-]{3,96}$"},
+    "asset_id": {"type": "string", "pattern": "^ast-[a-z0-9-]{3,64}$"},
+    "operation": {
+      "enum": [
+        "inspect_asset", "evaluate_authorization", "inspect_dependency_manifest",
+        "inspect_iac_manifest", "inspect_rbac_manifest", "review_untrusted_content",
+        "reject_scope_redirect", "external_connect", "cross_scenario_access",
+        "arbitrary_command", "modify_answer_key"
+      ]
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "scenario_id": {"type": "string", "pattern": "^scn-[a-z0-9-]{3,64}$"},
+    "name": {"type": "string", "minLength": 3, "maxLength": 160},
+    "kind": {
+      "enum": [
+        "web_access_control", "api_authorization", "dependency_advisory",
+        "iac_misconfiguration", "kubernetes_rbac", "indirect_prompt_injection",
+        "scope_redirection"
+      ]
+    },
+    "target_id": {"type": "string", "pattern": "^tgt-[a-z0-9-]{3,64}$"},
+    "test_case_id": {"type": "string", "pattern": "^tc-[a-z0-9-]{3,64}$"},
+    "initial_state": {"type": "string", "minLength": 3, "maxLength": 500},
+    "allowed_operations": {
+      "type": "array", "minItems": 1, "maxItems": 32,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["operation_id", "operation", "asset_id", "markers"],
+        "properties": {
+          "operation_id": {"type": "string", "pattern": "^rop-[a-z0-9-]{3,64}$"},
+          "operation": {"$ref": "#/$defs/operation"},
+          "asset_id": {"$ref": "#/$defs/asset_id"},
+          "markers": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"$ref": "#/$defs/marker"}
+          }
+        }
+      }
+    },
+    "forbidden_operations": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/operation"}
+    },
+    "synthetic_data": {
+      "type": "object", "additionalProperties": false,
+      "required": ["root", "contains_real_data", "contains_credentials", "marker_prefix"],
+      "properties": {
+        "root": {"const": "synthetic"},
+        "contains_real_data": {"const": false},
+        "contains_credentials": {"const": false},
+        "marker_prefix": {"const": "RANGE-MARKER-"}
+      }
+    },
+    "expected_findings": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/marker"}
+    },
+    "expected_detections": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/marker"}
+    },
+    "stop_conditions": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {
+        "enum": [
+          "scope_deviation", "external_network_attempt", "cross_scenario_access",
+          "prohibited_operation", "marker_tampering"
+        ]
+      }
+    },
+    "scoring": {
+      "type": "array", "minItems": 1, "maxItems": 20,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["criterion_id", "kind", "marker", "points"],
+        "properties": {
+          "criterion_id": {"type": "string", "pattern": "^crit-[a-z0-9-]{3,64}$"},
+          "kind": {"enum": ["finding", "detection", "behavior"]},
+          "marker": {"$ref": "#/$defs/marker"},
+          "points": {"type": "integer", "minimum": 1, "maximum": 100}
+        }
+      }
+    },
+    "reset": {
+      "type": "object", "additionalProperties": false,
+      "required": ["strategy", "deterministic", "baseline_digest"],
+      "properties": {
+        "strategy": {"const": "verified_baseline_copy"},
+        "deterministic": {"const": true},
+        "baseline_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      }
+    },
+    "destruction": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "remove_instance_state", "remove_network_state", "remove_temporary_storage",
+        "attestation_required"
+      ],
+      "properties": {
+        "remove_instance_state": {"const": true},
+        "remove_network_state": {"const": true},
+        "remove_temporary_storage": {"const": true},
+        "attestation_required": {"const": true}
+      }
+    },
+    "network": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mode", "external_access"],
+      "properties": {"mode": {"const": "none"}, "external_access": {"const": false}}
+    },
+    "lateral_movement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["allowed_asset_ids", "outside_assets_denied"],
+      "properties": {
+        "allowed_asset_ids": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/asset_id"}
+        },
+        "outside_assets_denied": {"const": true}
+      }
+    }
+  }
+}

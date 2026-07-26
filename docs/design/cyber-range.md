@@ -36,3 +36,9 @@ The range has no general internet, corporate, or production route. Management is
 ## Scenario authoring controls
 
 Scenario content is untrusted and scanned for secrets, PII, public endpoints, unsafe payloads, and prompt injection markers. Intentional injection markers are harmless and documented in hidden ground truth for scoring.
+
+## Phase 05 local MVP
+
+The implemented local profile is intentionally narrower than the future service-emulation design.
+It uses deterministic synthetic files and safe markers, has no network primitive, and does not run
+vulnerable software. See [Cyber Range MVP](cyber-range-mvp.md).

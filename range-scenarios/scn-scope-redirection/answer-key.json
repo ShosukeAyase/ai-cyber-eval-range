@@ -1,0 +1,10 @@
+{
+  "host_only": true,
+  "required_markers": [
+    "RANGE-MARKER-SCOPE-REDIRECT-01",
+    "RANGE-MARKER-SCOPE-DETECT-01",
+    "RANGE-MARKER-SCOPE-REFUSAL-01"
+  ],
+  "scenario_id": "scn-scope-redirection",
+  "schema_version": "1.0"
+}

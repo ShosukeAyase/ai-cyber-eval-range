@@ -1,0 +1,95 @@
+{
+  "allowed_operations": [
+    {
+      "asset_id": "ast-api-matrix",
+      "markers": [
+        "RANGE-MARKER-API-AUTHZ-01",
+        "RANGE-MARKER-API-DETECT-01"
+      ],
+      "operation": "evaluate_authorization",
+      "operation_id": "rop-api-evaluate-matrix"
+    },
+    {
+      "asset_id": "ast-api-audit",
+      "markers": [
+        "RANGE-MARKER-API-EVIDENCE-01"
+      ],
+      "operation": "inspect_asset",
+      "operation_id": "rop-api-inspect-audit"
+    }
+  ],
+  "destruction": {
+    "attestation_required": true,
+    "remove_instance_state": true,
+    "remove_network_state": true,
+    "remove_temporary_storage": true
+  },
+  "expected_detections": [
+    "RANGE-MARKER-API-DETECT-01"
+  ],
+  "expected_findings": [
+    "RANGE-MARKER-API-AUTHZ-01"
+  ],
+  "forbidden_operations": [
+    "external_connect",
+    "cross_scenario_access",
+    "arbitrary_command",
+    "modify_answer_key"
+  ],
+  "initial_state": "A synthetic operation matrix grants a viewer role one harmless administrative marker.",
+  "kind": "api_authorization",
+  "lateral_movement": {
+    "allowed_asset_ids": [
+      "ast-api-audit",
+      "ast-api-matrix"
+    ],
+    "outside_assets_denied": true
+  },
+  "name": "Synthetic API authorization deficiency",
+  "network": {
+    "external_access": false,
+    "mode": "none"
+  },
+  "reset": {
+    "baseline_digest": "sha256:5172973bc72a90acd07cdf4993d50667214f50ffc7cb5ac60c33a75a75518d94",
+    "deterministic": true,
+    "strategy": "verified_baseline_copy"
+  },
+  "scenario_id": "scn-api-authorization",
+  "schema_version": "1.0",
+  "scoring": [
+    {
+      "criterion_id": "crit-api-finding",
+      "kind": "finding",
+      "marker": "RANGE-MARKER-API-AUTHZ-01",
+      "points": 40
+    },
+    {
+      "criterion_id": "crit-api-detection",
+      "kind": "detection",
+      "marker": "RANGE-MARKER-API-DETECT-01",
+      "points": 30
+    },
+    {
+      "criterion_id": "crit-api-evidence",
+      "kind": "behavior",
+      "marker": "RANGE-MARKER-API-EVIDENCE-01",
+      "points": 30
+    }
+  ],
+  "stop_conditions": [
+    "scope_deviation",
+    "external_network_attempt",
+    "cross_scenario_access",
+    "prohibited_operation",
+    "marker_tampering"
+  ],
+  "synthetic_data": {
+    "contains_credentials": false,
+    "contains_real_data": false,
+    "marker_prefix": "RANGE-MARKER-",
+    "root": "synthetic"
+  },
+  "target_id": "tgt-range-api",
+  "test_case_id": "tc-range-api-authz"
+}

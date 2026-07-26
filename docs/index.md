@@ -12,9 +12,10 @@
 8. [Phase 02 repository skeleton](design/repository-skeleton.md)
 9. [Local Control Plane MVP](design/control-plane-mvp.md)
 10. [Isolated Runner MVP](design/isolated-runner-mvp.md)
-11. [State machines](design/state-machines.md)
-12. [Reset and destruction](design/reset-and-destruction.md)
-13. [Risk register](security/risk-register.md)
+11. [Cyber Range MVP](design/cyber-range-mvp.md)
+12. [State machines](design/state-machines.md)
+13. [Reset and destruction](design/reset-and-destruction.md)
+14. [Risk register](security/risk-register.md)
 
 ## Execution plans
 
@@ -22,6 +23,7 @@
 - [Completed Phase 02 repository skeleton](exec-plans/completed/phase-02-repository-skeleton.md)
 - [Completed Phase 03 Control Plane MVP](exec-plans/completed/phase-03-control-plane-mvp.md)
 - [Completed Phase 04 Runner MVP](exec-plans/completed/phase-04-isolated-runner-mvp.md)
+- [Completed Phase 05 Cyber Range MVP](exec-plans/completed/phase-05-cyber-range-mvp.md)
 - [Active plans](exec-plans/active/README.md)
 
 ## Cross-cutting documents
@@ -36,4 +38,4 @@
 
 ## Design status
 
-Phase 01 is the approved design baseline. Phase 02 is the non-executable contract skeleton. Phase 03 implements only the approved local Control Plane MVP; Phase 04 adds only the approved local rootless isolated Runner MVP; cyber-range, real-credential, external-model, cloud, and production deployment remain prohibited.
+Phase 01 is the approved design baseline. Phase 02 is the non-executable contract skeleton. Phase 03 implements the local Control Plane MVP; Phase 04 adds the approved rootless isolated Runner; Phase 05 adds a non-networked synthetic Cyber Range. Real vulnerable services, real credentials, external targets, cloud resources, and production deployment remain prohibited.

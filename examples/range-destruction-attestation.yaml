@@ -1,0 +1,8 @@
+schema_version: "1.0"
+instance_id: rng-web-local
+engagement_id: eng-control-mvp
+scenario_id: scn-web-access-control
+destroyed_at: "2026-07-26T00:02:00Z"
+instance_root_removed: true
+active_runtime_removed: true
+credential_material_present: false

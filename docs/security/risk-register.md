@@ -30,4 +30,4 @@ Scales: Likelihood (L) and Impact (I) are 1–5. Score = L × I.
 
 | R-023 | Single-laptop rootless container is mistaken for production isolation | 3 | 5 | 15 | Local-only label, rootless preflight, fixed Podman profile, future microVM gate | Platform | Live Podman verification required |
 | R-024 | Local image or offline artifact is replaced | 3 | 5 | 15 | Digest-only image references, `--pull=never`, separate signed artifact process | Supply chain | Image signing remains future gate |
-| R-025 | Runner output exhausts host storage | 2 | 4 | 8 | Size-limited tmpfs, evidence byte limit, bounded copy and cleanup | Platform | Verify cgroup/tmpfs support locally |
+| R-025 | Runner output exhausts host storage | 2 | 4 | 8 | Bounded host-staged workspace, evidence byte limit, read-only root, and forced cleanup | Platform | Verify host filesystem quotas before larger workloads |

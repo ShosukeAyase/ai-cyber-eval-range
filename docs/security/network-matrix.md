@@ -49,3 +49,11 @@ route is present. Synthetic repositories and job manifests are local read-only m
 copied by the host after execution rather than transmitted by the Runner. Cloud metadata, Docker
 sockets, Kubernetes APIs/tokens, corporate/production networks, and the general internet remain
 denied.
+
+## Phase 05 local range profile
+
+| Source | Destination | Purpose | Protocol | Decision | Conditions |
+|---|---|---|---|---|---|
+| Phase 05 local range process | Any network destination | Any | Any | Deny | No listener or network client exists |
+| Range instance | Another range instance | Cross-scenario access | Object ID | Deny | Disjoint roots and asset allowlists |
+| Control Plane | Range instance state | Lifecycle only | Local typed call | Allow | Engagement, Scope/ROE, approval, and audit required |

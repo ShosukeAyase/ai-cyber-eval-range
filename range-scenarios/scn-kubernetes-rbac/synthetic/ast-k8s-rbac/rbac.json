@@ -1,0 +1,21 @@
+{
+  "apiVersion": "rbac.authorization.k8s.io/v1",
+  "applicable": false,
+  "kind": "Role",
+  "metadata": {
+    "name": "demo-reader",
+    "namespace": "synthetic-range"
+  },
+  "rules": [
+    {
+      "resources": [
+        "demo-records"
+      ],
+      "verbs": [
+        "get",
+        "list",
+        "update"
+      ]
+    }
+  ]
+}

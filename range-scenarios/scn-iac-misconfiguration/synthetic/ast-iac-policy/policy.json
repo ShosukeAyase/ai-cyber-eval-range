@@ -1,0 +1,4 @@
+{
+  "enforced": false,
+  "rule": "public_read_must_be_false"
+}

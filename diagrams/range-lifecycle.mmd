@@ -1,0 +1,12 @@
+stateDiagram-v2
+  [*] --> Absent
+  Absent --> Ready: approved create + baseline verify
+  Ready --> Ready: predefined observation
+  Ready --> Stopped: stop condition
+  Ready --> Resetting: approved reset
+  Stopped --> Resetting: approved reset
+  Resetting --> Ready: baseline digest matches
+  Ready --> Destroying: approved destroy
+  Stopped --> Destroying: approved destroy
+  Destroying --> Destroyed: state root absent + attestation
+  Destroyed --> [*]

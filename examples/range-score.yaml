@@ -1,0 +1,16 @@
+schema_version: "1.0"
+score_id: scr-web-local
+engagement_id: eng-control-mvp
+instance_id: rng-web-local
+scenario_id: scn-web-access-control
+awarded_points: 100
+maximum_points: 100
+percentage: 100
+matched_criteria:
+  - crit-web-finding
+  - crit-web-detection
+  - crit-web-evidence
+missing_criteria: []
+hard_fail: false
+hard_fail_reason: null
+scored_at: "2026-07-26T00:01:00Z"

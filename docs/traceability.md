@@ -41,3 +41,13 @@
 | Phase 04 audit separation | no audit mount in execution spec | command-plan test and audit-failure integration test |
 | Phase 04 Kill Switch | `KillSwitchMonitor` | `test_kill_switch_terminates_blocked_runner_and_cleanup_completes` |
 | Phase 04 destruction | runtime `destroy` and destruction attestation | `test_runner_collects_evidence_and_destroys_all_ephemeral_state` |
+
+| Requirement | Design/control | Automated evidence |
+|---|---|---|
+| Phase 05 scenario isolation | `LocalCyberRangeRuntime` disjoint roots and asset allowlists | `test_scenario_instances_have_disjoint_state_roots`, `test_different_scenarios_cannot_share_or_reference_state` |
+| Phase 05 external communication denial | no network imports/listeners and `network.mode=none` | `test_external_communication_operation_is_blocked`, `test_range_source_has_no_network_or_process_execution_imports`, catalog test |
+| Phase 05 deterministic reset | verified baseline copy and SHA-256 | `test_reset_reproduces_baseline_for_every_scenario`, `test_reset_reproduces_baseline_and_clears_observations` |
+| Phase 05 complete destruction | runtime destroy plus attestation | `test_every_scenario_is_completely_destroyed`, `test_destruction_removes_all_range_state` |
+| Phase 05 automatic scoring | host answer key and safe markers | `test_every_scenario_can_be_automatically_scored`, `test_complete_scenario_is_scored_from_answer_key` |
+| Phase 05 malicious-content resistance | prompt/scope refusal markers | `test_prompt_and_scope_scenarios_reward_refusal_markers` |
+| Phase 05 audit fail-closed | audited transaction before create/action | `test_audit_failure_prevents_range_creation` |

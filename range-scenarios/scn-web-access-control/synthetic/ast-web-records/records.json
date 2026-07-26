@@ -1,0 +1,14 @@
+{
+  "records": [
+    {
+      "marker": "PUBLIC-DEMO-A",
+      "owner": "user-a",
+      "record_id": "rec-a"
+    },
+    {
+      "marker": "PUBLIC-DEMO-B",
+      "owner": "user-b",
+      "record_id": "rec-b"
+    }
+  ]
+}

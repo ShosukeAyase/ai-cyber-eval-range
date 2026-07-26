@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/range-action.schema.json",
+  "title": "Range Action",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "action_id", "engagement_id", "instance_id", "operation_id", "asset_id"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "action_id": {"type": "string", "pattern": "^act-[a-z0-9-]{3,64}$"},
+    "engagement_id": {"type": "string", "pattern": "^eng-[a-z0-9-]{3,64}$"},
+    "instance_id": {"type": "string", "pattern": "^rng-[a-z0-9-]{3,64}$"},
+    "operation_id": {"type": "string", "pattern": "^rop-[a-z0-9-]{3,64}$"},
+    "asset_id": {"type": "string", "pattern": "^ast-[a-z0-9-]{3,64}$"}
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "ownership_check": false,
+  "read_rule": "authenticated"
+}

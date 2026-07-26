@@ -233,6 +233,48 @@ class LocalControlPlaneStore:
                 destruction_attested INTEGER NOT NULL
             )
             """,
+            """
+            CREATE TABLE IF NOT EXISTS range_instances (
+                instance_id TEXT PRIMARY KEY,
+                engagement_id TEXT NOT NULL,
+                scenario_id TEXT NOT NULL,
+                target_id TEXT NOT NULL,
+                test_case_id TEXT NOT NULL,
+                state TEXT NOT NULL,
+                baseline_digest TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                reset_count INTEGER NOT NULL,
+                destroyed_at TEXT
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS range_observations (
+                observation_id TEXT PRIMARY KEY,
+                engagement_id TEXT NOT NULL,
+                instance_id TEXT NOT NULL,
+                scenario_id TEXT NOT NULL,
+                operation_id TEXT NOT NULL,
+                asset_id TEXT NOT NULL,
+                markers TEXT NOT NULL,
+                observed_at TEXT NOT NULL
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS range_scores (
+                score_id TEXT PRIMARY KEY,
+                engagement_id TEXT NOT NULL,
+                instance_id TEXT NOT NULL,
+                scenario_id TEXT NOT NULL,
+                awarded_points INTEGER NOT NULL,
+                maximum_points INTEGER NOT NULL,
+                percentage REAL NOT NULL,
+                matched_criteria TEXT NOT NULL,
+                missing_criteria TEXT NOT NULL,
+                hard_fail INTEGER NOT NULL,
+                hard_fail_reason TEXT,
+                scored_at TEXT NOT NULL
+            )
+            """,
         )
         with self._lock:
             for statement in statements:

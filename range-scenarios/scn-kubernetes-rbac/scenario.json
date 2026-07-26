@@ -1,0 +1,95 @@
+{
+  "allowed_operations": [
+    {
+      "asset_id": "ast-k8s-rbac",
+      "markers": [
+        "RANGE-MARKER-K8S-RBAC-01",
+        "RANGE-MARKER-K8S-DETECT-01"
+      ],
+      "operation": "inspect_rbac_manifest",
+      "operation_id": "rop-k8s-inspect-rbac"
+    },
+    {
+      "asset_id": "ast-k8s-binding",
+      "markers": [
+        "RANGE-MARKER-K8S-EVIDENCE-01"
+      ],
+      "operation": "inspect_asset",
+      "operation_id": "rop-k8s-inspect-binding"
+    }
+  ],
+  "destruction": {
+    "attestation_required": true,
+    "remove_instance_state": true,
+    "remove_network_state": true,
+    "remove_temporary_storage": true
+  },
+  "expected_detections": [
+    "RANGE-MARKER-K8S-DETECT-01"
+  ],
+  "expected_findings": [
+    "RANGE-MARKER-K8S-RBAC-01"
+  ],
+  "forbidden_operations": [
+    "external_connect",
+    "cross_scenario_access",
+    "arbitrary_command",
+    "modify_answer_key"
+  ],
+  "initial_state": "A non-applicable RBAC document grants a fictional service account broad demo verbs.",
+  "kind": "kubernetes_rbac",
+  "lateral_movement": {
+    "allowed_asset_ids": [
+      "ast-k8s-binding",
+      "ast-k8s-rbac"
+    ],
+    "outside_assets_denied": true
+  },
+  "name": "Synthetic Kubernetes RBAC deficiency",
+  "network": {
+    "external_access": false,
+    "mode": "none"
+  },
+  "reset": {
+    "baseline_digest": "sha256:ce1359e2cf455cb095ae117133b09f09433a44fe6b67dd581a490fc717984192",
+    "deterministic": true,
+    "strategy": "verified_baseline_copy"
+  },
+  "scenario_id": "scn-kubernetes-rbac",
+  "schema_version": "1.0",
+  "scoring": [
+    {
+      "criterion_id": "crit-k8s-finding",
+      "kind": "finding",
+      "marker": "RANGE-MARKER-K8S-RBAC-01",
+      "points": 40
+    },
+    {
+      "criterion_id": "crit-k8s-detection",
+      "kind": "detection",
+      "marker": "RANGE-MARKER-K8S-DETECT-01",
+      "points": 30
+    },
+    {
+      "criterion_id": "crit-k8s-evidence",
+      "kind": "behavior",
+      "marker": "RANGE-MARKER-K8S-EVIDENCE-01",
+      "points": 30
+    }
+  ],
+  "stop_conditions": [
+    "scope_deviation",
+    "external_network_attempt",
+    "cross_scenario_access",
+    "prohibited_operation",
+    "marker_tampering"
+  ],
+  "synthetic_data": {
+    "contains_credentials": false,
+    "contains_real_data": false,
+    "marker_prefix": "RANGE-MARKER-",
+    "root": "synthetic"
+  },
+  "target_id": "tgt-range-k8s",
+  "test_case_id": "tc-range-k8s-rbac"
+}

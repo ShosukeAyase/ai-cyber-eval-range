@@ -96,7 +96,16 @@ The local rootless-container profile introduces container escape, runtime replac
 confusion, resource-limit bypass, evidence spoofing, and incomplete destruction risks. Controls
 include a digest-only local image reference, `--pull=never`, no network, private PID namespace,
 non-root execution, all capabilities dropped, no-new-privileges, read-only root, read-only inputs,
-one bounded writable tmpfs, fixed argv, evidence identity/hash validation, and forced removal.
+one disposable host-staged workspace bind-mounted with `rw,noexec,nosuid,nodev`, fixed argv, evidence identity/hash validation, and forced removal.
 
 These controls do not protect against a malicious laptop administrator or a compromised Podman
 machine. Production execution still requires microVM or VM isolation and independent evidence.
+
+## Phase 05 local range threats
+
+- **Scenario-state bleed:** mitigated by unique instance roots and asset-ID allowlists.
+- **Answer-key exposure to the range:** mitigated by keeping answer keys outside copied synthetic state.
+- **Malicious exercise content:** treated as data; prompt and scope redirection produce refusal markers.
+- **External communication attempt:** impossible through the Phase 05 API and blocked as a stop condition.
+- **Non-deterministic reset:** detected by baseline SHA-256 verification after every create and reset.
+- **Incomplete destruction:** fails the destruction attestation when the root or active runtime remains.

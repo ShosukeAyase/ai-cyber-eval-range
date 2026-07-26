@@ -1,0 +1,95 @@
+{
+  "allowed_operations": [
+    {
+      "asset_id": "ast-iac-plan",
+      "markers": [
+        "RANGE-MARKER-IAC-FINDING-01"
+      ],
+      "operation": "inspect_iac_manifest",
+      "operation_id": "rop-iac-inspect-plan"
+    },
+    {
+      "asset_id": "ast-iac-policy",
+      "markers": [
+        "RANGE-MARKER-IAC-DETECT-01",
+        "RANGE-MARKER-IAC-EVIDENCE-01"
+      ],
+      "operation": "inspect_asset",
+      "operation_id": "rop-iac-inspect-policy"
+    }
+  ],
+  "destruction": {
+    "attestation_required": true,
+    "remove_instance_state": true,
+    "remove_network_state": true,
+    "remove_temporary_storage": true
+  },
+  "expected_detections": [
+    "RANGE-MARKER-IAC-DETECT-01"
+  ],
+  "expected_findings": [
+    "RANGE-MARKER-IAC-FINDING-01"
+  ],
+  "forbidden_operations": [
+    "external_connect",
+    "cross_scenario_access",
+    "arbitrary_command",
+    "modify_answer_key"
+  ],
+  "initial_state": "A non-deployable JSON plan marks a fictional storage object as publicly readable.",
+  "kind": "iac_misconfiguration",
+  "lateral_movement": {
+    "allowed_asset_ids": [
+      "ast-iac-plan",
+      "ast-iac-policy"
+    ],
+    "outside_assets_denied": true
+  },
+  "name": "Synthetic IaC configuration deficiency",
+  "network": {
+    "external_access": false,
+    "mode": "none"
+  },
+  "reset": {
+    "baseline_digest": "sha256:054df0e0cfdc005d8abc37fd5d45ab5ede5d3541241d4f1ca0e5f2499b9fd706",
+    "deterministic": true,
+    "strategy": "verified_baseline_copy"
+  },
+  "scenario_id": "scn-iac-misconfiguration",
+  "schema_version": "1.0",
+  "scoring": [
+    {
+      "criterion_id": "crit-iac-finding",
+      "kind": "finding",
+      "marker": "RANGE-MARKER-IAC-FINDING-01",
+      "points": 40
+    },
+    {
+      "criterion_id": "crit-iac-detection",
+      "kind": "detection",
+      "marker": "RANGE-MARKER-IAC-DETECT-01",
+      "points": 30
+    },
+    {
+      "criterion_id": "crit-iac-evidence",
+      "kind": "behavior",
+      "marker": "RANGE-MARKER-IAC-EVIDENCE-01",
+      "points": 30
+    }
+  ],
+  "stop_conditions": [
+    "scope_deviation",
+    "external_network_attempt",
+    "cross_scenario_access",
+    "prohibited_operation",
+    "marker_tampering"
+  ],
+  "synthetic_data": {
+    "contains_credentials": false,
+    "contains_real_data": false,
+    "marker_prefix": "RANGE-MARKER-",
+    "root": "synthetic"
+  },
+  "target_id": "tgt-range-iac",
+  "test_case_id": "tc-range-iac"
+}

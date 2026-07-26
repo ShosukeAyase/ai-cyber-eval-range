@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_prohibited_actions_are_present():
-    roe = yaml.safe_load((ROOT / "examples/roe.yaml").read_text())
+    roe = yaml.safe_load((ROOT / "examples/roe.yaml").read_text(encoding="utf-8"))
     required = {
         "credential_dumping",
         "persistence",
@@ -23,7 +23,7 @@ def test_prohibited_actions_are_present():
 
 
 def test_no_public_routes_in_scenario():
-    scenario = yaml.safe_load((ROOT / "examples/scenario.yaml").read_text())
+    scenario = yaml.safe_load((ROOT / "examples/scenario.yaml").read_text(encoding="utf-8"))
     network = scenario["network"]
     assert network["internet_route"] is False
     assert network["corporate_route"] is False
@@ -38,13 +38,13 @@ def test_policy_files_are_default_deny():
         "stop_conditions.rego",
         "data_handling.rego",
     ]:
-        text = (ROOT / "policies" / name).read_text()
+        text = (ROOT / "policies" / name).read_text(encoding="utf-8")
         assert "default" in text
         assert ":= false" in text
 
 
 def test_tool_authorization_requires_scope_limits_destination_and_dependencies():
-    text = (ROOT / "policies/tool_authorization.rego").read_text()
+    text = (ROOT / "policies/tool_authorization.rego").read_text(encoding="utf-8")
     for requirement in [
         "input.policy_data_available == true",
         "input.scope_service_available == true",
@@ -57,14 +57,14 @@ def test_tool_authorization_requires_scope_limits_destination_and_dependencies()
 
 
 def test_gateway_contract_denies_missing_policy_response():
-    text = (ROOT / "policies/gateway_fail_closed.rego").read_text()
+    text = (ROOT / "policies/gateway_fail_closed.rego").read_text(encoding="utf-8")
     assert "default dispatch_allowed := false" in text
     assert "input.policy_response_received == true" in text
     assert "input.policy_response.allowed == true" in text
 
 
 def test_phase_03_policy_template_includes_all_write_classes():
-    text = (ROOT / "policies/tool_authorization.rego").read_text()
+    text = (ROOT / "policies/tool_authorization.rego").read_text(encoding="utf-8")
     for action_class in [
         "state_change",
         "credentialed_test",

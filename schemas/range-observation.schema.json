@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/range-observation.schema.json",
+  "title": "Range Observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "observation_id", "engagement_id", "instance_id", "scenario_id",
+    "operation_id", "asset_id", "markers", "observed_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "observation_id": {"type": "string", "pattern": "^obs-[a-z0-9-]{3,64}$"},
+    "engagement_id": {"type": "string", "pattern": "^eng-[a-z0-9-]{3,64}$"},
+    "instance_id": {"type": "string", "pattern": "^rng-[a-z0-9-]{3,64}$"},
+    "scenario_id": {"type": "string", "pattern": "^scn-[a-z0-9-]{3,64}$"},
+    "operation_id": {"type": "string", "pattern": "^rop-[a-z0-9-]{3,64}$"},
+    "asset_id": {"type": "string", "pattern": "^ast-[a-z0-9-]{3,64}$"},
+    "markers": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^RANGE-MARKER-[A-Z0-9-]{3,96}$"}
+    },
+    "observed_at": {"type": "string", "format": "date-time"}
+  }
+}

@@ -6,7 +6,7 @@ The repository also defines a disposable cyber range for Web/API, Linux, Windows
 
 ## Current phase
 
-Phase 01 design and the Phase 02 non-executable contract skeleton are complete. Phase 03 adds a local-only Control Plane MVP using Python and SQLite. It provides engagement, Scope/ROE, approval, policy, model-mock, tool-mock, credential-reference, Emergency Stop, and transactional audit services. Phase 04 adds a rootless, no-network, fixed-workload Runner for synthetic repositories. It still contains no arbitrary command API, external target access, exploit validation, real credential material, or cloud-resource creation.
+Phase 01 design and the Phase 02 non-executable contract skeleton are complete. Phase 03 adds a local-only Control Plane MVP using Python and SQLite. It provides engagement, Scope/ROE, approval, policy, model-mock, tool-mock, credential-reference, Emergency Stop, and transactional audit services. Phase 04 adds a rootless, no-network, fixed-workload Runner for synthetic repositories. Phase 05 adds a disposable, non-networked Cyber Range with seven marker-driven synthetic scenarios, deterministic reset, complete destruction, and host-side automatic scoring. The repository still contains no arbitrary command API, external target access, exploit validation, real credential material, or cloud-resource creation.
 
 ## Core invariants
 
@@ -22,7 +22,8 @@ Phase 01 design and the Phase 02 non-executable contract skeleton are complete. 
 ## Repository map
 
 - `ARCHITECTURE.md`: system-level architecture.
-- `src/cyber_eval/`: typed Control Plane services, mocks, and the fixed isolated Runner adapter.
+- `src/cyber_eval/`: typed Control Plane services, mocks, fixed Runner adapter, and synthetic range engine.
+- `range-scenarios/`: seven reviewed synthetic baselines and host-side answer keys.
 - `docs/security/`: threat model, boundaries, IAM, credentials, network controls, abuse cases, and risks.
 - `docs/governance/`: authorization, ROE, data handling, retention, and incident response.
 - `docs/design/`: component and lifecycle designs.
@@ -58,6 +59,16 @@ py -m cyber_eval.demo
 
 The demo uses synthetic identifiers, an in-memory database, deterministic mocks, and no network
 connection. See [`docs/design/control-plane-mvp.md`](docs/design/control-plane-mvp.md).
+
+## Local Cyber Range MVP
+
+The Phase 05 range uses no listening service or external connection. Run its deterministic tests:
+
+```sh
+python -m pytest tests/integration/test_cyber_range_mvp.py tests/architecture/test_phase_05_range.py
+```
+
+See [`docs/design/cyber-range-mvp.md`](docs/design/cyber-range-mvp.md).
 
 ## Non-goals
 

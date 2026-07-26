@@ -1,61 +1,68 @@
 # Validation Report
 
-Date: 2026-07-24
+Date: 2026-07-26
 
-## Phase 04 deterministic validation executed
+## Phase 04 final operator-laptop validation
+
+Phase 04 completed on the operator laptop using rootless Podman and the digest-pinned
+Runner image `sha256:c811c3181bc063a443f2b0182f503fb2a95b28efd05ae81c86c95c5da15d3fc6`.
+
+- Rootless Podman preflight: PASS.
+- Ruff format/lint: PASS.
+- mypy strict type check: PASS.
+- Complete pytest suite: PASS.
+- Live isolated Runner smoke test: PASS.
+- The writable Runner area is a disposable host-staged directory bind-mounted at
+  `/workspace` with `rw,noexec,nosuid,nodev`; it is not an in-container tmpfs.
+- The root filesystem and input mounts remain read-only, and the host-staged workspace is
+  removed after evidence collection.
+
+## Phase 05 deterministic validation executed
 
 | Command | Result |
 |---|---|
-| `python -m pytest -o addopts=''` | PASS: 84 tests |
-| `python -m pytest tests/schemas` | PASS: 10 tests |
+| `python -m pytest -o addopts=''` | PASS: 128 tests |
+| `python -m pytest tests/schemas` | PASS: 12 tests |
 | `python -m pytest tests/policy tests/unit/test_policy_gateway.py` | PASS: 14 tests |
-| `python -m pytest tests/unit` | PASS: 21 tests |
-| `python -m pytest tests/integration` | PASS: 13 tests |
-| `python -m pytest tests/architecture` | PASS: 34 tests |
-| Phase 04 Runner subset | PASS: 11 tests |
+| `python -m pytest tests/unit` | PASS: 24 tests |
+| `python -m pytest tests/integration` | PASS: 45 tests |
+| `python -m pytest tests/architecture` | PASS: 41 tests |
+| Phase 05 range subset | PASS: 42 tests |
+| `python scripts/verify_phase5_catalog.py` | PASS: seven scenarios |
 | `python -m compileall -q src scripts tests` | PASS |
 | source line-length check (`src`, `tests`, `scripts`) | PASS: no lines over 100 characters |
-| `git diff --check` | PASS |
-| lightweight secret-pattern scan | PASS: only the deliberate `AKIA` test literal was observed |
-| `make optional-tools` | Inventory completed; unavailable tools listed below |
+| lightweight secret-pattern scan | PASS: no credential material detected |
 
-## Phase 04 completion evidence
+## Phase 05 completion evidence
 
-- Eighteen JSON Schemas conform to JSON Schema Draft 2020-12 and have synthetic examples.
-- Runner job APIs accept registered IDs only and have no command, shell, path, URL, IP, hostname, endpoint, mount, package, or plugin field.
-- The local registry maps repository/profile IDs to reviewed local paths and digest-pinned image references.
-- Runtime creation uses rootless preflight, `--pull=never`, `--network=none`, private PID, IPC, UTS, and cgroup namespaces, ignored image volumes, read-only root, non-root UID/GID, all capabilities dropped, no-new-privileges, no host aliases, and no inherited proxy variables.
-- One size-limited `noexec,nosuid,nodev` tmpfs is the only writable in-container workspace.
-- Repository and job mounts are read-only; no audit database, Docker socket, Kubernetes token, cloud metadata, or evidence-store mount is present.
-- CPU, memory, PID, open-file, single-file, wall-time, workspace, evidence, and source-file limits are represented by bounded contracts and runtime arguments.
-- The fixed workload reads regular files, performs AST-based static analysis, runs built-in predefined tests, and emits bounded JSON evidence without executing repository code.
-- Scope mismatch is rejected before runtime invocation.
-- The fixed workload rejects an oversized source file, and the failed job leaves no active runtime or workspace.
-- An injected audit failure prevents runtime creation.
-- The independent Kill Switch monitor terminates a blocked job without model participation.
-- Normal and terminated jobs remove the runtime staging workspace and active runtime entry.
-- Evidence remains outside the Runner with an SHA-256 digest and destruction attestation.
-- The offline image definition has no package-manager, network-download, or `RUN` step; build scripts require a preloaded base image and use `--pull-never --network=none`.
+- Twenty-three JSON Schemas conform to JSON Schema Draft 2020-12 and have synthetic examples.
+- The catalog contains exactly the seven approved scenario IDs.
+- Every scenario declares its initial state, allowlist, denylist, synthetic-data profile,
+  expected findings, expected detections, stop conditions, 100-point scoring criteria,
+  deterministic reset, complete destruction, no-network policy, and lateral-movement scope.
+- Public range action contracts contain registered object IDs only and have no URL, IP address,
+  hostname, port, command, shell, path, package, plugin, or arbitrary payload field.
+- Range source imports no network client/server or process-execution library.
+- Scenario packages contain no real credential, active payload, external destination, deployable
+  IaC, applicable Kubernetes resource, or real dependency advisory.
+- Every proof is a harmless `RANGE-MARKER-*` observation.
+- Concurrent instances use disjoint roots, and different scenarios cannot reference each
+  other's operation or asset IDs.
+- An explicit external-communication operation is stopped before a successful observation.
+- Scope/ROE deviation and unregistered operations stop the instance before action count changes.
+- Audit insertion failure prevents range creation.
+- All seven scenarios reset to their exact SHA-256 baseline.
+- All seven scenarios can be automatically scored to 100 points using host-side answer keys.
+- All seven scenarios produce successful destruction attestations with no remaining instance root
+  or active runtime entry.
+- Emergency Stop blocks new range actions without model participation.
 
-## Not executed in this environment
+## Artifact-build environment limitations
 
-The following local quality or runtime tools were unavailable:
-
-- Podman and Podman Desktop;
-- Ruff;
-- mypy;
-- OPA;
-- OpenTofu/Terraform;
-- markdownlint;
-- pip-audit;
-- CycloneDX tooling;
-- Trivy;
-- Syft;
-- Grype;
-- Cosign;
-- Gitleaks.
-
-Therefore the real rootless-container smoke test, cgroup enforcement observation, no-default-route observation inside Podman, Ruff formatting/lint, mypy, dependency vulnerability scanning, SBOM generation, signature verification, and image scanning are not reported as passed. The repository provides `scripts/complete_phase4_local.ps1` and `scripts/live_runner_smoke.py` for the operator-laptop gate.
+Ruff, mypy, Podman, OPA, OpenTofu/Terraform, markdownlint, pip-audit, CycloneDX, Trivy,
+Syft, Grype, Cosign, and Gitleaks were unavailable in this artifact-build environment.
+Phase 05 itself has no Podman or network-runtime dependency. The operator-laptop completion
+script makes Ruff and mypy mandatory before changing the Phase 05 plan to `completed`.
 
 ## Executed but not passed
 
@@ -65,18 +72,20 @@ Therefore the real rootless-container smoke test, cgroup enforcement observation
 moviepy 2.2.1 requires pillow<12.0,>=9.2.0, but pillow 12.2.0 is installed.
 ```
 
-The project declares no runtime dependency and the fixed Runner workload uses only the Python standard library. This shared-environment conflict is not caused by the repository, but dependency consistency is not reported as passed.
+The project declares no runtime dependencies. The conflict belongs to the shared artifact-build
+environment and is not caused by the repository, but dependency consistency is not reported as
+passed in this environment.
 
 ## Phase status
 
-Phase 04 is complete for the approved single-laptop local profile. Deterministic validation and the operator-laptop Ruff, mypy, complete pytest, rootless Podman, and live isolated Runner gates passed.
+Phase 05 implementation, deterministic validation, and operator-laptop quality gates are complete. Phase 05 formal status: complete for the approved non-networked local synthetic profile.
 
-## Operator-laptop live validation
+## Operator-laptop Phase 05 quality gates
 
-- Completed at: `2026-07-26T00:03:03.895362+00:00`
-- Digest-pinned Runner image: `sha256:c811c3181bc063a443f2b0182f503fb2a95b28efd05ae81c86c95c5da15d3fc6`
-- Rootless Podman preflight: PASS.
-- Ruff format/lint: PASS.
+- Completed at: `2026-07-26T01:20:35.344028+00:00`.
+- Ruff format check and lint: PASS.
 - mypy strict type check: PASS.
 - Complete pytest suite: PASS.
-- Live isolated Runner smoke test: PASS.
+- Python compilation: PASS.
+- Git whitespace validation: PASS.
+- Phase 05 status: complete for the local non-networked synthetic profile.
