@@ -5,6 +5,9 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from pathlib import Path
 
+from cyber_eval.agent.context import AgentContextRegistry
+from cyber_eval.agent.model_client import AgentModelClient
+from cyber_eval.agent.orchestrator import AgentOrchestrator
 from cyber_eval.approval_service import ApprovalService
 from cyber_eval.audit import AuditService
 from cyber_eval.clock import SystemClock
@@ -47,7 +50,7 @@ _APPROVER_ADMIN_OPERATIONS = frozenset(
 
 
 class ControlPlaneMvp:
-    """Local-only service graph with no network, runner, or external model dependency."""
+    """Local service graph; external model egress is optional and explicitly attached."""
 
     def __init__(
         self,
@@ -103,6 +106,23 @@ class ControlPlaneMvp:
             clock=clock,
         )
         self.audit = AuditService(store=store, clock=clock)
+        self.agent_contexts = AgentContextRegistry()
+        self.agent: AgentOrchestrator | None = None
+
+    def configure_agent(self, model_client: AgentModelClient) -> AgentOrchestrator:
+        """Attach one proposal-only model client to the existing Control Plane boundaries."""
+        self.agent = AgentOrchestrator(
+            store=self.store,
+            engagements=self.engagements,
+            scope_roe=self.scope_roe,
+            approvals=self.approvals,
+            emergency_stop=self.emergency_stop,
+            tool_gateway=self.tool_gateway,
+            model_client=model_client,
+            contexts=self.agent_contexts,
+            clock=self.clock,
+        )
+        return self.agent
 
     @classmethod
     def local_dev(

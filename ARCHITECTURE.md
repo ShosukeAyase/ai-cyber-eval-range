@@ -163,3 +163,18 @@ create, reset, and destroy operations; audit insertion occurs before runtime cre
 Unknown operations, external communication, cross-scenario access, and undeclared assets fail
 closed. Reset recreates the exact baseline digest and destruction removes the complete instance
 root while preserving only Control Plane audit, score, and destruction records.
+
+
+## 13. Phase 06 proposal-only Agent profile
+
+Phase 06 permits one optional Control Plane egress path to the fixed OpenAI Responses endpoint.
+The Agent is not an authorization source and receives no executable provider tools. Its output is
+a strict JSON proposal containing registered object IDs only. The Control Plane independently
+validates the approved role, current Scope/ROE, human tool allowlist, action class, target, test
+case, evidence references, turn bounds, and repeated-failure limits.
+
+An Agent run is a state-changing Control Plane operation and requires an independently approved,
+run-ID-bound `START_AGENT_RUN` grant. Valid tool proposals are converted to internal
+`ToolRequest` objects and pass through the existing Tool Gateway and Policy Engine. Secret
+references are omitted from model input. Model timeout, malformed output, prompt injection,
+forged receipts, unsupported findings, or Emergency Stop ends the Agent run fail closed.

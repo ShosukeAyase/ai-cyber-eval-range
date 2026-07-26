@@ -16,6 +16,7 @@ _PATTERNS = {
     "tmpl": re.compile(r"^tmpl-[a-z0-9-]{3,64}$"),
     "job": re.compile(r"^job-[a-z0-9-]{3,64}$"),
     "rng": re.compile(r"^rng-[a-z0-9-]{3,64}$"),
+    "agt": re.compile(r"^agt-[a-z0-9-]{3,64}$"),
 }
 _GENERIC_OBJECT = re.compile(
     r"^(repo|prof|tc|poc|evd|fnd|pat|suite|scn|ctx|rng|ast|rop|obs|crit|scr|act)-"

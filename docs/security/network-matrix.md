@@ -57,3 +57,16 @@ denied.
 | Phase 05 local range process | Any network destination | Any | Any | Deny | No listener or network client exists |
 | Range instance | Another range instance | Cross-scenario access | Object ID | Deny | Disjoint roots and asset allowlists |
 | Control Plane | Range instance state | Lifecycle only | Local typed call | Allow | Engagement, Scope/ROE, approval, and audit required |
+
+## Phase 06 model-provider egress
+
+| Source | Destination | Purpose | Protocol | Decision | Conditions |
+|---|---|---|---|---|---|
+| Phase 06 model adapter | OpenAI Responses API | Proposal-only GPT inference | HTTPS | Allow | Exact endpoint allowlist, explicit model ID, `store=false`, no provider tools, redacted registered context |
+| Phase 06 model adapter | Any other Internet destination | Any | Any | Deny | Endpoint is a code constant and transport rejects all alternatives |
+| GPT model output | Tool adapter or network | Direct action | Any | Deny | No executable provider tools; Control Plane reconstructs typed proposals |
+| GPT model output | Scope, approval, credential, Kill Switch, audit | Authority or mutation | Local API | Deny | No such fields or service references in the Agent output contract |
+
+Provider authentication is attached by the fixed HTTP transport only. It is not included in model
+input, tool receipts, audit details, persisted Agent output, examples, or tests. The execution plane
+and cyber range retain their existing no-Internet posture.

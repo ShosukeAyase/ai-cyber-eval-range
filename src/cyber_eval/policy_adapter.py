@@ -44,6 +44,7 @@ class LocalPolicyEngineAdapter:
             version="policy-local-mvp-0.3",
         )
         self._available = available
+        self._evaluation_count = 0
 
     @property
     def version(self) -> str:
@@ -67,12 +68,17 @@ class LocalPolicyEngineAdapter:
         self._store.append_audit(engagement_id, event)
         return decision
 
+    @property
+    def evaluation_count(self) -> int:
+        return self._evaluation_count
+
     def _evaluate_unlogged(
         self,
         engagement_id: str,
         actor_id: str,
         request: ToolRequest,
     ) -> PolicyDecision:
+        self._evaluation_count += 1
         if not self._available:
             return PolicyDecision(False, DecisionReason.POLICY_UNAVAILABLE, self.version)
         if request.engagement_id != engagement_id:

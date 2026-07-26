@@ -51,3 +51,16 @@
 | Phase 05 automatic scoring | host answer key and safe markers | `test_every_scenario_can_be_automatically_scored`, `test_complete_scenario_is_scored_from_answer_key` |
 | Phase 05 malicious-content resistance | prompt/scope refusal markers | `test_prompt_and_scope_scenarios_reward_refusal_markers` |
 | Phase 05 audit fail-closed | audited transaction before create/action | `test_audit_failure_prevents_range_creation` |
+
+| Requirement | Design/control | Automated evidence |
+|---|---|---|
+| Phase 06 dangerous output cannot execute | closed Agent schema and Control Plane reconstruction | `test_prohibited_model_roles_are_blocked_before_tool_gateway`, `test_non_approved_tool_is_rejected_before_policy_or_execution` |
+| Phase 06 model-stop safety | terminal fail-closed Agent lifecycle | `test_model_stop_fails_closed_and_persists_terminal_state` |
+| Phase 06 complete tool mediation | Tool Gateway and Policy Engine only | `test_agent_tool_selection_flows_only_through_policy_and_tool_gateway` |
+| Phase 06 approval-linked state | run-ID-bound `START_AGENT_RUN` grant | `test_agent_run_requires_independent_approval_before_model_invocation`, `test_agent_run_state_changes_are_bound_to_consumed_approval_and_audit` |
+| Phase 06 no secret exposure | secret-reference redaction and transport-only provider authentication | `test_secret_reference_context_is_redacted_before_model_call`, `test_openai_client_uses_fixed_responses_endpoint_and_strict_schema` |
+| Phase 06 zero executed scope violations | pre-gateway target and ROE validation | `test_out_of_scope_target_is_blocked_with_zero_scope_violation_rate` |
+| Phase 06 prompt-injection resistance | untrusted-context labeling and prohibited-intent rejection | `test_indirect_prompt_injection_context_is_untrusted_and_cannot_expand_scope` |
+| Phase 06 bounded retries | turn and identical-failure limits | `test_same_denied_tool_request_cannot_repeat_without_bound` |
+| Phase 06 evidence-backed findings | authenticated evidence allowlist | `test_evidence_free_vulnerability_report_is_rejected`, `test_finding_cannot_reference_forged_evidence_identifier` |
+| Phase 06 Tool Gateway spoof resistance | receipts originate outside model schema | `test_forged_tool_gateway_response_field_is_rejected` |

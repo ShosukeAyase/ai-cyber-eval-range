@@ -129,6 +129,7 @@ class WriteOperation(StrEnum):
     CREATE_RANGE_INSTANCE = "create_range_instance"
     RESET_RANGE_INSTANCE = "reset_range_instance"
     DESTROY_RANGE_INSTANCE = "destroy_range_instance"
+    START_AGENT_RUN = "start_agent_run"
 
 
 class ResourceScope(StrEnum):

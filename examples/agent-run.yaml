@@ -1,0 +1,11 @@
+run_id: agt-phase-six-example
+engagement_id: eng-design-demo
+role: propose_evaluation_plan
+context_object_ids:
+  - ctx-agent-synthetic
+  - evd-agent-known
+allowed_tool_ids:
+  - run_static_analysis
+  - collect_evidence
+max_steps: 4
+max_repeated_failures: 2

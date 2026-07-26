@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/agent-turn.schema.json",
+  "title": "Phase 06 agent turn",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "disposition": {
+      "type": "string",
+      "enum": [
+        "propose_tools",
+        "final"
+      ]
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "propose_evaluation_plan",
+        "select_approved_tools",
+        "analyze_results",
+        "organize_evidence",
+        "propose_remediation",
+        "propose_revalidation"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "tool_proposals": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "tool_id": {
+            "type": "string",
+            "enum": [
+              "run_static_analysis",
+              "run_safe_network_discovery",
+              "run_web_test",
+              "request_poc_validation",
+              "collect_evidence",
+              "propose_patch",
+              "validate_patch",
+              "reset_range",
+              "terminate_engagement"
+            ]
+          },
+          "action_class": {
+            "type": "string",
+            "enum": [
+              "read_only_analysis",
+              "safe_discovery",
+              "safe_test",
+              "state_change",
+              "credentialed_test",
+              "poc_validation",
+              "patch_validation",
+              "range_reset",
+              "engagement_termination"
+            ]
+          },
+          "target_id": {
+            "type": "string"
+          },
+          "test_case_id": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "array",
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "enum": [
+                    "repository_id",
+                    "profile_id",
+                    "test_case_id",
+                    "poc_id",
+                    "evidence_id",
+                    "finding_id",
+                    "patch_id",
+                    "test_suite_id",
+                    "scenario_id"
+                  ]
+                },
+                "object_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "object_id"
+              ]
+            }
+          }
+        },
+        "required": [
+          "tool_id",
+          "action_class",
+          "target_id",
+          "test_case_id",
+          "arguments"
+        ]
+      }
+    },
+    "findings": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "finding_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "informational",
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "evidence_object_ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 16,
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "finding_id",
+          "title",
+          "severity",
+          "summary",
+          "evidence_object_ids"
+        ]
+      }
+    },
+    "evidence_organization": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "string",
+        "maxLength": 500
+      }
+    },
+    "remediation_steps": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "string",
+        "maxLength": 500
+      }
+    },
+    "revalidation_steps": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "string",
+        "maxLength": 500
+      }
+    },
+    "prohibited_intents": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "string",
+        "enum": [
+          "decide_scope",
+          "change_scope",
+          "self_approve",
+          "manage_credentials",
+          "execute_arbitrary_command",
+          "choose_network_destination",
+          "control_kill_switch",
+          "modify_audit_log",
+          "auto_merge_patch",
+          "access_general_internet",
+          "use_forbidden_tool",
+          "forge_tool_response"
+        ]
+      }
+    }
+  },
+  "required": [
+    "disposition",
+    "role",
+    "summary",
+    "tool_proposals",
+    "findings",
+    "evidence_organization",
+    "remediation_steps",
+    "revalidation_steps",
+    "prohibited_intents"
+  ]
+}

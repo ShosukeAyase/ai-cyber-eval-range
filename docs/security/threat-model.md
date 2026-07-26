@@ -109,3 +109,26 @@ machine. Production execution still requires microVM or VM isolation and indepen
 - **External communication attempt:** impossible through the Phase 05 API and blocked as a stop condition.
 - **Non-deterministic reset:** detected by baseline SHA-256 verification after every create and reset.
 - **Incomplete destruction:** fails the destruction attestation when the root or active runtime remains.
+
+## Phase 06 Agent-integration threats
+
+- **Indirect prompt injection:** all scenario, repository, log, and evidence content is explicitly
+  labeled trusted or untrusted; untrusted content is data and cannot add authority.
+- **Scope expansion or invented targets:** the Control Plane checks every proposal against the
+  current Scope/ROE before the Tool Gateway is invoked.
+- **Self-approval and approval fabrication:** Agent output has no approval field; Agent runs require
+  a separately issued and independently approved run-ID-bound grant.
+- **Credential extraction:** secret-reference context is omitted from model input; provider
+  authentication is added only by transport code.
+- **General Internet or provider-tool use:** the adapter uses one fixed Responses endpoint with
+  provider tools disabled; model output has no URL, hostname, IP, port, or command field.
+- **Audit or Kill Switch manipulation:** the Agent package contains no APIs for those state changes;
+  Emergency Stop is checked independently before and during the bounded loop.
+- **Unsupported finding fabrication:** each finding must cite registered evidence context or an
+  evidence identifier derived from an accepted Tool Gateway receipt.
+- **Tool-result spoofing:** model output cannot supply Tool Gateway receipts; unknown receipt fields
+  and unauthenticated evidence identifiers are rejected.
+- **Infinite retry:** maximum turns and repeated identical denied-request fingerprints terminate the
+  Agent run fail closed.
+- **Provider outage or model stop:** the Agent run transitions to a terminal failed state, performs
+  no further tool invocation, and records an audit event tied to the original approval.

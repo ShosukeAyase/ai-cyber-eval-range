@@ -275,6 +275,25 @@ class LocalControlPlaneStore:
                 scored_at TEXT NOT NULL
             )
             """,
+            """
+            CREATE TABLE IF NOT EXISTS agent_runs (
+                run_id TEXT PRIMARY KEY,
+                engagement_id TEXT NOT NULL,
+                actor_id TEXT NOT NULL,
+                role TEXT NOT NULL,
+                state TEXT NOT NULL,
+                approval_id TEXT NOT NULL,
+                started_at TEXT NOT NULL,
+                finished_at TEXT,
+                steps INTEGER NOT NULL,
+                model_invocations INTEGER NOT NULL,
+                tool_invocations INTEGER NOT NULL,
+                blocked_proposals INTEGER NOT NULL,
+                executed_scope_violations INTEGER NOT NULL,
+                terminal_reason TEXT,
+                final_output TEXT
+            )
+            """,
         )
         with self._lock:
             for statement in statements:

@@ -1,5 +1,24 @@
 """Local Control Plane MVP and non-executable compatibility contracts."""
 
+from cyber_eval.agent import (
+    AGENT_TURN_SCHEMA,
+    DEFAULT_PINNED_MODEL,
+    OPENAI_RESPONSES_ENDPOINT,
+    AgentContextObject,
+    AgentContextRegistry,
+    AgentOrchestrator,
+    AgentRole,
+    AgentRunRequest,
+    AgentRunResult,
+    AgentRunState,
+    AgentTurn,
+    AgentTurnDisposition,
+    ContextTrust,
+    EnvironmentApiKeyProvider,
+    OpenAIResponsesModelClient,
+    ProhibitedIntent,
+    ScriptedAgentModelMock,
+)
 from cyber_eval.approval_service import ApprovalService
 from cyber_eval.audit import AuditService
 from cyber_eval.clock import FixedClock, SystemClock
@@ -41,6 +60,11 @@ from cyber_eval.domain import (
 from cyber_eval.emergency_stop import EmergencyStopService
 from cyber_eval.engagement_service import EngagementService
 from cyber_eval.errors import (
+    AgentContextError,
+    AgentError,
+    AgentLoopGuardError,
+    AgentModelUnavailableError,
+    AgentOutputRejectedError,
     ApprovalInvalidError,
     ApprovalRequiredError,
     AuditUnavailableError,
@@ -63,6 +87,23 @@ from cyber_eval.store import LocalControlPlaneStore
 from cyber_eval.tool_gateway import ToolGatewayMock
 
 __all__ = [
+    "AGENT_TURN_SCHEMA",
+    "DEFAULT_PINNED_MODEL",
+    "OPENAI_RESPONSES_ENDPOINT",
+    "AgentContextError",
+    "AgentContextObject",
+    "AgentContextRegistry",
+    "AgentError",
+    "AgentLoopGuardError",
+    "AgentModelUnavailableError",
+    "AgentOrchestrator",
+    "AgentOutputRejectedError",
+    "AgentRole",
+    "AgentRunRequest",
+    "AgentRunResult",
+    "AgentRunState",
+    "AgentTurn",
+    "AgentTurnDisposition",
     "ActionClass",
     "ApprovalEvidence",
     "ApprovalGrant",
@@ -81,6 +122,7 @@ __all__ = [
     "CredentialPurpose",
     "CredentialReference",
     "CredentialReferenceState",
+    "ContextTrust",
     "DecisionReason",
     "DeterministicModelGatewayMock",
     "DuplicateRecordError",
@@ -90,6 +132,7 @@ __all__ = [
     "EngagementRecord",
     "EngagementService",
     "EngagementState",
+    "EnvironmentApiKeyProvider",
     "ExecutionDisabledError",
     "FailClosedPolicyEngine",
     "FixedClock",
@@ -107,14 +150,17 @@ __all__ = [
     "NonExecutableToolGateway",
     "ObjectReference",
     "ObjectReferenceName",
+    "OpenAIResponsesModelClient",
     "PolicyContext",
     "PolicyDecision",
+    "ProhibitedIntent",
     "ResourceScope",
     "RoeExpiredError",
     "RoeRecord",
     "RunnerState",
     "ScopeRoeService",
     "ScopeViolationError",
+    "ScriptedAgentModelMock",
     "SelfApprovalError",
     "SystemClock",
     "ToolGatewayMock",

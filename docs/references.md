@@ -39,3 +39,16 @@ Virtualization boundaries reduce but do not eliminate microarchitectural risk. D
 - Podman `run` reference, including rootless behavior, `--network=none`, `--read-only`, CPU, memory, PID, and no-new-privileges controls: https://docs.podman.io/en/latest/markdown/podman-run.1.html
 - Podman pull policy, including `never` for local-only images: https://docs.podman.io/en/stable/markdown/podman-pull.1.html
 - Podman Desktop Windows installation and WSL2 machine requirements: https://podman-desktop.io/docs/installation/windows-install
+
+## Phase 06 official OpenAI sources
+
+- OpenAI Responses API quickstart and server-side API credential handling:
+  https://platform.openai.com/docs/quickstart/make-your-first-api-request
+- OpenAI Structured Outputs, strict JSON Schema adherence, refusals, and limitations:
+  https://openai.com/index/introducing-structured-outputs-in-the-api/
+- OpenAI Responses API structured text format and tool-choice controls:
+  https://platform.openai.com/docs/api-reference/responses
+- OpenAI API data controls and `store` behavior for `/v1/responses`:
+  https://platform.openai.com/docs/models/default-usage-policies-by-endpoint
+- OpenAI API backward compatibility and pinned-model recommendation:
+  https://platform.openai.com/docs/api-reference/backward-compatibility

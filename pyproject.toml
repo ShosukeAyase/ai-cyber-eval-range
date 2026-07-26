@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cyber-eval-skeleton"
-version = "0.5.0"
-description = "Local Control Plane, isolated Runner, and synthetic Cyber Range MVP"
+version = "0.6.0"
+description = "Control Plane, isolated Runner, synthetic range, and proposal-only GPT Agent"
 requires-python = ">=3.11"
 dependencies = []
 

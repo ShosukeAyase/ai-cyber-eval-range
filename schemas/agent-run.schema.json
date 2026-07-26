@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/agent-run.schema.json",
+  "title": "Phase 06 agent run request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "pattern": "^agt-[a-z0-9-]{3,64}$"
+    },
+    "engagement_id": {
+      "type": "string",
+      "pattern": "^eng-[a-z0-9-]{3,64}$"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "propose_evaluation_plan",
+        "select_approved_tools",
+        "analyze_results",
+        "organize_evidence",
+        "propose_remediation",
+        "propose_revalidation"
+      ]
+    },
+    "context_object_ids": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(ctx|evd)-[a-z0-9-]{3,64}$"
+      }
+    },
+    "allowed_tool_ids": {
+      "type": "array",
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "run_static_analysis",
+          "run_safe_network_discovery",
+          "run_web_test",
+          "request_poc_validation",
+          "collect_evidence",
+          "propose_patch",
+          "validate_patch",
+          "reset_range",
+          "terminate_engagement"
+        ]
+      }
+    },
+    "max_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "max_repeated_failures": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    }
+  },
+  "required": [
+    "run_id",
+    "engagement_id",
+    "role",
+    "context_object_ids",
+    "allowed_tool_ids",
+    "max_steps",
+    "max_repeated_failures"
+  ]
+}

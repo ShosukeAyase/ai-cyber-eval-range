@@ -37,3 +37,14 @@ Every decision binds:
 - Approval is rechecked immediately before execution.
 - Policy or scope change invalidates outstanding approvals.
 - Emergency stop revokes all active approvals and grants.
+
+## Phase 06 Agent authority
+
+Model output is advisory and grants no authority. Starting an Agent run requires an independent
+approval for `START_AGENT_RUN` bound to the exact Agent run ID. The run approval authorizes only the
+bounded planning lifecycle; it does not authorize any dangerous tool action. A proposed dangerous
+tool still requires its own target/action-class approval and a current Policy Engine allow decision.
+
+The human or calling service fixes the allowed Agent role and tool-ID allowlist before model
+invocation. The model cannot select an approver, request an approval through its output schema,
+change Scope/ROE, or convert its own text into an authorization source.

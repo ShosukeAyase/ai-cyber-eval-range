@@ -82,10 +82,61 @@ Phase 05 implementation, deterministic validation, and operator-laptop quality g
 
 ## Operator-laptop Phase 05 quality gates
 
-- Completed at: `2026-07-26T01:20:35.344028+00:00`.
+- Completed at: `2026-07-26T00:45:45.611448+00:00`.
 - Ruff format check and lint: PASS.
 - mypy strict type check: PASS.
 - Complete pytest suite: PASS.
 - Python compilation: PASS.
 - Git whitespace validation: PASS.
 - Phase 05 status: complete for the local non-networked synthetic profile.
+
+## Phase 06 deterministic validation executed
+
+| Command | Result |
+|---|---|
+| `python -m pytest -o addopts=''` | PASS: 157 tests |
+| `python -m pytest tests/unit/test_agent_contracts.py` | PASS: 18 tests |
+| `python -m pytest tests/integration/test_agent_workflow.py` | PASS: 3 tests |
+| `python -m pytest tests/architecture/test_phase_06_agent.py` | PASS: 8 tests |
+| `python -m compileall -q src scripts tests` | PASS |
+| source line-length check (`src`, `tests`, `scripts`) | PASS after normalization |
+| lightweight secret-pattern scan | PASS: no credential material detected |
+
+## Phase 06 completion evidence
+
+- The GPT model is a proposal-only component and receives no executable provider tools.
+- The OpenAI adapter is restricted to the fixed Responses endpoint, the explicit `gpt-5.6-sol` model profile,
+  `store=false`, `tool_choice=none`, disabled parallel tool calls, and strict JSON Schema output.
+- Provider authentication is attached by the transport and is absent from model input and audit.
+- Agent run state creation requires a run-ID-bound independently approved grant.
+- Every accepted tool proposal is reconstructed as an internal `ToolRequest` and evaluated through
+  the existing Tool Gateway and Policy Engine.
+- Scope expansion, self-approval, audit deletion, credential acquisition, general Internet access,
+  forbidden tools, arbitrary commands, Kill Switch control, and automatic patch merge are blocked.
+- Indirect prompt-injection content is labeled untrusted and cannot grant authority.
+- Repeated identical denied requests and excessive turns terminate the Agent run.
+- Findings without registered or Tool Gateway-derived evidence are rejected.
+- Model-supplied Tool Gateway receipts and forged evidence identifiers are rejected.
+- Model transport failure leaves a terminal failed Agent record and performs no further tool call.
+- Deterministic tests observed an executed Scope violation rate of zero.
+
+## Phase 06 artifact-build limitations
+
+Ruff and mypy were unavailable in the artifact-build environment. No live OpenAI request was made,
+and no provider credential was present. The operator-laptop completion script makes Ruff, mypy,
+full regression tests, compilation, and Git whitespace checks mandatory before recording Phase 06
+as completed. A live provider smoke test is available but remains an explicit operator action.
+
+## Phase 06 status
+
+Phase 06 implementation, deterministic adversarial validation, and operator-laptop quality gates are complete. Phase 06 formal status: complete for the proposal-only Agent integration profile.
+
+## Operator-laptop Phase 06 quality gates
+
+- Completed at: `2026-07-26T02:15:29.953565+00:00`.
+- Ruff format check and lint: PASS.
+- mypy strict type check: PASS.
+- Complete pytest suite: PASS.
+- Python compilation: PASS.
+- Git whitespace validation: PASS.
+- Phase 06 status: complete for the proposal-only Agent integration profile.

@@ -87,3 +87,23 @@ class RangeStopConditionError(CyberRangeError):
 
 class RangeScoringError(CyberRangeError):
     """Raised when observations cannot be scored safely."""
+
+
+class AgentError(ControlPlaneError):
+    """Base class for Phase 06 model-integration failures."""
+
+
+class AgentContextError(AgentError):
+    """Raised when model context is unknown, oversized, or secret-bearing."""
+
+
+class AgentOutputRejectedError(AgentError):
+    """Raised when structured model output violates the approved contract."""
+
+
+class AgentModelUnavailableError(AgentError):
+    """Raised when the external model transport stops or fails."""
+
+
+class AgentLoopGuardError(AgentError):
+    """Raised when bounded execution detects repeated failure or excessive turns."""

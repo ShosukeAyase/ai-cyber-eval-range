@@ -74,3 +74,17 @@ No Phase 02 interface accepts an arbitrary command, URL, hostname, IP address, r
 `profile_id`, and `test_case_id`. Paths and image references are resolved from a locally configured
 registry. The workload command is fixed by `PodmanCommandBuilder`; no caller supplies argv, shell,
 URL, IP, hostname, mount, environment variable, package, or plugin values.
+
+## Phase 06 Agent boundary
+
+`AgentRunRequest` contains only a run ID, engagement ID, approved role, registered context-object
+IDs, an operator-supplied allowlist of existing `ToolId` values, and bounded loop limits.
+`AgentTurn` is a closed structured-output object. It contains proposals, findings, evidence
+organization, remediation steps, revalidation steps, and an explicit prohibited-intent list. It has
+no URL, IP address, hostname, port, command, shell, path, credential, approval, Kill Switch, audit
+mutation, patch-merge, or Tool Gateway receipt field.
+
+The model never creates the final `ToolRequest`. The Control Plane assigns a new request ID,
+revalidates the target and test case against current Scope/ROE, verifies the fixed tool/action-class
+mapping, and invokes `ToolGatewayMock.invoke`. The same boundary is retained for a future real Tool
+Gateway adapter.

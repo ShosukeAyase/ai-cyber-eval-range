@@ -1,0 +1,18 @@
+disposition: final
+role: propose_evaluation_plan
+summary: A bounded plan using registered objects and approved tools only.
+tool_proposals: []
+findings:
+  - finding_id: fnd-agent-synthetic
+    title: Synthetic authorization observation
+    severity: medium
+    summary: The observation is supported by registered synthetic evidence.
+    evidence_object_ids:
+      - evd-agent-known
+evidence_organization:
+  - Group evidence by finding identifier and authenticated source.
+remediation_steps:
+  - Propose a reviewed least-privilege configuration change.
+revalidation_steps:
+  - Repeat the approved synthetic test after independent approval.
+prohibited_intents: []
