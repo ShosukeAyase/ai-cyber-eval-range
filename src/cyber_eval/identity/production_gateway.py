@@ -30,9 +30,7 @@ class StateChangeBinding:
         if not self.action:
             raise ValueError("state-change action must not be empty")
         if bool(self.required_roles) == bool(self.allowed_workload_domains):
-            raise ValueError(
-                "a state-change binding must select exactly one principal class"
-            )
+            raise ValueError("a state-change binding must select exactly one principal class")
 
 
 _BINDINGS = (
