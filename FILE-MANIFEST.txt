@@ -204,6 +204,8 @@ schemas/workload-identity.schema.json
 scripts/build_phase4_runner_image.ps1
 scripts/build_phase5_scenarios.py
 scripts/check_optional_tools.py
+scripts/collect_phase8_oidc_evidence.py
+scripts/collect_phase8_spire_evidence.py
 scripts/complete_phase4_local.ps1
 scripts/complete_phase5_local.ps1
 scripts/complete_phase6_local.ps1
@@ -211,9 +213,12 @@ scripts/complete_phase8.ps1
 scripts/finalize_phase4.py
 scripts/finalize_phase5.py
 scripts/finalize_phase6.py
+scripts/generate_phase8_api_coverage.py
 scripts/live_agent_smoke.py
 scripts/live_runner_smoke.py
 scripts/run_phase7_assurance.py
+scripts/setup_phase8_spire_staging.ps1
+scripts/validate_phase8_live_evidence.py
 scripts/verify_phase5_catalog.py
 src/cyber_eval/__init__.py
 src/cyber_eval/agent/__init__.py
@@ -239,7 +244,11 @@ src/cyber_eval/identity/audit.py
 src/cyber_eval/identity/boundary.py
 src/cyber_eval/identity/contracts.py
 src/cyber_eval/identity/errors.py
+src/cyber_eval/identity/live_oidc.py
+src/cyber_eval/identity/production_gateway.py
 src/cyber_eval/identity/synthetic.py
+src/cyber_eval/identity_adapters/__init__.py
+src/cyber_eval/identity_adapters/oidc_introspection.py
 src/cyber_eval/interfaces.py
 src/cyber_eval/model_gateway.py
 src/cyber_eval/policy.py
@@ -263,6 +272,10 @@ src/cyber_eval/state_machine.py
 src/cyber_eval/store.py
 src/cyber_eval/stubs.py
 src/cyber_eval/tool_gateway.py
+staging/oidc/README.md
+staging/oidc/keycloak-compose.yml
+staging/spire/README.md
+staging/spire/values.yaml
 tests/__init__.py
 tests/architecture/test_docs.py
 tests/architecture/test_invariants.py
@@ -291,5 +304,6 @@ tests/unit/test_agent_contracts.py
 tests/unit/test_control_plane_services.py
 tests/unit/test_cyber_range.py
 tests/unit/test_phase_08_identity.py
+tests/unit/test_phase_08_live_gates.py
 tests/unit/test_policy_gateway.py
 tests/unit/test_state_machine.py

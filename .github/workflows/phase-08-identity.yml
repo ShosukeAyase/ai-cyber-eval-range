@@ -20,36 +20,16 @@ jobs:
           cache: pip
       - name: Install pinned validation dependencies
         run: python -m pip install --disable-pip-version-check -e ".[dev]"
-      - name: Apply CI formatter and safe lint fixes
-        run: |
-          python -m ruff format .
-          python -m ruff check --fix . || true
-          python -m ruff check --output-format=json . > phase-08-ruff.json || true
-      - name: Generate exact tracked-file manifest
-        run: git ls-files | LC_ALL=C sort > FILE-MANIFEST.txt
-      - uses: actions/upload-artifact@v4
-        with:
-          name: phase-08-ci-normalized
-          path: |
-            .github/workflows/phase-08-identity.yml
-            FILE-MANIFEST.txt
-            phase-08-ruff.json
-            scripts/collect_phase8_oidc_evidence.py
-            scripts/collect_phase8_spire_evidence.py
-            scripts/generate_phase8_api_coverage.py
-            scripts/validate_phase8_live_evidence.py
-            src/cyber_eval/identity/live_oidc.py
-            src/cyber_eval/identity/production_gateway.py
-            src/cyber_eval/identity_adapters/__init__.py
-            src/cyber_eval/identity_adapters/oidc_introspection.py
-            tests/architecture/test_phase_08_identity_architecture.py
-            tests/unit/test_phase_08_live_gates.py
-          if-no-files-found: error
-      - name: Verify normalization
+      - name: Format and lint
         run: python -m ruff format --check . && python -m ruff check .
       - name: Type check
         run: python -m mypy src
       - name: Generate state-changing API coverage
         run: python scripts/generate_phase8_api_coverage.py --output-dir artifacts/phase-08/api-coverage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase-08-api-coverage
+          path: artifacts/phase-08/api-coverage
+          if-no-files-found: error
       - name: Compile and validate complete repository
         run: python -m compileall -q src scripts tests && python -m pytest
