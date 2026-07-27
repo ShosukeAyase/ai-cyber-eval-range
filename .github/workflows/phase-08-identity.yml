@@ -24,5 +24,12 @@ jobs:
         run: python -m ruff format --check . && python -m ruff check .
       - name: Type check
         run: python -m mypy src
+      - name: Generate state-changing API coverage
+        run: python scripts/generate_phase8_api_coverage.py --output-dir artifacts/phase-08/api-coverage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase-08-api-coverage
+          path: artifacts/phase-08/api-coverage
+          if-no-files-found: error
       - name: Compile and validate complete repository
         run: python -m compileall -q src scripts tests && python -m pytest
