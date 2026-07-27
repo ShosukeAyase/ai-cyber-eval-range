@@ -110,13 +110,9 @@ def main() -> int:
     try:
         verifier("phase8-deliberately-wrong-audience").verify(valid_token)
     except IdentityClaimError:
-        results.append(
-            CaseResult("wrong_audience_denied", "pass", "audience mismatch rejected")
-        )
+        results.append(CaseResult("wrong_audience_denied", "pass", "audience mismatch rejected"))
     else:
-        results.append(
-            CaseResult("wrong_audience_denied", "fail", "audience mismatch accepted")
-        )
+        results.append(CaseResult("wrong_audience_denied", "fail", "audience mismatch accepted"))
 
     for name, token in (
         ("expired_token_denied", expired_token),
@@ -132,13 +128,9 @@ def main() -> int:
     try:
         verifier(audience, outage_endpoint).verify(valid_token)
     except IdentityProviderUnavailableError:
-        results.append(
-            CaseResult("idp_outage_denied", "pass", "provider outage failed closed")
-        )
+        results.append(CaseResult("idp_outage_denied", "pass", "provider outage failed closed"))
     else:
-        results.append(
-            CaseResult("idp_outage_denied", "fail", "provider outage failed open")
-        )
+        results.append(CaseResult("idp_outage_denied", "fail", "provider outage failed open"))
 
     status = "pass" if all(result.status == "pass" for result in results) else "fail"
     gate_eligible = profile == "enterprise-staging"
