@@ -8,7 +8,6 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
-
 _REQUIRED_CASES = {
     "server_ready": "PHASE8_PASS:server_ready",
     "agents_ready": "PHASE8_PASS:agents_ready",
