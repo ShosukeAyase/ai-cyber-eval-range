@@ -64,3 +64,13 @@
 | Phase 06 bounded retries | turn and identical-failure limits | `test_same_denied_tool_request_cannot_repeat_without_bound` |
 | Phase 06 evidence-backed findings | authenticated evidence allowlist | `test_evidence_free_vulnerability_report_is_rejected`, `test_finding_cannot_reference_forged_evidence_identifier` |
 | Phase 06 Tool Gateway spoof resistance | receipts originate outside model schema | `test_forged_tool_gateway_response_field_is_rejected` |
+
+| Requirement | Design/control | Automated/live evidence |
+|---|---|---|
+| Phase 08 live human identity | `LiveOidcIntrospectionVerifier`, HTTPS adapter, OIDC staging profile | live OIDC collector plus adapter unit tests |
+| Phase 08 replay and revocation | nonce cache and authoritative token status | replay, inactive, expiry, revocation, outage cases |
+| Phase 08 workload identity | official SPIRE Helm staging profile and workload selectors | SPIRE server/agent, SVID, mTLS, rotation, revocation, outage evidence |
+| Phase 08 complete declared write mediation | `ProductionIdentityGateway` and immutable `WriteOperation` bindings | `test_production_gateway_covers_every_write_operation`, coverage JSON/CSV |
+| Phase 08 no public actor assertion | production gateway accepts `VerifiedPrincipal`, not `actor_id` | coverage signature check and architecture tests |
+| Phase 08 evidence authenticity gate | content validator and completion script | missing profile/case/status/key-secret declarations fail closed |
+| Phase 08 deployed routing | independent deployment review | remains required; static coverage alone is insufficient |
