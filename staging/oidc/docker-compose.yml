@@ -1,0 +1,15 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7.0
+    command: ["start-dev"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${PHASE8_KEYCLOAK_ADMIN_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${PHASE8_KEYCLOAK_ADMIN_PASSWORD}
+    ports:
+      - "127.0.0.1:8080:8080"
+    tmpfs:
+      - /opt/keycloak/data:rw,noexec,nosuid,size=512m
+    mem_limit: 1g
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
