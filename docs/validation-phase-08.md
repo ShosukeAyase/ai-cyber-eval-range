@@ -11,7 +11,7 @@ Status: live-gate implementation tooling added and repository validation passed;
 - Break-glass audit generation.
 - Full repository regression and Phase 05 baseline verification.
 
-The user-executed Phase 08 synthetic subset reported `26 passed`. Final GitHub Actions validation executed **194 tests** successfully on Python 3.12.
+The user-executed Phase 08 synthetic subset reported `26 passed`. GitHub Actions validation executed **194 tests** successfully on Python 3.12.
 
 ## Added live-gate implementation
 
@@ -19,14 +19,14 @@ The user-executed Phase 08 synthetic subset reported `26 passed`. Final GitHub A
 - Enterprise-profile OIDC evidence collector requiring valid authentication, nonce replay rejection, signing-key rotation, expiry, revocation, wrong-audience rejection, and outage fail-closed behavior without persisting tokens or client secrets.
 - `ProductionIdentityGateway` covering all 17 declared `WriteOperation` values.
 - JSON and CSV state-changing operation coverage generation.
-- Final coverage result: **17/17 operations, 100%, zero production-boundary `actor_id`, no missing or unexpected operations**.
+- Coverage result: **17/17 operations, 100%, zero production-boundary `actor_id`, no missing or unexpected operations**.
 - Official SPIRE hardened Helm chart bootstrap for an isolated kind staging cluster.
 - Five logical workload trust-zone selectors under one SPIFFE trust domain.
 - SPIRE/mTLS evidence assembly requiring independently executed logs and exact pass markers.
 - Evidence-content validator.
 - Completion script hardened against empty or incomplete evidence directories.
 
-## Final repository validation
+## Repository validation
 
 Validated implementation head: `3d08080180eec7864b38996d617d26ff3e975e30`.
 
@@ -39,6 +39,8 @@ All seven workflows completed successfully:
 - phase-06-agent
 - phase-07-assurance
 - phase-08-identity
+
+Later commits only updated this validation record and synchronized `FILE-MANIFEST.txt`; the final branch head must still pass the same workflows before completion review.
 
 The Phase 08 workflow passed Ruff formatting, Ruff lint, strict mypy, API coverage generation, compileall, and the complete pytest suite.
 
