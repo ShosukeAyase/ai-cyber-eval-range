@@ -36,7 +36,11 @@ Scales: Likelihood (L) and Impact (I) are 1–5. Score = L × I.
 | R-028 | Forged tool results support a false vulnerability finding | 3 | 4 | 12 | Control Plane-created receipts, authenticated evidence ID allowlist, unknown-field rejection | Evaluation | Use externally signed receipts for distributed deployment |
 | R-029 | Repeated model failure causes unbounded cost or operations | 3 | 3 | 9 | Maximum turns, identical-denial fingerprint guard, fixed timeout, terminal state | AI Platform | Add organization-level budget and rate controls |
 | R-030 | OpenAI endpoint retention or model behavior conflicts with governance | 2 | 4 | 8 | `store=false`, explicit model ID, redacted context, provider review, regression evals | Legal/AI | Confirm contractual data controls and regional processing profile |
-
+| R-031 | Enterprise IdP introspection or claim mapping is misconfigured | 3 | 5 | 15 | Exact endpoint/issuer/audience, authoritative inactive-token rejection, closed claim enums, live negative tests | IAM | Live enterprise staging and independent IdP configuration review required |
+| R-032 | Introspection client credential is exposed or overprivileged | 3 | 5 | 15 | Runtime-only secret injection, dedicated confidential client, no token/secret evidence persistence, immediate revocation | IAM | KMS-backed secret delivery and client-scope review required |
+| R-033 | SPIRE registration or workload selectors issue an identity to the wrong pod | 3 | 5 | 15 | Namespace and pod-label selectors, least-privilege registration, unauthorized-peer mTLS test | Platform Security | Isolated staging attestation and admission-policy review required |
+| R-034 | Static API coverage is mistaken for deployed complete mediation | 4 | 5 | 20 | Coverage report explicitly requires deployment review; production gateway has no caller `actor_id` | Architecture | Independent route inventory and runtime tracing required |
+| R-035 | Fabricated or incomplete live evidence passes a release gate | 3 | 5 | 15 | Required profiles, exact cases, status validation, log digests, no-key/no-secret declarations | Assurance | Independently administered evidence storage and reviewer sign-off required |
 
 ## Phase 07 independent assurance register
 
