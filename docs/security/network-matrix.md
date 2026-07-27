@@ -70,3 +70,17 @@ denied.
 Provider authentication is attached by the fixed HTTP transport only. It is not included in model
 input, tool receipts, audit details, persisted Agent output, examples, or tests. The execution plane
 and cyber range retain their existing no-Internet posture.
+
+## Phase 08 identity staging paths
+
+| Source | Destination | Purpose | Protocol | Decision | Conditions |
+|---|---|---|---|---|---|
+| Management identity adapter | Configured enterprise IdP introspection endpoint | Authoritative token status and claims | HTTPS POST | Allow | Exact configured endpoint, system trust store, bounded response, runtime-only client secret |
+| Management identity adapter | Any other Internet destination | Identity lookup | Any | Deny | No caller-supplied endpoint and no redirect-based discovery |
+| Local Keycloak reference | Host browser/test client | Adapter development | Loopback HTTP | Allow for local development only | `127.0.0.1`, development profile, never gate eligible |
+| Staging workload | Local SPIFFE Workload API | Obtain/rotate X.509-SVID and bundle | Unix-domain gRPC | Allow | CSI-mounted socket, workload selectors, no copied private keys |
+| Staging service | Authorized staging peer | Application mTLS | TLS | Allow | Chain validation plus exact peer SPIFFE-ID authorization |
+| Staging service | Valid but unauthorized SPIFFE identity | State-changing call | TLS | Deny | Peer identity not in operation trust-zone binding |
+| SPIRE staging | General Internet or production networks | Any | Any | Deny | Isolated kind profile; chart retrieval occurs only from management workstation before test execution |
+
+OIDC network code is isolated under `identity_adapters`; the identity core remains transport-neutral. SPIRE and mTLS live evidence must be produced only from an isolated staging cluster and must not include SVID private keys.
