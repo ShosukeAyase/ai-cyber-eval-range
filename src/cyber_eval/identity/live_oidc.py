@@ -19,7 +19,6 @@ from cyber_eval.identity.contracts import (
 )
 from cyber_eval.identity.errors import IdentityClaimError, IdentityRevokedError
 
-
 _EnumT = TypeVar("_EnumT", bound=StrEnum)
 
 
@@ -43,6 +42,9 @@ class OidcClaimNames:
     break_glass: str = "break_glass"
 
 
+_DEFAULT_OIDC_CLAIM_NAMES = OidcClaimNames()
+
+
 class LiveOidcIntrospectionVerifier:
     """Map a live introspection response to a verified human principal."""
 
@@ -54,7 +56,7 @@ class LiveOidcIntrospectionVerifier:
         transport: OidcIntrospectionTransport,
         clock: Clock,
         replay_cache: ReplayCache,
-        claim_names: OidcClaimNames = OidcClaimNames(),
+        claim_names: OidcClaimNames = _DEFAULT_OIDC_CLAIM_NAMES,
         maximum_clock_skew: timedelta = timedelta(seconds=30),
     ) -> None:
         if not expected_issuer or not expected_audience:
@@ -134,12 +136,8 @@ class LiveOidcIntrospectionVerifier:
             document.get(self._claim_names.break_glass),
             self._claim_names.break_glass,
         )
-        if break_glass != (
-            authentication_strength is AuthenticationStrength.BREAK_GLASS_MFA
-        ):
-            raise IdentityClaimError(
-                "break-glass claim and authentication strength disagree"
-            )
+        if break_glass != (authentication_strength is AuthenticationStrength.BREAK_GLASS_MFA):
+            raise IdentityClaimError("break-glass claim and authentication strength disagree")
 
         self._replay_cache.consume(nonce, expires_at)
         return VerifiedPrincipal(
@@ -187,9 +185,7 @@ def _audience(value: object) -> frozenset[str]:
 
 
 def _string_set(value: object, field: str) -> frozenset[str]:
-    if not isinstance(value, list) or not all(
-        isinstance(item, str) and item for item in value
-    ):
+    if not isinstance(value, list) or not all(isinstance(item, str) and item for item in value):
         raise IdentityClaimError(f"{field} must be a list of non-empty strings")
     return frozenset(value)
 
