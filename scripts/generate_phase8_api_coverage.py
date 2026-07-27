@@ -103,9 +103,7 @@ def main() -> int:
                     binding.action,
                     "human" if binding.required_roles else "workload",
                     ";".join(sorted(role.value for role in binding.required_roles)),
-                    ";".join(
-                        sorted(domain.value for domain in binding.allowed_workload_domains)
-                    ),
+                    ";".join(sorted(domain.value for domain in binding.allowed_workload_domains)),
                     str(binding.independent_approval_required).lower(),
                 ]
             )
