@@ -6,64 +6,71 @@ The production-facing identity boundary uses separate contracts for human and wo
 
 - Human users authenticate through an enterprise OIDC provider and phishing-resistant MFA.
 - Services authenticate through SPIFFE/SPIRE-compatible short-lived SVIDs and mutually authenticated channels.
-- The Control, Execution, Range, Evidence, and Management planes use separate trust domains.
+- One SPIFFE trust domain may use separately selected identity paths for the Control, Execution, Range, Evidence, and Management zones; federation is required before accepting another trust root.
 - Authorization receives a canonical context containing verified identity, engagement, action, environment, device posture, and optional time-bounded elevation.
+- Every declared `WriteOperation` is bound to exactly one verified principal class by `ProductionIdentityGateway`.
 
-The current implementation is a deterministic, no-network fake. It proves validation semantics but is not a production IdP, JWT library, certificate verifier, Workload API client, or PAM integration.
+The implementation contains deterministic fakes and a live OIDC introspection adapter. The SPIRE bootstrap and evidence contract are present, but the repository does not claim the live gates passed until externally executed evidence is validated.
 
 ## Human identity flow
 
-1. An ingress adapter receives an OIDC token from a configured enterprise IdP.
-2. The verifier pins the expected issuer and audience and rejects unsigned or unsupported algorithms.
-3. Signature, `iss`, `aud`, `sub`, `jti`, `nonce`, `iat`, `nbf`, and `exp` are validated.
-4. Authentication strength must represent phishing-resistant MFA; break-glass uses a separate strength and audit path.
-5. Roles, trust domain, engagement attributes, and device posture are normalized into `VerifiedPrincipal`.
-6. Replay and revocation checks run before the principal is returned.
-7. Caller-supplied actor or role fields are ignored as authority and rejected when they conflict with verified identity.
+1. An ingress adapter receives a token from a configured enterprise OIDC provider.
+2. `UrlLibOidcIntrospectionTransport` sends it to a pinned HTTPS introspection endpoint using a client secret supplied at runtime.
+3. The adapter rejects endpoint outages, inactive tokens, malformed responses, wrong issuer or audience, invalid temporal claims, unsupported roles or trust domains, and non-phishing-resistant authentication.
+4. `sub`, `jti`, nonce, engagement attributes, roles, trust zone, authentication strength, and device posture are normalized into `VerifiedPrincipal`.
+5. The token and client secret are never logged or persisted by the evidence collector; only SHA-256 token fingerprints are recorded.
+6. Caller-supplied actor or role fields remain nonauthoritative.
+
+The introspection client is a confidential management-plane workload. Its secret must come from a secret manager or process environment and must be independently revocable.
 
 ## Workload identity flow
 
-1. A workload obtains a short-lived SVID from the local Workload API.
-2. The receiving service validates the SPIFFE ID against the correct trust bundle.
-3. The SPIFFE trust domain, intended audience, expected workload identity, validity interval, and revocation state are checked.
-4. The resulting principal is bound to one workload identity and one trust domain.
-5. Cross-domain calls require an explicitly configured federation relationship; the deterministic fake denies them by default.
+1. A workload obtains a short-lived X.509-SVID from the local SPIFFE Workload API.
+2. Both peers establish mTLS using SVIDs and the current trust bundle.
+3. The receiving application validates the peer SPIFFE ID, not merely certificate-chain validity.
+4. Namespace and pod-label selectors bind workloads to logical Control, Execution, Range, Evidence, or Management zones.
+5. Cross-zone state changes are allowed only when the receiving operation inventory explicitly permits the caller zone.
+6. SVID rotation, registration revocation, and Workload API outages must be observed against new state-changing connections.
 
-## Authorization context
+## Complete mediation inventory
 
-The policy input must contain:
+`ProductionIdentityGateway` contains an immutable binding for every `WriteOperation`. Human bindings declare required roles. Workload bindings declare allowed trust zones. Approval decisions additionally require a separately verified requester.
 
-- verified principal identifier and kind;
-- verified trust domain and credential identifier;
-- verified human roles, if any;
-- engagement binding;
-- requested action and environment;
-- device posture;
-- optional JIT elevation grant.
+`scripts/generate_phase8_api_coverage.py` compares this binding set with the `WriteOperation` enumeration, confirms the public gateway signature has no `actor_id`, and emits JSON and CSV evidence. This proves declared operation inventory coverage. Deployment review must still prove that every production-facing adapter actually routes through the gateway; legacy Phase 03 services remain local-demo internals only.
 
-An elevation grant is valid only when it is unrevoked, current, principal-bound, engagement-bound, ticket-bound, and approved by two distinct principals other than the elevated principal.
+## Evidence model
+
+Three content-valid evidence packages are required:
+
+- `oidc-staging-evidence.json`: enterprise staging profile and all required OIDC cases pass;
+- `spire-mtls-staging-evidence.json`: isolated SPIRE/mTLS cases pass and five logical zones are covered;
+- `coverage-report.json`: 100% declared state-changing operation mediation, zero missing operations, and zero production-boundary `actor_id` parameters.
+
+The OIDC package requires valid authentication, nonce replay rejection, signing-key rotation, wrong-audience rejection, expiry, revocation, and IdP outage fail-closed evidence. The SPIRE package requires server/agent readiness, SVID issuance, successful mTLS, unauthorized peer rejection, rotation, revocation, and Workload API outage evidence.
+
+The completion script invokes `validate_phase8_live_evidence.py`; empty directories or marker-free logs fail closed.
 
 ## Separation of duties
 
-Requester and approver must be separate verified human identities. A dual-role user cannot approve their own request. Workload identities cannot satisfy human approval roles.
+Requester and approver must be separate verified human identities. A dual-role user cannot approve their own request. Workload identities cannot satisfy human approval roles. Privileged elevation remains ticket-bound, time-bound, and independently approved.
 
 ## Failure behavior
 
 The following conditions deny state changes:
 
-- IdP or Workload API unavailable;
-- missing, malformed, unsigned, expired, future, wrong-issuer, or wrong-audience token;
+- IdP, introspection endpoint, Workload API, trust bundle, replay cache, revocation service, or required audit dependency unavailable;
+- inactive, missing, malformed, expired, future, wrong-issuer, or wrong-audience token;
 - replayed nonce;
-- revoked user, session, SVID, or elevation grant;
+- revoked user, session, SVID, registration, or elevation grant;
 - workload credential used by another workload;
-- trust-domain crossing without federation;
+- unauthorized peer SPIFFE ID or trust-zone crossing;
 - role, engagement, environment, or device-posture mismatch;
-- audit dependency unavailable in the future production adapter.
+- incomplete or invalid live evidence.
 
 ## Migration boundary
 
-Existing Phase 03 services still accept `actor_id` internally for local compatibility. Production adapters must authenticate first and pass only `VerifiedPrincipal.principal_id` into legacy internals during migration. No public production endpoint may expose a caller-controlled `actor_id` authorization path.
+Existing Phase 03 services still accept `actor_id` internally for local compatibility. Production adapters must authenticate and authorize through `ProductionIdentityGateway`, then pass only `VerifiedPrincipal.principal_id` into legacy internals during migration. No public production endpoint may expose a caller-controlled `actor_id` authorization path.
 
 ## Standards basis
 
-The design follows OpenID Connect Core identity-token validation concepts, JWT registered claim validation, SPIFFE trust-domain/SVID semantics, and NIST phishing-resistant authenticator guidance. The repository does not claim formal conformance until live adapters and conformance tests exist.
+The design follows OpenID Connect identity concepts, OAuth 2.0 token introspection, JWT registered claim validation, SPIFFE trust-domain/SVID semantics, and phishing-resistant authenticator guidance. Formal conformance is not claimed until live staging and independent review complete.
