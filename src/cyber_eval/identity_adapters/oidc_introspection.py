@@ -44,7 +44,7 @@ class UrlLibOidcIntrospectionTransport:
         if not token:
             raise InvalidIdentityTokenError("identity token must not be empty")
         authorization = base64.b64encode(
-            f"{self._client_id}:{self._client_secret}".encode("utf-8")
+            f"{self._client_id}:{self._client_secret}".encode()
         ).decode("ascii")
         request = Request(
             self._endpoint,
@@ -64,21 +64,15 @@ class UrlLibOidcIntrospectionTransport:
                 "OIDC introspection endpoint is unavailable"
             ) from exc
         if len(payload) > 1024 * 1024:
-            raise InvalidIdentityTokenError(
-                "OIDC introspection response exceeds size limit"
-            )
+            raise InvalidIdentityTokenError("OIDC introspection response exceeds size limit")
         try:
             document = json.loads(payload)
         except (json.JSONDecodeError, UnicodeDecodeError) as exc:
             raise InvalidIdentityTokenError(
                 "OIDC introspection response is not valid JSON"
             ) from exc
-        if not isinstance(document, dict) or not all(
-            isinstance(key, str) for key in document
-        ):
-            raise InvalidIdentityTokenError(
-                "OIDC introspection response must be an object"
-            )
+        if not isinstance(document, dict) or not all(isinstance(key, str) for key in document):
+            raise InvalidIdentityTokenError("OIDC introspection response must be an object")
         return {str(key): value for key, value in document.items()}
 
 
