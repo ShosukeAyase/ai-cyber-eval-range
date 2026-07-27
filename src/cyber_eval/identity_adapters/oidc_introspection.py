@@ -84,8 +84,8 @@ class UrlLibOidcIntrospectionTransport:
 
 def _require_secure_endpoint(endpoint: str) -> None:
     parsed = urlparse(endpoint)
-    if parsed.username is not None or parsed.password is not None:
-        raise ValueError("OIDC endpoint URL must not contain credentials")
+    if "@" in parsed.netloc:
+        raise ValueError("OIDC endpoint URL must not contain user information")
     if parsed.scheme == "https" and parsed.hostname:
         return
     if parsed.scheme == "http" and parsed.hostname in {"127.0.0.1", "localhost", "::1"}:
