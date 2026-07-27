@@ -1,8 +1,8 @@
 # Phase 08 Validation Record
 
-Status: live-gate implementation tooling added; live enterprise OIDC and SPIRE/mTLS executions remain pending; Phase 08 remains **ACTIVE / PRODUCTION NO-GO**.
+Status: live-gate implementation tooling added and repository validation passed; live enterprise OIDC and SPIRE/mTLS executions remain pending; Phase 08 remains **ACTIVE / PRODUCTION NO-GO**.
 
-## Deterministic validation already established
+## Deterministic validation
 
 - Signed synthetic OIDC token verification.
 - Issuer, audience, subject, token ID, nonce, issued-at, not-before, expiry, role, engagement, trust-zone, device-posture, and authentication-strength validation.
@@ -11,31 +11,36 @@ Status: live-gate implementation tooling added; live enterprise OIDC and SPIRE/m
 - Break-glass audit generation.
 - Full repository regression and Phase 05 baseline verification.
 
-The user-executed Phase 08 synthetic subset reported `26 passed`. The full local suite reported `187 passed` before this implementation increment.
+The user-executed Phase 08 synthetic subset reported `26 passed`. Final GitHub Actions validation executed **194 tests** successfully on Python 3.12.
 
 ## Added live-gate implementation
 
 - `LiveOidcIntrospectionVerifier` and HTTPS/loopback-only RFC 7662 transport.
-- Enterprise-profile OIDC evidence collector that requires valid authentication, nonce replay rejection, signing-key rotation, expiry, revocation, wrong-audience rejection, and outage fail-closed behavior without persisting tokens or client secrets.
-- `ProductionIdentityGateway` covering all declared `WriteOperation` values.
+- Enterprise-profile OIDC evidence collector requiring valid authentication, nonce replay rejection, signing-key rotation, expiry, revocation, wrong-audience rejection, and outage fail-closed behavior without persisting tokens or client secrets.
+- `ProductionIdentityGateway` covering all 17 declared `WriteOperation` values.
 - JSON and CSV state-changing operation coverage generation.
+- Final coverage result: **17/17 operations, 100%, zero production-boundary `actor_id`, no missing or unexpected operations**.
 - Official SPIRE hardened Helm chart bootstrap for an isolated kind staging cluster.
 - Five logical workload trust-zone selectors under one SPIFFE trust domain.
-- SPIRE/mTLS evidence assembly that requires independently executed logs and exact pass markers.
+- SPIRE/mTLS evidence assembly requiring independently executed logs and exact pass markers.
 - Evidence-content validator.
 - Completion script hardened against empty or incomplete evidence directories.
 
-## Repository validation commands
+## Final repository validation
 
-```text
-python -m ruff format --check .
-python -m ruff check .
-python -m mypy src
-python scripts/generate_phase8_api_coverage.py --output-dir artifacts/phase-08/api-coverage
-python -m compileall -q src scripts tests
-python -m pytest
-python scripts/verify_phase5_catalog.py
-```
+Validated implementation head: `3d08080180eec7864b38996d617d26ff3e975e30`.
+
+All seven workflows completed successfully:
+
+- phase-02-skeleton
+- phase-03-control-plane
+- phase-04-runner
+- phase-05-range
+- phase-06-agent
+- phase-07-assurance
+- phase-08-identity
+
+The Phase 08 workflow passed Ruff formatting, Ruff lint, strict mypy, API coverage generation, compileall, and the complete pytest suite.
 
 ## Live execution still required
 
