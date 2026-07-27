@@ -35,7 +35,7 @@ def test_phase_08_required_files_exist() -> None:
         "scripts/validate_phase8_live_evidence.py",
         "scripts/setup_phase8_spire_staging.ps1",
         "scripts/complete_phase8.ps1",
-        "staging/oidc/docker-compose.yml",
+        "staging/oidc/keycloak-compose.yml",
         "staging/spire/values.yaml",
     }
     assert not sorted(path for path in required if not (ROOT / path).exists())
