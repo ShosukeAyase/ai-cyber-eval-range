@@ -28,7 +28,7 @@ The user-executed Phase 08 synthetic subset reported `26 passed`. GitHub Actions
 
 ## Repository validation
 
-Final branch head `e2b2192ad0fc106e46421a2a4d27ca94aa13c0a1` passed all seven workflows:
+Final validated branch head `f208a479d1f933b52cb09f2738499513ace7af48` passed all seven workflows:
 
 - phase-02-skeleton
 - phase-03-control-plane
