@@ -1,72 +1,54 @@
 # Phase 08 Validation Record
 
-Status: deterministic implementation validated; live gates not executed; Phase 08 remains **ACTIVE / PRODUCTION NO-GO**.
+Status: live-gate implementation tooling added; live enterprise OIDC and SPIRE/mTLS executions remain pending; Phase 08 remains **ACTIVE / PRODUCTION NO-GO**.
 
-## Implemented validation targets
+## Deterministic validation already established
 
-- OIDC-shaped signed synthetic token verification.
-- JWT-style issuer, audience, subject, token ID, nonce, issued-at, not-before, and expiry validation.
-- Phishing-resistant human authentication-strength enforcement.
-- SPIFFE ID, audience, workload binding, trust domain, short lifetime, and revocation validation.
-- Actor spoofing, role escalation, engagement crossing, self-approval, and invalid elevation denial.
+- Signed synthetic OIDC token verification.
+- Issuer, audience, subject, token ID, nonce, issued-at, not-before, expiry, role, engagement, trust-zone, device-posture, and authentication-strength validation.
+- Actor spoofing, role escalation, engagement crossing, self-approval, invalid elevation, workload binding, and trust-zone crossing denial.
 - IdP and Workload API outage fail-closed behavior.
 - Break-glass audit generation.
-- Closed schemas and secret-field architecture checks.
+- Full repository regression and Phase 05 baseline verification.
 
-## Local validation
+The user-executed Phase 08 synthetic subset reported `26 passed`. The full local suite reported `187 passed` before this implementation increment.
 
-- `PYTHONPATH=src python -m pytest -q`: 26 Phase 08 tests passed.
-- `python -m compileall -q src tests`: passed.
+## Added live-gate implementation
 
-## GitHub Actions validation
+- `LiveOidcIntrospectionVerifier` and HTTPS/loopback-only RFC 7662 transport.
+- Enterprise-profile OIDC evidence collector that requires valid authentication, nonce replay rejection, signing-key rotation, expiry, revocation, wrong-audience rejection, and outage fail-closed behavior without persisting tokens or client secrets.
+- `ProductionIdentityGateway` covering all declared `WriteOperation` values.
+- JSON and CSV state-changing operation coverage generation.
+- Official SPIRE hardened Helm chart bootstrap for an isolated kind staging cluster.
+- Five logical workload trust-zone selectors under one SPIFFE trust domain.
+- SPIRE/mTLS evidence assembly that requires independently executed logs and exact pass markers.
+- Evidence-content validator.
+- Completion script hardened against empty or incomplete evidence directories.
 
-Commit `1136c450c21cf37a2d6755cb4b6f12ea4d5dcd44` completed all repository workflows successfully:
-
-- `phase-02-skeleton`
-- `phase-03-control-plane`
-- `phase-04-runner`
-- `phase-05-range`
-- `phase-06-agent`
-- `phase-07-assurance`
-- `phase-08-identity`
-
-The Phase 08 workflow executed:
+## Repository validation commands
 
 ```text
 python -m ruff format --check .
 python -m ruff check .
 python -m mypy src
-python -m compileall -q src scripts tests
-python -m pytest
-```
-
-The existing Phase 05 workflow also executed `python scripts/verify_phase5_catalog.py`.
-
-## Phase 05 prerequisite repair
-
-The initial full-regression run exposed a pre-existing portability defect in the seven Phase 05 scenario manifests. Their declared baseline digests had been calculated from CRLF bytes, while `.gitattributes` forces JSON files to LF in the repository checkout.
-
-Validation established that every prior declared digest matched the corresponding CRLF candidate. No synthetic baseline bytes, markers, answer keys, scope, or scenario behavior were changed. Only the seven `scenario.json` `reset.baseline_digest` declarations were regenerated from the LF checkout bytes. After this repair, `verify_phase5_catalog.py` and the full repository test suite passed.
-
-## Completion command set
-
-```text
-python -m ruff format --check .
-python -m ruff check .
-python -m mypy src
+python scripts/generate_phase8_api_coverage.py --output-dir artifacts/phase-08/api-coverage
 python -m compileall -q src scripts tests
 python -m pytest
 python scripts/verify_phase5_catalog.py
-git diff --check
 ```
 
-## Live gates not executed
+## Live execution still required
 
-- Enterprise IdP staging authentication, signing-key rotation, session termination, and revocation.
-- SPIRE server/agent staging deployment, workload attestation, SVID issuance, rotation, and revocation.
-- mTLS service-to-service validation across the defined trust domains.
-- Independent Evidence Plane export and audit-dependency outage validation.
-- Production PAM/JIT and ticket-system integration.
-- Full state-changing API migration coverage measurement.
+- Enterprise IdP authentication using phishing-resistant MFA.
+- Enterprise signing-key rotation and authoritative token validation.
+- Expired token, revoked session/token, nonce replay, and stopped-introspection-endpoint tests.
+- SPIRE server and agent deployment on the designated isolated staging cluster.
+- Workload attestation and X.509-SVID issuance for each logical trust zone.
+- Application-level mTLS peer SPIFFE-ID authorization.
+- Valid but unauthorized peer identity rejection.
+- SVID rotation, registration revocation, and Workload API outage tests.
+- Proof that each deployed production-facing state-changing adapter routes through `ProductionIdentityGateway`.
+- Independent Evidence Plane export and outage validation.
+- Independent completion review.
 
-Phase 08 must remain under `docs/exec-plans/active/`. Phase 09 must not begin until these live gates and the independent completion review are satisfied.
+The implementation does not manufacture live evidence. Phase 09 must not begin until the content-valid evidence packages and independent review pass.
