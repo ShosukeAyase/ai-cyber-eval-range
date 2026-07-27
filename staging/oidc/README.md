@@ -55,4 +55,4 @@ The collector verifies a valid token, nonce replay denial, a fresh token issued 
 
 ## Local Keycloak reference profile
 
-`docker compose -f staging/oidc/docker-compose.yml up -d` starts Keycloak 26.7.0 on loopback only. This is useful for adapter development, but `PHASE8_OIDC_PROFILE=local-keycloak` is deliberately not accepted by the Phase 08 completion gate. Development mode and locally configured password flows do not prove enterprise phishing-resistant authentication, administrative separation, key rotation, or session governance.
+`docker compose -f staging/oidc/keycloak-compose.yml up -d` starts Keycloak 26.7.0 on loopback only. This is useful for adapter development, but `PHASE8_OIDC_PROFILE=local-keycloak` is deliberately not accepted by the Phase 08 completion gate. Development mode and locally configured password flows do not prove enterprise phishing-resistant authentication, administrative separation, key rotation, or session governance.
