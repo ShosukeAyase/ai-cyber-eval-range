@@ -51,7 +51,7 @@
     "mode": "none"
   },
   "reset": {
-    "baseline_digest": "sha256:3e78529036423a036871d7e14e039bcd5b5a487b2fc3a9080a48f6c9108c0516",
+    "baseline_digest": "sha256:31da1fdffea620dd0fa66528a0eec1b8b9946add5bcb0374a464ae71dd1bc5a3",
     "deterministic": true,
     "strategy": "verified_baseline_copy"
   },

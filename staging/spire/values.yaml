@@ -1,0 +1,51 @@
+global:
+  openshift: false
+  spire:
+    recommendations:
+      enabled: true
+    namespaces:
+      create: true
+    clusterName: phase8-kind
+    trustDomain: phase8.internal
+
+spire-server:
+  controllerManager:
+    identities:
+      clusterSPIFFEIDs:
+        default:
+          enabled: false
+        control:
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: phase8-control
+          podSelector:
+            matchLabels:
+              phase8.cyber-eval/trust-domain: control
+        execution:
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: phase8-execution
+          podSelector:
+            matchLabels:
+              phase8.cyber-eval/trust-domain: execution
+        range:
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: phase8-range
+          podSelector:
+            matchLabels:
+              phase8.cyber-eval/trust-domain: range
+        evidence:
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: phase8-evidence
+          podSelector:
+            matchLabels:
+              phase8.cyber-eval/trust-domain: evidence
+        management:
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: phase8-management
+          podSelector:
+            matchLabels:
+              phase8.cyber-eval/trust-domain: management

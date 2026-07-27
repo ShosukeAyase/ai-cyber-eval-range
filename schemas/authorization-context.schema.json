@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyber-eval.invalid/schemas/authorization-context.schema.json",
+  "title": "Canonical Authorization Context",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "principal_id",
+    "principal_kind",
+    "trust_domain",
+    "roles",
+    "engagement_id",
+    "action",
+    "environment",
+    "device_posture",
+    "credential_id",
+    "expires_at"
+  ],
+  "properties": {
+    "principal_id": {"type": "string", "minLength": 1},
+    "principal_kind": {"enum": ["human", "workload"]},
+    "trust_domain": {
+      "enum": ["control", "execution", "range", "evidence", "management"]
+    },
+    "roles": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["requester", "approver", "auditor", "platform_admin", "security_operator"]
+      }
+    },
+    "engagement_id": {"type": "string", "minLength": 1},
+    "action": {"type": "string", "minLength": 1},
+    "environment": {"enum": ["local_demo", "staging", "production"]},
+    "device_posture": {"enum": ["compliant", "noncompliant", "unknown"]},
+    "credential_id": {"type": "string", "minLength": 1},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "elevation_grant_id": {"type": ["string", "null"], "minLength": 1}
+  }
+}

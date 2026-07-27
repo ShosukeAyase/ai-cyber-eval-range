@@ -1,0 +1,7 @@
+spiffe_id: spiffe://control/service/tool-gateway
+serial_number: serial-synthetic-001
+audience: policy-service
+trust_domain: control
+issued_at: "2026-07-26T11:59:00Z"
+not_before: "2026-07-26T11:59:00Z"
+expires_at: "2026-07-26T12:10:00Z"

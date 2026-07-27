@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyber-eval.invalid/schemas/human-identity-claims.schema.json",
+  "title": "Human Identity Claims",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "issuer",
+    "audience",
+    "subject",
+    "token_id",
+    "nonce",
+    "issued_at",
+    "not_before",
+    "expires_at",
+    "roles",
+    "trust_domain",
+    "engagement_ids",
+    "device_posture",
+    "authentication_strength",
+    "break_glass"
+  ],
+  "properties": {
+    "issuer": {"type": "string", "minLength": 1},
+    "audience": {"type": "string", "minLength": 1},
+    "subject": {"type": "string", "minLength": 1},
+    "token_id": {"type": "string", "minLength": 1},
+    "nonce": {"type": "string", "minLength": 1},
+    "issued_at": {"type": "string", "format": "date-time"},
+    "not_before": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "roles": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["requester", "approver", "auditor", "platform_admin", "security_operator"]
+      }
+    },
+    "trust_domain": {
+      "enum": ["control", "execution", "range", "evidence", "management"]
+    },
+    "engagement_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "device_posture": {"enum": ["compliant", "noncompliant", "unknown"]},
+    "authentication_strength": {
+      "enum": ["phishing_resistant_mfa", "break_glass_mfa"]
+    },
+    "break_glass": {"type": "boolean"}
+  }
+}

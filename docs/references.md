@@ -53,10 +53,21 @@ Virtualization boundaries reduce but do not eliminate microarchitectural risk. D
 - OpenAI API backward compatibility and pinned-model recommendation:
   https://platform.openai.com/docs/api-reference/backward-compatibility
 
-
 ## Phase 07 assurance sources
 
 - NIST SP 800-53A Rev. 5, assessment methodology and procedures: https://doi.org/10.6028/NIST.SP.800-53Ar5
 - NIST SP 800-53 Rev. 5 Release 5.2.0 control catalog: https://csrc.nist.gov/projects/risk-management/sp800-53-controls/downloads
 - GitHub Actions secure-use guidance, including full commit SHA pinning: https://docs.github.com/en/actions/reference/security/secure-use
 - OpenAI GPT-5.6 Sol model documentation: https://developers.openai.com/api/docs/models/gpt-5.6-sol
+
+## Phase 08 identity sources
+
+- OpenID Connect Core 1.0 identity-token validation: https://openid.net/specs/openid-connect-core-1_0.html
+- OAuth 2.0 Token Introspection, RFC 7662: https://www.rfc-editor.org/rfc/rfc7662
+- NIST SP 800-63B phishing-resistant authenticator requirements: https://pages.nist.gov/800-63-4/sp800-63b.html
+- Keycloak container and development-mode documentation: https://www.keycloak.org/server/containers
+- Keycloak release information: https://www.keycloak.org/2026/07/keycloak-2670-released
+- SPIFFE Workload API: https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/
+- SPIFFE identity and SVID specification: https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/
+- SPIRE hardened Helm chart installation: https://artifacthub.io/packages/helm/spire/spire
+- SPIRE hardened Helm chart source and configuration: https://github.com/spiffe/helm-charts-hardened

@@ -1,0 +1,16 @@
+issuer: https://idp.synthetic.invalid
+audience: cyber-eval-control-plane
+subject: user-requester
+token_id: token-synthetic-001
+nonce: nonce-synthetic-001
+issued_at: "2026-07-26T11:59:55Z"
+not_before: "2026-07-26T11:59:55Z"
+expires_at: "2026-07-26T12:05:00Z"
+roles:
+  - requester
+trust_domain: management
+engagement_ids:
+  - eng-phase08
+device_posture: compliant
+authentication_strength: phishing_resistant_mfa
+break_glass: false
