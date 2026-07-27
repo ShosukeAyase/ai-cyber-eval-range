@@ -28,7 +28,7 @@ The user-executed Phase 08 synthetic subset reported `26 passed`. GitHub Actions
 
 ## Repository validation
 
-All seven workflows completed successfully after the implementation changes:
+Final branch head `e2b2192ad0fc106e46421a2a4d27ca94aa13c0a1` passed all seven workflows:
 
 - phase-02-skeleton
 - phase-03-control-plane
@@ -38,7 +38,7 @@ All seven workflows completed successfully after the implementation changes:
 - phase-07-assurance
 - phase-08-identity
 
-The Phase 08 workflow passed Ruff formatting, Ruff lint, strict mypy, API coverage generation, compileall, and the complete pytest suite. Final branch-head workflow status remains the authoritative validation record.
+The Phase 08 workflow passed Ruff formatting, Ruff lint, strict mypy, API coverage generation, compileall, and the complete pytest suite.
 
 ## Live execution still required
 
