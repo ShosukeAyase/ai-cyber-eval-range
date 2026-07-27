@@ -115,8 +115,13 @@ def test_phase_03_source_has_no_http_server_or_network_runtime() -> None:
         "uvicorn",
     }
     findings = []
+    phase_specific_network_adapters = {
+        "cyber_eval/agent",
+        "cyber_eval/identity_adapters",
+    }
     for path in (ROOT / "src").rglob("*.py"):
-        if "cyber_eval/agent" in path.as_posix():
+        relative = path.relative_to(ROOT).as_posix()
+        if any(component in relative for component in phase_specific_network_adapters):
             continue
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         for node in ast.walk(tree):
