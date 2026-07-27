@@ -48,9 +48,7 @@ class UrlLibOidcIntrospectionTransport:
         ).decode("ascii")
         request = Request(
             self._endpoint,
-            data=urlencode({"token": token, "token_type_hint": "access_token"}).encode(
-                "ascii"
-            ),
+            data=urlencode({"token": token}).encode("ascii"),
             headers={
                 "Accept": "application/json",
                 "Authorization": f"Basic {authorization}",
