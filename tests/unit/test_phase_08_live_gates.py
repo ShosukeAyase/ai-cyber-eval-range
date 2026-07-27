@@ -31,7 +31,6 @@ from cyber_eval.identity.production_gateway import (
 from cyber_eval.identity.synthetic import DeterministicSpiffeVerifier
 from cyber_eval.identity_adapters import UrlLibOidcIntrospectionTransport
 
-
 NOW = datetime(2026, 7, 28, 12, 0, tzinfo=UTC)
 
 
