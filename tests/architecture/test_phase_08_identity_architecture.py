@@ -23,9 +23,20 @@ def test_phase_08_required_files_exist() -> None:
         "src/cyber_eval/identity/contracts.py",
         "src/cyber_eval/identity/synthetic.py",
         "src/cyber_eval/identity/boundary.py",
+        "src/cyber_eval/identity/live_oidc.py",
+        "src/cyber_eval/identity/production_gateway.py",
+        "src/cyber_eval/identity_adapters/oidc_introspection.py",
         "tests/unit/test_phase_08_identity.py",
+        "tests/unit/test_phase_08_live_gates.py",
         "tests/integration/test_phase_08_identity_boundary.py",
+        "scripts/collect_phase8_oidc_evidence.py",
+        "scripts/collect_phase8_spire_evidence.py",
+        "scripts/generate_phase8_api_coverage.py",
+        "scripts/validate_phase8_live_evidence.py",
+        "scripts/setup_phase8_spire_staging.ps1",
         "scripts/complete_phase8.ps1",
+        "staging/oidc/docker-compose.yml",
+        "staging/spire/values.yaml",
     }
     assert not sorted(path for path in required if not (ROOT / path).exists())
     assert not (ROOT / "docs/exec-plans/completed/phase-08-production-iam.md").exists()
@@ -47,7 +58,7 @@ def test_identity_contracts_do_not_accept_secrets_or_caller_roles() -> None:
     assert names.isdisjoint(forbidden)
 
 
-def test_identity_package_has_no_network_or_process_execution_imports() -> None:
+def test_identity_core_has_no_network_or_process_execution_imports() -> None:
     forbidden_roots = {
         "socket",
         "subprocess",
@@ -92,3 +103,10 @@ def test_phase_08_ci_is_read_only_and_requires_full_validation() -> None:
     assert "python -m mypy src" in text
     assert "OIDC_CLIENT_SECRET" not in text
     assert "SPIFFE" not in text
+
+
+def test_completion_gate_validates_evidence_content() -> None:
+    text = (ROOT / "scripts/complete_phase8.ps1").read_text(encoding="utf-8")
+    assert "validate_phase8_live_evidence.py" in text
+    assert "Test-Path -LiteralPath $entry.Path -PathType Container" in text
+    assert "evidence content validation" in text
