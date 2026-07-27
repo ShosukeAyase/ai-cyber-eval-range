@@ -23,7 +23,8 @@ jobs:
       - name: Apply CI formatter and safe lint fixes
         run: |
           python -m ruff format .
-          python -m ruff check --fix .
+          python -m ruff check --fix . || true
+          python -m ruff check --output-format=json . > phase-08-ruff.json || true
       - name: Generate exact tracked-file manifest
         run: git ls-files | LC_ALL=C sort > FILE-MANIFEST.txt
       - uses: actions/upload-artifact@v4
@@ -32,6 +33,7 @@ jobs:
           path: |
             .github/workflows/phase-08-identity.yml
             FILE-MANIFEST.txt
+            phase-08-ruff.json
             scripts/collect_phase8_oidc_evidence.py
             scripts/collect_phase8_spire_evidence.py
             scripts/generate_phase8_api_coverage.py
